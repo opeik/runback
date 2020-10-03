@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Bebas Neue Regular';
+    src: url('BebasNeue-Regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Bebas Neue Bold';
+    src: url('BebasNeue-Bold.woff2') format('woff2');
+}

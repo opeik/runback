@@ -1,0 +1,36 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "should_override": {
+            "type": "boolean",
+            "default": false
+        },
+        "override": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "team": {
+                    "type": "string"
+                },
+                "gamer_tag": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "twitter_handle": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "required": [
+        "override",
+        "should_override"
+    ]
+}

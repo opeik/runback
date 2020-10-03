@@ -1,0 +1,21 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "items": {
+        "$ref": "Player.json"
+    },
+    "default": {
+        "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa": {
+            "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+            "name": "Player 1",
+            "gamer_tag": "GamerTag 1",
+            "country": "AU"
+        },
+        "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb": {
+            "id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+            "name": "Player 2",
+            "gamer_tag": "GamerTag 2",
+            "country": "AU"
+        }
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "smash_gg_id": {
+            "type": "number"
+        },
+        "name": {
+            "type": "string"
+        },
+        "team": {
+            "type": "string"
+        },
+        "gamer_tag": {
+            "type": "string"
+        },
+        "country": {
+            "type": "string"
+        },
+        "twitter_handle": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "id",
+        "name",
+        "gamer_tag",
+        "country"
+    ]
+}

@@ -1,17 +1,17 @@
 {
-  "name": "nodecg-vue-ts-template",
-  "version": "1.0.0",
-  "description": "Template for NodeCG bundles that use Vue.js and TypeScript.",
-  "homepage": "https://github.com/zoton2/nodecg-vue-ts-template#readme",
+  "name": "runback",
+  "version": "0.1.0",
+  "description": "Broadcast graphics for fighting games",
+  "homepage": "https://github.com/opeik/runback",
   "bugs": {
-    "url": "https://github.com/zoton2/nodecg-vue-ts-template/issues"
+    "url": "https://github.com/opeik/runback/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zoton2/nodecg-vue-ts-template.git"
+    "url": "git+https://github.com/opeik/runback.git"
   },
-  "license": "MIT",
-  "author": "zoton2",
+  "license": "ISC",
+  "author": "opeik",
   "scripts": {
     "autofix": "run-s autofix:*",
     "autofix:browser": "eslint --fix --ext .ts,.vue src/dashboard && eslint --fix --ext .ts,.vue src/graphics && eslint --fix --ext .ts src/browser_shared",
@@ -51,6 +51,7 @@
     "json-schema-to-typescript": "^9.1.1",
     "mini-css-extract-plugin": "^0.9.0",
     "npm-run-all": "^4.1.5",
+    "prettier": "2.1.1",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.2",
     "trash-cli": "^3.1.0",
@@ -77,17 +78,21 @@
     "compatibleRange": "^1.6.0",
     "dashboardPanels": [
       {
-        "name": "example",
-        "title": "Example",
-        "file": "example.html"
+        "name": "runback",
+        "title": "Runback",
+        "file": "runback.html",
+        "fullbleed": true
       }
     ],
     "graphics": [
       {
-        "file": "example.html",
+        "file": "scoreboard.html",
         "width": 1920,
         "height": 1080
       }
     ]
+  },
+  "dependencies": {
+    "vue-router": "^3.4.5"
   }
 }

@@ -9,3 +9,10 @@ in the NodeCG dashboard panels anyway. */
 .v-application--wrap {
   min-height: 0 !important;
 }
+
+/* Remove the default NodeCG panel styling. */
+body {
+  background-color: initial !important;
+  color: initial !important;
+  margin: initial !important;
+}
