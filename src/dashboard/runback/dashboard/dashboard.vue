@@ -15,5 +15,5 @@ import { Vue, Component } from "vue-property-decorator"
 // import { State2Way } from 'vuex-class-state2way';
 
 @Component
-export default class Home extends Vue {}
+export default class Dashboard extends Vue {}
 </script>

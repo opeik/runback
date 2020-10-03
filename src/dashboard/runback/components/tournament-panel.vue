@@ -21,12 +21,12 @@
       required
     ></v-autocomplete>
 
-    <v-row align="center" justify="center">
-      <v-col cols="9" align="center" justify="center">
+    <v-row>
+      <v-col cols="10">
         <v-text-field label="Custom stage" required></v-text-field>
       </v-col>
-      <v-col cols="3" align="center" justify="center">
-        <v-switch label="Override"></v-switch>
+      <v-col cols="2">
+        <v-switch></v-switch>
       </v-col>
     </v-row>
   </panel>

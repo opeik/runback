@@ -11,16 +11,13 @@
       </v-btn>
       <v-btn class="mx-2">
         <v-icon left>mdi-pencil</v-icon>
-        Override
+        Details
       </v-btn>
     </v-row>
     <v-divider></v-divider>
     <v-row>
-      <v-col cols="6">
-        <scoreboard-player :player_num="0"></scoreboard-player>
-      </v-col>
-      <v-col cols="6">
-        <scoreboard-player :player_num="1"></scoreboard-player>
+      <v-col v-for="(item, index) in players" :key="index">
+        <scoreboard-player :player_num="index"></scoreboard-player>
       </v-col>
     </v-row>
   </panel>
@@ -32,5 +29,7 @@ import { State, Mutation } from "vuex-class"
 import { State2Way } from "vuex-class-state2way"
 
 @Component
-export default class ScoreboardPanel extends Vue {}
+export default class ScoreboardPanel extends Vue {
+  players = [{ num: 0 }, { num: 1 }]
+}
 </script>
