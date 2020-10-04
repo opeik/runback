@@ -28,9 +28,6 @@ const reps: {
   settings: nodecg.Replicant("settings"),
 }
 
-// Types for mutations below
-export type SetDarkMode = (dark_mode: boolean) => void
-
 const store = new Vuex.Store({
   state: {},
   mutations: {
@@ -40,8 +37,11 @@ const store = new Vuex.Store({
     /* Mutations to replicants start */
     set_dark_mode(state, dark_mode): void {
       let settings: any = reps.settings.value
-      let local_dark_mode: boolean = dark_mode as boolean
-      settings.dark_mode = local_dark_mode
+      settings.dark_mode = dark_mode as boolean
+    },
+    set_smash_gg_api_key(state, smash_gg_api_key): void {
+      let settings: any = reps.settings.value
+      settings.smash_gg_api_key = smash_gg_api_key as string
     },
     /* Mutations to replicants end */
   },

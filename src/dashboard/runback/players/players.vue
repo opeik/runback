@@ -6,6 +6,7 @@
           :headers="headers"
           :items="players"
           :search="search"
+          :items-per-page="15"
           sort-by="gamertag"
         >
           <template v-slot:top>

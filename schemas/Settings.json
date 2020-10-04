@@ -5,12 +5,17 @@
     "properties": {
         "dark_mode": {
             "type": "boolean"
+        },
+        "smash_gg_api_key": {
+            "type": "string"
         }
     },
     "required": [
-        "dark_mode"
+        "dark_mode",
+        "smash_gg_api_key"
     ],
     "default": {
-        "dark_mode": false
+        "dark_mode": false,
+        "smash_gg_api_key": ""
     }
 }

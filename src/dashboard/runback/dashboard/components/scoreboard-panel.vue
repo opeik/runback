@@ -5,7 +5,7 @@
         <v-icon left>mdi-swap-horizontal</v-icon>
         Swap
       </v-btn>
-      <v-btn color="error" class="mx-2">
+      <v-btn class="mx-2">
         <v-icon left>mdi-close</v-icon>
         Reset
       </v-btn>
