@@ -28,7 +28,7 @@ import { Vue, Component, Watch } from "vue-property-decorator"
 import { State, Mutation } from "vuex-class"
 import { State2Way } from "vuex-class-state2way"
 
-import { Settings as SettingsType } from "../../../../schemas"
+import { Settings as SettingsType } from "Runback/../../schemas"
 
 @Component
 export default class Settings extends Vue {
@@ -37,7 +37,7 @@ export default class Settings extends Vue {
   smash_gg_api_key!: string
   show_smash_gg_api_key: boolean = false
   smash_gg_api_key_rules: any = {
-    min: (v) => v.length == 32 || "Must equal 32 characters",
+    min: (v: string) => v.length == 32 || "Must equal 32 characters",
   }
 }
 </script>

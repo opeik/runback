@@ -11,13 +11,17 @@
         >
           <template v-slot:top>
             <v-toolbar flat>
-              <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search"
-                single-line
-                hide-details
-              ></v-text-field>
+              <v-row>
+                <v-col cols="12" sm="9" md="6">
+                  <v-text-field
+                    v-model="search"
+                    append-icon="mdi-magnify"
+                    label="Search"
+                    single-line
+                    hide-details
+                  ></v-text-field>
+                </v-col>
+              </v-row>
 
               <v-spacer></v-spacer>
               <v-dialog v-model="dialog" max-width="500px">
@@ -29,7 +33,7 @@
                     v-bind="attrs"
                     v-on="on"
                   >
-                    New Item
+                    New Player
                   </v-btn>
                 </template>
                 <v-card>
@@ -128,6 +132,7 @@ import { Vue, Component, Watch } from "vue-property-decorator"
 export default class Players extends Vue {
   dialog = false
   dialog_delete = false
+  search: string = ""
   headers = [
     { text: "Gamertag", value: "gamertag" },
     { text: "Name", value: "name" },
@@ -136,28 +141,25 @@ export default class Players extends Vue {
     { text: "Twitter", value: "twitter" },
     { text: "Actions", value: "actions", sortable: false },
   ]
-
-  search: String = ""
-
   players: any[] = []
   edited_index = -1
   edited_item = {
+    gamertag: "",
     name: "",
-    calories: 0,
-    fat: 0,
-    carbs: 0,
-    protein: 0,
+    country: "",
+    team: "",
+    twitter: "",
   }
   default_item = {
+    gamertag: "",
     name: "",
-    calories: 0,
-    fat: 0,
-    carbs: 0,
-    protein: 0,
+    country: "",
+    team: "",
+    twitter: "",
   }
 
-  get form_title(): String {
-    return this.edited_index === -1 ? "New Item" : "Edit Item"
+  get form_title(): string {
+    return this.edited_index === -1 ? "New player" : "Edit player"
   }
 
   @Watch("dialog")
@@ -170,24 +172,24 @@ export default class Players extends Vue {
     val || this.close_delete()
   }
 
-  edit_item(item: any) {
+  edit_item(item: any): void {
     this.edited_index = this.players.indexOf(item)
     this.edited_item = Object.assign({}, item)
     this.dialog = true
   }
 
-  delete_item(item: any) {
+  delete_item(item: any): void {
     this.edited_index = this.players.indexOf(item)
     this.edited_item = Object.assign({}, item)
     this.dialog_delete = true
   }
 
-  delete_item_confirm() {
+  delete_item_confirm(): void {
     this.players.splice(this.edited_index, 1)
     this.close_delete()
   }
 
-  close() {
+  close(): void {
     this.dialog = false
     this.$nextTick(() => {
       this.edited_item = Object.assign({}, this.default_item)
@@ -195,7 +197,7 @@ export default class Players extends Vue {
     })
   }
 
-  close_delete() {
+  close_delete(): void {
     this.dialog_delete = false
     this.$nextTick(() => {
       this.edited_item = Object.assign({}, this.default_item)
@@ -203,7 +205,7 @@ export default class Players extends Vue {
     })
   }
 
-  save() {
+  save(): void {
     if (this.edited_index > -1) {
       Object.assign(this.players[this.edited_index], this.edited_item)
     } else {
