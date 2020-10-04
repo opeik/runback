@@ -11,10 +11,21 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator"
+import { Vue, Component, Watch } from "vue-property-decorator"
 // import { State, Mutation } from 'vuex-class';
-// import { State2Way } from 'vuex-class-state2way';
+import { State2Way } from "vuex-class-state2way"
 
 @Component
-export default class extends Vue {}
+export default class extends Vue {
+  @State2Way("set_dark_mode", "settings.dark_mode") dark_mode!: boolean
+
+  @Watch("dark_mode")
+  on_dark_mode_change(val: boolean): void {
+    this.$vuetify.theme.dark = this.dark_mode
+  }
+
+  mounted(): void {
+    this.$vuetify.theme.dark = this.dark_mode
+  }
+}
 </script>

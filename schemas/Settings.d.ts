@@ -5,11 +5,6 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface BracketOverride {
-  should_override: boolean;
-  override: {
-    bracket_side?: number;
-    bracket_progress?: number;
-    finals_progress?: number;
-  };
+export interface Settings {
+  dark_mode: boolean;
 }

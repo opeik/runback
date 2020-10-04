@@ -12,6 +12,6 @@ export interface PlayerOverride {
     team?: string;
     gamer_tag?: string;
     country?: string;
-    twitter_handle?: string;
+    twitter?: string;
   };
 }

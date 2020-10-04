@@ -4,10 +4,10 @@ import Vue from "vue"
 import Vuex, { Store } from "vuex"
 import {
   Bracket,
-  BracketOverride,
   Players,
   PlayerOverride,
   Scores,
+  Settings,
 } from "../../schemas"
 
 Vue.use(Vuex)
@@ -15,21 +15,21 @@ Vue.use(Vuex)
 // Replicants and their types
 const reps: {
   bracket: ReplicantBrowser<Bracket>
-  bracket_override: ReplicantBrowser<BracketOverride>
+  scores: ReplicantBrowser<Scores>
   players: ReplicantBrowser<Players>
   player_override: ReplicantBrowser<PlayerOverride>
-  scores: ReplicantBrowser<Scores>
+  settings: ReplicantBrowser<Settings>
   [k: string]: ReplicantBrowser<unknown>
 } = {
-  bracket: nodecg.Replicant("Bracket"),
-  bracket_override: nodecg.Replicant("BracketOverride"),
-  players: nodecg.Replicant("Players"),
-  player_override: nodecg.Replicant("PlayerOverride"),
-  scores: nodecg.Replicant("Scores"),
+  bracket: nodecg.Replicant("bracket"),
+  scores: nodecg.Replicant("scores"),
+  players: nodecg.Replicant("players"),
+  player_override: nodecg.Replicant("player_override"),
+  settings: nodecg.Replicant("settings"),
 }
 
 // Types for mutations below
-export type ExampleMutation = (arg: any) => void
+export type SetDarkMode = (dark_mode: boolean) => void
 
 const store = new Vuex.Store({
   state: {},
@@ -38,11 +38,10 @@ const store = new Vuex.Store({
       Vue.set(state, name, val)
     },
     /* Mutations to replicants start */
-    exampleMutation(arg): void {
-      // You may need to do checks like these, depending on mutation content.
-      if (typeof reps.replicantName.value !== "undefined") {
-        reps.replicantName.value = clone(arg)
-      }
+    set_dark_mode(state, dark_mode): void {
+      let settings: any = reps.settings.value
+      let local_dark_mode: boolean = dark_mode as boolean
+      settings.dark_mode = local_dark_mode
     },
     /* Mutations to replicants end */
   },

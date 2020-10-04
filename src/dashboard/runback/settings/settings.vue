@@ -12,16 +12,13 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator"
-// import { State, Mutation } from 'vuex-class';
-// import { State2Way } from 'vuex-class-state2way';
+import { State, Mutation } from "vuex-class"
+import { State2Way } from "vuex-class-state2way"
+
+import { Settings as SettingsType } from "../../../../schemas"
 
 @Component
 export default class Settings extends Vue {
-  dark_mode = false
-
-  @Watch("dark_mode")
-  on_dark_mode_change(val: boolean): void {
-    this.$vuetify.theme.dark = this.dark_mode
-  }
+  @State2Way("set_dark_mode", "settings.dark_mode") dark_mode: any
 }
 </script>

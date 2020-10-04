@@ -1,21 +1,17 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "type": "object",
-    "additionalProperties": false,
-    "properties": {
-        "bracket_side": {
-            "type": "number"
-        },
-        "bracket_progress": {
-            "type": "number"
-        },
-        "finals_progress": {
-            "type": "number"
-        }
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "bracket_stage": {
+      "type": "number"
     },
-    "required": [
-        "bracket_side",
-        "bracket_progress",
-        "finals_progress"
-    ]
+    "bracket_side": {
+      "type": "number"
+    },
+    "grand_finals_side": {
+      "type": "number"
+    }
+  },
+  "required": ["bracket_side", "bracket_progress", "grand_finals_side"]
 }

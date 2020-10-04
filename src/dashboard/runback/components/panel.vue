@@ -1,5 +1,5 @@
 <template>
-  <v-card class="flex d-flex flex-column">
+  <v-card class="flex">
     <v-row no-gutters>
       <v-toolbar dark color="primary">
         <v-icon> mdi-{{ icon }} </v-icon>

@@ -28,7 +28,7 @@ export = (nodecg: NodeCG): void => {
   function create_loading_window() {
     return new BrowserWindow({
       show: false,
-      frame: false,
+      frame: true,
       resizable: false,
       width: width,
       height: height,
@@ -52,9 +52,13 @@ export = (nodecg: NodeCG): void => {
       // It Just Works™.
       setTimeout(() => {
         main.loadURL(url)
-      }, 7000)
+      }, 8000)
 
       main.on("page-title-updated", (evt: any) => {
+        evt.preventDefault()
+      })
+
+      loading.on("page-title-updated", (evt: any) => {
         evt.preventDefault()
       })
     })
