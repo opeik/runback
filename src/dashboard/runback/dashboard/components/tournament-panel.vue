@@ -23,10 +23,10 @@
 
     <v-row>
       <v-col cols="10">
-        <v-text-field label="Custom stage" required></v-text-field>
+        <v-text-field label="Custom progress" required></v-text-field>
       </v-col>
       <v-col cols="2">
-        <v-switch></v-switch>
+        <v-switch />
       </v-col>
     </v-row>
   </panel>

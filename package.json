@@ -21,7 +21,7 @@
     "build:browser": "cross-env NODE_ENV=production webpack",
     "build:extension": "tsc -b tsconfig.extension.json",
     "clean": "trash node_modules/.cache && trash dashboard && trash graphics && trash extension",
-    "start": "node ../..",
+    "start": "electron ../..",
     "typeschemas": "node script/typeschemas.js",
     "watch": "run-p watch:*",
     "watch:browser": "webpack -w",
@@ -38,6 +38,7 @@
     "cross-env": "^7.0.2",
     "css-loader": "^4.2.0",
     "deepmerge": "^4.2.2",
+    "electron": "^10.1.3",
     "eslint": "^7.6.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
@@ -93,6 +94,10 @@
     ]
   },
   "dependencies": {
+    "buffer": "^5.6.0",
+    "events": "^3.2.0",
+    "stream": "0.0.2",
+    "timers": "^0.1.1",
     "vue-router": "^3.4.5"
   }
 }

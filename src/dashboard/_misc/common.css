@@ -1,18 +1,26 @@
 /* So the <v-app> always has a transparent background,
 otherwise it looks odd in the NodeCG dashboard panels. */
+/*
 .v-application {
   background-color: transparent !important;
 }
+*/
 
 /* So the <v-app> doesn't take up 100% height which breaks
 in the NodeCG dashboard panels anyway. */
+/*
 .v-application--wrap {
   min-height: 0 !important;
 }
+*/
 
 /* Remove the default NodeCG panel styling. */
 body {
   background-color: initial !important;
   color: initial !important;
   margin: initial !important;
+}
+
+.centered-input input {
+  text-align: center;
 }

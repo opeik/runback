@@ -9,7 +9,7 @@
       </v-toolbar>
     </v-row>
     <v-card-text class="flex">
-      <slot>Content</slot>
+      <slot />
     </v-card-text>
   </v-card>
 </template>
