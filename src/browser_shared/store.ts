@@ -8,7 +8,7 @@ import {
   PlayerOverride,
   Scores,
   Settings,
-} from "../../schemas"
+} from "Runback/../../schemas"
 
 Vue.use(Vuex)
 
