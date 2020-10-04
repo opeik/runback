@@ -1,6 +1,6 @@
 <template>
   <panel title="Commentary" icon="headset">
-    <v-row align="center" justify="center" class="mb-8">
+    <v-row align="center" justify="center" class="mb-8 mt-4">
       <v-btn class="mx-2">
         <v-icon left>mdi-swap-horizontal</v-icon>
         Swap

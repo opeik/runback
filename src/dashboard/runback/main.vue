@@ -1,8 +1,9 @@
 <template>
   <v-app>
-    <navigation></navigation>
+    <navigation />
+    <app-bar />
     <v-main>
-      <v-container fluid>
+      <v-container fluid fill-height class="align-start">
         <router-view></router-view>
       </v-container>
     </v-main>

@@ -4,7 +4,6 @@
     permanent
     :mini-variant="should_draw_mini"
     class="pt-4"
-    color="grey lighten-3"
   >
     <v-list-item>
       <v-list-item-content>
@@ -39,6 +38,7 @@ export default class Navigation extends Vue {
     { title: "Dashboard", icon: "mdi-view-dashboard", link: "/" },
     { title: "Players", icon: "mdi-account-group", link: "players" },
     { title: "Settings", icon: "mdi-cog", link: "settings" },
+    { title: "About", icon: "mdi-information", link: "about" },
   ]
 
   get should_draw_mini(): boolean {

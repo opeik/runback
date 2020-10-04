@@ -4,7 +4,7 @@
       <scoreboard-panel />
     </v-col>
     <v-col cols="12" :md="6" class="d-flex flex-column">
-      <tournament-panel />
+      <bracket-panel />
     </v-col>
     <v-col cols="12" :md="6" class="d-flex flex-column">
       <commentary-panel />

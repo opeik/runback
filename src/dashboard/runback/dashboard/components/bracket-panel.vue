@@ -1,5 +1,5 @@
 <template>
-  <panel title="Tournament" icon="tournament">
+  <panel title="Bracket" icon="tournament">
     <v-autocomplete
       label="Stage"
       item-text="text"
@@ -38,5 +38,5 @@ import { State, Mutation } from "vuex-class"
 import { State2Way } from "vuex-class-state2way"
 
 @Component
-export default class TournamentPanel extends Vue {}
+export default class BracketPanel extends Vue {}
 </script>

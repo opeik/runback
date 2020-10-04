@@ -1,7 +1,17 @@
 <template>
   <v-app>
     <v-main>
-      <v-container fluid> Loading... </v-container>
+      <v-container fluid fill-height>
+        <v-row align="center" justify="center">
+          <v-col class="text-center">
+            <v-progress-circular
+              :size="100"
+              indeterminate
+              color="primary"
+            ></v-progress-circular>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-main>
   </v-app>
 </template>

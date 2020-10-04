@@ -1,6 +1,6 @@
 <template>
   <div class="player">
-    <v-row>
+    <v-row align="center" justify="center" class="mb-8">
       <v-col cols="auto">
         <v-autocomplete label="Commentator" outlined> </v-autocomplete>
       </v-col>

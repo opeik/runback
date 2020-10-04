@@ -1,0 +1,4 @@
+/* Hide the scrollbar while loading. */
+::-webkit-scrollbar {
+  display: none;
+}

@@ -3,6 +3,7 @@
 import Vue from "vue"
 import vuetify from "../_misc/vuetify"
 import App from "./main.vue"
+import "./loading.css"
 
 new Vue({
   vuetify,
