@@ -25,10 +25,7 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator"
-import { State, Mutation } from "vuex-class"
 import { State2Way } from "vuex-class-state2way"
-
-import { Settings as SettingsType } from "Runback/../../schemas"
 
 @Component
 export default class Settings extends Vue {

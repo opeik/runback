@@ -10,6 +10,8 @@ export = (nodecg: NodeCG): void => {
   const url =
     "http://localhost:9090/bundles/runback/dashboard/runback.html?standalone=true#/"
   const loading_url = "file://" + __dirname + "/../dashboard/loading.html"
+  const main_load_delay = 5 * 1000
+  const main_refresh_timeout = 3 * 1000
 
   function create_main_window() {
     return new BrowserWindow({
@@ -39,20 +41,32 @@ export = (nodecg: NodeCG): void => {
   app.on("ready", () => {
     let main: any = null
     let loading = create_loading_window()
+    let has_loaded = false
 
     loading.once("show", () => {
       main = create_main_window()
 
       main.once("ready-to-show", () => {
+        has_loaded = true
         main.show()
         loading.hide()
         loading.close()
       })
 
       // It Just Works™.
+      function reload_main() {
+        if (!has_loaded) {
+          main.reload()
+
+          setTimeout(() => {
+            reload_main()
+          }, main_refresh_timeout)
+        }
+      }
+
       setTimeout(() => {
         main.loadURL(url)
-      }, 8000)
+      }, main_load_delay)
 
       main.on("page-title-updated", (evt: any) => {
         evt.preventDefault()

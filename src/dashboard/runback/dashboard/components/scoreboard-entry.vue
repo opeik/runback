@@ -1,7 +1,7 @@
 <template>
   <div class="player">
     <v-row>
-      <v-col cols="auto">
+      <v-col>
         <v-text-field
           hide-details
           single-line
@@ -13,9 +13,9 @@
       </v-col>
     </v-row>
 
-    <v-row>
-      <v-col cols="auto">
-        <v-autocomplete label="Player" outlined> </v-autocomplete>
+    <v-row class="mb-n10">
+      <v-col>
+        <v-autocomplete outlined label="Player" class="mb-n2"> </v-autocomplete>
       </v-col>
     </v-row>
   </div>
@@ -23,8 +23,6 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator"
-import { State, Mutation } from "vuex-class"
-import { State2Way } from "vuex-class-state2way"
 
 @Component
 export default class ScoreboardEntry extends Vue {}

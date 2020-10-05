@@ -5,6 +5,7 @@ import vuetify from "../_misc/vuetify"
 import router from "../_misc/vue-router"
 import App from "./main.vue"
 import waitForReplicants from "../../browser_shared/store"
+import "./runback.css"
 
 import Panel from "Runback/components/panel.vue"
 import Navigation from "Runback/components/navigation.vue"

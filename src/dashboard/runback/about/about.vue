@@ -15,8 +15,6 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator"
-// import { State, Mutation } from 'vuex-class';
-// import { State2Way } from 'vuex-class-state2way';
 
 const VERSION = require("@/../package.json").version
 

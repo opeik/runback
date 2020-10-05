@@ -42,48 +42,42 @@
                   </v-card-title>
 
                   <v-card-text>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="edited_item.gamertag"
-                            label="Gamertag"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="edited_item.name"
-                            label="Name"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="edited_item.country"
-                            label="Country"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="edited_item.team"
-                            label="Team"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="edited_item.twitter"
-                            label="Twitter"
-                          ></v-text-field>
-                        </v-col>
-                      </v-row>
-                    </v-container>
+                    <v-form ref="form" v-model="form_valid">
+                      <v-text-field
+                        v-model="edited_item.gamertag"
+                        label="Gamertag"
+                        :rules="gamertag_rules"
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="edited_item.name"
+                        label="Name"
+                        :rules="name_rules"
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="edited_item.country"
+                        label="Country"
+                        :rules="country_rules"
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="edited_item.team"
+                        label="Team"
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="edited_item.twitter"
+                        label="Twitter"
+                      ></v-text-field>
+                    </v-form>
                   </v-card-text>
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="close">
-                      Cancel
-                    </v-btn>
-                    <v-btn color="blue darken-1" text @click="save">
+                    <v-btn color="primary" text @click="close"> Cancel </v-btn>
+                    <v-btn
+                      color="primary"
+                      text
+                      @click="save"
+                      :disabled="!form_valid"
+                    >
                       Save
                     </v-btn>
                   </v-card-actions>
@@ -124,14 +118,15 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from "vue-property-decorator"
-// import { State, Mutation } from 'vuex-class';
-// import { State2Way } from 'vuex-class-state2way';
+import { Vue, Component, Watch, Ref } from "vue-property-decorator"
+import { State2Way } from "vuex-class-state2way"
 
 @Component
 export default class Players extends Vue {
+  @Ref("form") readonly form!: any
   dialog = false
   dialog_delete = false
+  form_valid = false
   search: string = ""
   headers = [
     { text: "Gamertag", value: "gamertag" },
@@ -157,6 +152,10 @@ export default class Players extends Vue {
     team: "",
     twitter: "",
   }
+
+  gamertag_rules = [(v: string) => !!v || "Gamertag is required"]
+  name_rules = [(v: string) => !!v || "Name is required"]
+  country_rules = [(v: string) => !!v || "Country is required"]
 
   get form_title(): string {
     return this.edited_index === -1 ? "New player" : "Edit player"
@@ -212,6 +211,16 @@ export default class Players extends Vue {
       this.players.push(this.edited_item)
     }
     this.close()
+  }
+
+  validate(): void {
+    this.form.validate()
+  }
+  reset(): void {
+    this.form.reset()
+  }
+  resetValidation(): void {
+    this.form.resetValidation()
   }
 }
 </script>
