@@ -30,7 +30,7 @@ import { Vue, Component } from "vue-property-decorator"
 export default class extends Vue {
   load_quotes = [
     "Parrying your super",
-    "Dragon Installing",
+    "Waking up with Dragon Install",
     "Explaining the DHC glitch",
     "Complaining about Paul's damage",
   ]

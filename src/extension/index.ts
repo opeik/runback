@@ -42,35 +42,32 @@ export = (nodecg: NodeCG): void => {
 
   app.on("ready", () => {
     let main: any = null
+    let dummy: any = null
     let loading = create_loading_window()
-    let has_loaded = false
 
     loading.once("show", () => {
       main = create_main_window()
+      dummy = create_main_window()
+
+      // It Just Works™. This is an **awful** hack. For some reason there's a
+      // period after NodeCG starts where pages won't load. Delaying the load,
+      // then reloading the page appears to deal with this.
+      dummy.once("ready-to-show", () => {
+        dummy.close()
+        main.loadURL(url)
+      })
+
+      setTimeout(() => {
+        dummy.loadURL(url)
+      }, main_load_delay)
 
       main.once("ready-to-show", () => {
         let position = loading.getPosition()
-        has_loaded = true
         main.setPosition(position[0], position[1])
         main.show()
         loading.hide()
         loading.close()
       })
-
-      // It Just Works™.
-      function reload_main() {
-        if (!has_loaded) {
-          main.reload()
-
-          setTimeout(() => {
-            reload_main()
-          }, main_refresh_timeout)
-        }
-      }
-
-      setTimeout(() => {
-        main.loadURL(url)
-      }, main_load_delay)
 
       main.on("page-title-updated", (evt: any) => {
         evt.preventDefault()

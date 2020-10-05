@@ -7,5 +7,6 @@
 
 export interface Settings {
   dark_mode: boolean;
+  live_dashboard_update: boolean;
   smash_gg_api_key: string;
 }

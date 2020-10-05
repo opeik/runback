@@ -43,6 +43,10 @@ const store = new Vuex.Store({
       let settings: any = reps.settings.value
       settings.smash_gg_api_key = smash_gg_api_key as string
     },
+    set_live_dashboard_update(state, live_dashboard_update): void {
+      let settings: any = reps.settings.value
+      settings.live_dashboard_update = live_dashboard_update as boolean
+    },
     /* Mutations to replicants end */
   },
 })
