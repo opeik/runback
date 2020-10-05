@@ -21,6 +21,7 @@ export = (nodecg: NodeCG): void => {
       minWidth: 800,
       minHeight: 500,
       title: "Runback",
+      backgroundColor: "#0f0f0f",
       webPreferences: {
         nodeIntegration: true,
       },
@@ -35,6 +36,7 @@ export = (nodecg: NodeCG): void => {
       width: width,
       height: height,
       title: "Runback",
+      backgroundColor: "#0f0f0f",
     })
   }
 

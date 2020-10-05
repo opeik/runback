@@ -15,7 +15,7 @@
         "smash_gg_api_key"
     ],
     "default": {
-        "dark_mode": false,
+        "dark_mode": true,
         "smash_gg_api_key": ""
     }
 }

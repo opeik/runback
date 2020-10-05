@@ -30,9 +30,9 @@ import { Vue, Component } from "vue-property-decorator"
 export default class extends Vue {
   load_quotes = [
     "Parrying your super",
-    "Baiting a burst",
-    "Ki charging",
+    "Dragon Installing",
     "Explaining the DHC glitch",
+    "Complaining about Paul's damage",
   ]
 
   get_random_int(min: number, max: number): number {
