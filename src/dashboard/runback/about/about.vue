@@ -3,10 +3,33 @@
     <v-col>
       <v-card>
         <v-card-text>
-          <v-avatar :size="96" class="mr-4">
-            <v-img :src="require('./img/opeik.png')" aspect-ratio="1"></v-img>
-          </v-avatar>
-          Runback version {{ version }}, made by opeik
+          <v-row align="center">
+            <v-col cols="auto">
+              <v-avatar :size="96" class="mr-4">
+                <v-img
+                  :src="require('./img/opeik.png')"
+                  aspect-ratio="1"
+                ></v-img>
+              </v-avatar>
+            </v-col>
+            <v-col>
+              <v-row class="my-n6">
+                <v-col>
+                  <span>Runback version {{ version }}</span>
+                </v-col>
+              </v-row>
+              <v-row class="my-n6">
+                <v-col>
+                  <span>Made by <a :href="twitter">opeik</a></span>
+                </v-col>
+              </v-row>
+              <v-row class="my-n6">
+                <v-col>
+                  <span> Source on <a :href="github">GitHub</a></span>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
         </v-card-text>
       </v-card>
     </v-col>
