@@ -47,7 +47,9 @@ export = (nodecg: NodeCG): void => {
       main = create_main_window()
 
       main.once("ready-to-show", () => {
+        let position = loading.getPosition()
         has_loaded = true
+        main.setPosition(position[0], position[1])
         main.show()
         loading.hide()
         loading.close()
