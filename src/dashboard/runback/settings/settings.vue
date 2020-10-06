@@ -32,7 +32,7 @@ import { Vue, Component, Watch } from "vue-property-decorator"
 import { State2Way } from "vuex-class-state2way"
 
 @Component
-export default class Settings extends Vue {
+export default class extends Vue {
   @State2Way("set_dark_mode", "settings.dark_mode") dark_mode!: boolean
   @State2Way("set_live_dashboard_update", "settings.live_dashboard_update")
   live_dashboard_update!: boolean
@@ -41,7 +41,7 @@ export default class Settings extends Vue {
 
   show_smash_gg_api_key: boolean = false
   smash_gg_api_key_rules: any = {
-    min: (v: string) => v.length == 32 || "Must equal 32 characters",
+    min: (v: string) => v.length == 32 || "Must be 32 characters",
   }
 }
 </script>

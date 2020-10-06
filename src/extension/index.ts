@@ -7,8 +7,6 @@ export = (nodecg: NodeCG): void => {
   const { app, BrowserWindow, session } = require("electron")
   const shell = require("electron").shell
 
-  const width = 1280
-  const height = 800
   const url =
     "http://localhost:9090/bundles/runback/dashboard/runback.html?standalone=true"
   const loading_url = "file://" + __dirname + "/../dashboard/loading.html"
@@ -18,8 +16,8 @@ export = (nodecg: NodeCG): void => {
   function create_main_window() {
     let window = new BrowserWindow({
       show: false,
-      width: width,
-      height: height,
+      width: 1280,
+      height: 800,
       minWidth: 800,
       minHeight: 500,
       title: "Runback",
@@ -45,10 +43,10 @@ export = (nodecg: NodeCG): void => {
   function create_loading_window() {
     let window = new BrowserWindow({
       show: false,
-      frame: true,
+      frame: false,
       resizable: false,
-      width: width,
-      height: height,
+      width: 300,
+      height: 300,
       title: "Runback",
       backgroundColor: background_color,
     })
@@ -66,7 +64,7 @@ export = (nodecg: NodeCG): void => {
     let loading = create_loading_window()
 
     loading.webContents.on("dom-ready", () => {
-      console.log("Load screen ready")
+      console.log("Load ready")
       loading.show()
       main = create_main_window()
       dummy = create_main_window()
@@ -86,12 +84,11 @@ export = (nodecg: NodeCG): void => {
 
       main.once("ready-to-show", () => {
         console.log("Main ready")
-        let position = loading.getPosition()
-
-        main.setPosition(position[0], position[1])
         main.show()
-        loading.hide()
-        loading.close()
+
+        if (!loading.isDestroyed()) {
+          loading.close()
+        }
       })
     })
 

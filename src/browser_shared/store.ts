@@ -1,4 +1,5 @@
 import clone from "clone"
+//import { v4 as uuid_v4 } from "uuid"
 import type { ReplicantBrowser } from "nodecg/types/browser"
 import Vue from "vue"
 import Vuex, { Store } from "vuex"
@@ -80,17 +81,45 @@ const store = new Vuex.Store({
       Vue.set(state, name, val)
     },
     /* Mutations to replicants start */
-    set_dark_mode(state, dark_mode): void {
-      let settings = reps.settings.value
-      settings!.dark_mode = dark_mode as boolean
+    set_dark_mode(state, _dark_mode): void {
+      const dark_mode: boolean = _dark_mode
+      let settings: Settings = reps.settings.value!
+      settings.dark_mode = dark_mode
     },
-    set_smash_gg_api_key(state, smash_gg_api_key): void {
-      let settings = reps.settings.value
-      settings!.smash_gg_api_key = smash_gg_api_key as string
+    set_smash_gg_api_key(state, _smash_gg_api_key): void {
+      const smash_gg_api_key: string = _smash_gg_api_key
+      let settings: Settings = reps.settings.value!
+      settings.smash_gg_api_key = smash_gg_api_key
     },
-    set_live_dashboard_update(state, live_dashboard_update): void {
-      let settings = reps.settings.value
-      settings!.live_dashboard_update = live_dashboard_update as boolean
+    set_live_dashboard_update(state, _live_dashboard_update): void {
+      const live_dashboard_update: boolean = _live_dashboard_update
+      let settings: Settings = reps.settings.value!
+      settings.live_dashboard_update = live_dashboard_update
+    },
+    add_player(state, _player): void {
+      let player = _player as Player
+      let players: Players = reps.players.value!
+
+      // Check for ID collisions.
+      while (player.id in players) {
+        //player.id = uuid_v4()
+      }
+
+      players[player.id] = player
+    },
+    set_player(state, _player): void {
+      let player = _player as Player
+      let players: Players = reps.players.value!
+
+      if (!(player.id in players)) {
+        console.error("Tried to set invalid player id: " + player.id)
+      } else {
+        players[player.id] = player
+      }
+    },
+    set_players(state, _players): void {
+      let players: Players = reps.players.value!
+      players = _players as Players
     },
     /* Mutations to replicants end */
   },

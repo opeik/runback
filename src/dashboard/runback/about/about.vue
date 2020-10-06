@@ -40,7 +40,7 @@
 import { Vue, Component } from "vue-property-decorator"
 
 @Component
-export default class App extends Vue {
+export default class extends Vue {
   readonly version: string = require("@/../package.json").version
   readonly github: string = "https://github.com/opeik/runback"
   readonly twitter: string = "https://twitter.com/iamopeik"

@@ -5,17 +5,19 @@
         <v-row align="center" justify="center">
           <v-col cols="12" class="text-center">
             <v-progress-circular
-              :size="100"
-              :width="7"
+              :size="50"
+              :width="5"
               indeterminate
               color="primary"
             ></v-progress-circular>
           </v-col>
-          <v-col cols="12" class="text-center mt-6 mb-n4">
-            <span class="text-h4"> {{ load_quote }} </span>
+          <v-col cols="12" class="text-center mt-2 mb-n6">
+            <span class="text-subtitle-1"> {{ load_quote }} </span>
           </v-col>
           <v-col cols="12" class="text-center">
-            <span class="text-h6"> Starting server... </span>
+            <span class="text-subtitle-2 font-italic">
+              Starting server...
+            </span>
           </v-col>
         </v-row>
       </v-container>
@@ -29,10 +31,34 @@ import { Vue, Component } from "vue-property-decorator"
 @Component
 export default class extends Vue {
   load_quotes = [
+    // Misc
+    "Demanding rollback netcode",
+    "Disrespecting your plus frames",
+    "Completing the download",
+    // Street Fighter
     "Parrying your super",
-    "Waking up with Dragon Install",
-    "Explaining the DHC glitch",
+    "Waking up dp'ing",
+    "Fighting like gentlemen",
+    "Fighting a new rival",
+    "Keeping it classy",
+    "Protecting Russia's skies",
+    // Guilty Gear
+    "Dragon Intalling",
+    "Buffering fafnir",
+    "UMEHARA GA KIMETAAAAAAAAAAAAAA",
+    "Riding the lightning",
+    "Knowing the smell of the game",
+    // BlazBlue
+    "Turning the wheel of fate",
+    "Escaping from crossing fate",
+    // Tekken
     "Complaining about Paul's damage",
+    "Nerfing Gigas",
+    "Mashing round start hopkick",
+    // Marvel
+    "Explaining the DHC glitch",
+    // Dragon Ball
+    "Adding another Goku",
   ]
 
   get_random_int(min: number, max: number): number {

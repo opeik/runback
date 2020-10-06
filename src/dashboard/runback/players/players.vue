@@ -120,11 +120,12 @@
 <script lang="ts">
 import { Vue, Component, Watch, Ref } from "vue-property-decorator"
 import { State2Way } from "vuex-class-state2way"
-import { Player } from "Runback/_types/"
+import { Player, Players } from "Runback/_types/"
 
 @Component
-export default class Players extends Vue {
+export default class extends Vue {
   @Ref("form") readonly form!: any
+  @State2Way("set_players", "players") players!: Players
 
   dialog: boolean = false
   dialog_delete: boolean = false
@@ -138,10 +139,12 @@ export default class Players extends Vue {
     { text: "Twitter", value: "twitter" },
     { text: "Actions", value: "actions", sortable: false },
   ]
-  players: Player[] = new Array<Player>()
+
+  //players: Player[] = new Array<Player>()
+
   edited_index: number = -1
   edited_item: Player = new Player()
-  default_item: Player = new Player()
+  readonly default_item: Player = new Player()
 
   gamertag_rules = [(v: string) => !!v || "Gamertag is required"]
   name_rules = [(v: string) => !!v || "Name is required"]
@@ -162,43 +165,43 @@ export default class Players extends Vue {
   }
 
   edit_item(item: Player): void {
-    this.edited_index = this.players.indexOf(item)
-    this.edited_item = Object.assign({}, item)
+    // this.edited_index = this.players.indexOf(item)
+    // this.edited_item = Object.assign({}, item)
     this.dialog = true
   }
 
   delete_item(item: Player): void {
-    this.edited_index = this.players.indexOf(item)
-    this.edited_item = Object.assign({}, item)
+    // this.edited_index = this.players.indexOf(item)
+    // this.edited_item = Object.assign({}, item)
     this.dialog_delete = true
   }
 
   delete_item_confirm(): void {
-    this.players.splice(this.edited_index, 1)
+    // this.players.splice(this.edited_index, 1)
     this.close_delete()
   }
 
   close(): void {
     this.dialog = false
     this.$nextTick(() => {
-      this.edited_item = Object.assign({}, this.default_item)
-      this.edited_index = -1
+      // this.edited_item = Object.assign({}, this.default_item)
+      // this.edited_index = -1
     })
   }
 
   close_delete(): void {
     this.dialog_delete = false
     this.$nextTick(() => {
-      this.edited_item = Object.assign({}, this.default_item)
-      this.edited_index = -1
+      // this.edited_item = Object.assign({}, this.default_item)
+      // this.edited_index = -1
     })
   }
 
   save(): void {
     if (this.edited_index > -1) {
-      Object.assign(this.players[this.edited_index], this.edited_item)
+      // Object.assign(this.players[this.edited_index], this.edited_item)
     } else {
-      this.players.push(this.edited_item)
+      // this.players.push(this.edited_item)
     }
     this.close()
   }
