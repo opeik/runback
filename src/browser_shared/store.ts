@@ -1,5 +1,5 @@
 import clone from "clone"
-//import { v4 as uuid_v4 } from "uuid"
+import Uuid from "pure-uuid"
 import type { ReplicantBrowser } from "nodecg/types/browser"
 import Vue from "vue"
 import Vuex, { Store } from "vuex"
@@ -75,12 +75,12 @@ const reps: {
 }
 
 const store = new Vuex.Store({
+  strict: process.env.NODE_ENV !== "production",
   state: {},
   mutations: {
     setState(state, { name, val }): void {
       Vue.set(state, name, val)
     },
-    /* Mutations to replicants start */
     set_dark_mode(state, _dark_mode): void {
       const dark_mode: boolean = _dark_mode
       let settings: Settings = reps.settings.value!
@@ -96,32 +96,26 @@ const store = new Vuex.Store({
       let settings: Settings = reps.settings.value!
       settings.live_dashboard_update = live_dashboard_update
     },
-    add_player(state, _player): void {
-      let player = _player as Player
-      let players: Players = reps.players.value!
-
-      // Check for ID collisions.
-      while (player.id in players) {
-        //player.id = uuid_v4()
-      }
-
-      players[player.id] = player
-    },
     set_player(state, _player): void {
       let player = _player as Player
       let players: Players = reps.players.value!
 
-      if (!(player.id in players)) {
-        console.error("Tried to set invalid player id: " + player.id)
-      } else {
-        players[player.id] = player
+      if (player.id.length === 0) {
+        player.id = new Uuid(4).toString()
       }
+
+      players[player.id] = player
     },
     set_players(state, _players): void {
       let players: Players = reps.players.value!
-      players = _players as Players
+      let new_players: Players = reps.players.value!
+      players = new_players
     },
-    /* Mutations to replicants end */
+    delete_player(state, _player_id): void {
+      let player_id = _player_id as string
+      let players: Players = reps.players.value!
+      Vue.delete(players, player_id)
+    },
   },
 })
 

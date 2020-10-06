@@ -11,7 +11,7 @@ export interface Players {
     smash_gg_id: string;
     name: string;
     team: string;
-    gamer_tag: string;
+    gamertag: string;
     country: string;
     twitter: string;
   };

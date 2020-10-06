@@ -22,6 +22,9 @@ export = (nodecg: NodeCG): void => {
       minHeight: 500,
       title: "Runback",
       backgroundColor: background_color,
+      webPreferences: {
+        nodeIntegration: true,
+      },
     })
 
     window.on("page-title-updated", (evt: any) => {
@@ -59,6 +62,10 @@ export = (nodecg: NodeCG): void => {
   }
 
   app.on("ready", () => {
+    if (process.env.NODE_ENV !== "production") {
+      require("vue-devtools").install()
+    }
+
     let main: any = null
     let dummy: any = null
     let loading = create_loading_window()

@@ -15,7 +15,7 @@
     "team": {
       "type": "string"
     },
-    "gamer_tag": {
+    "gamertag": {
       "type": "string"
     },
     "country": {
@@ -30,7 +30,7 @@
     "smash_gg_id",
     "name",
     "team",
-    "gamer_tag",
+    "gamertag",
     "country",
     "twitter"
   ]

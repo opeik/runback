@@ -4,7 +4,7 @@
       <v-card>
         <v-data-table
           :headers="headers"
-          :items="players"
+          :items="players_array"
           :search="search"
           :items-per-page="15"
           sort-by="gamertag"
@@ -90,13 +90,10 @@
                   >
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="close_delete"
+                    <v-btn color="primary" text @click="close_delete"
                       >Cancel</v-btn
                     >
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="delete_item_confirm"
+                    <v-btn color="primary" text @click="delete_item_confirm"
                       >OK</v-btn
                     >
                     <v-spacer></v-spacer>
@@ -120,12 +117,15 @@
 <script lang="ts">
 import { Vue, Component, Watch, Ref } from "vue-property-decorator"
 import { State2Way } from "vuex-class-state2way"
+import { Mutation, Action } from "vuex-class"
 import { Player, Players } from "Runback/_types/"
 
 @Component
 export default class extends Vue {
   @Ref("form") readonly form!: any
   @State2Way("set_players", "players") players!: Players
+  @Mutation("set_player") set_player: any
+  @Mutation("delete_player") delete_player: any
 
   dialog: boolean = false
   dialog_delete: boolean = false
@@ -140,9 +140,7 @@ export default class extends Vue {
     { text: "Actions", value: "actions", sortable: false },
   ]
 
-  //players: Player[] = new Array<Player>()
-
-  edited_index: number = -1
+  edited_id: string = ""
   edited_item: Player = new Player()
   readonly default_item: Player = new Player()
 
@@ -150,8 +148,12 @@ export default class extends Vue {
   name_rules = [(v: string) => !!v || "Name is required"]
   country_rules = [(v: string) => !!v || "Country is required"]
 
+  get players_array(): Player[] {
+    return Object.values(this.players)
+  }
+
   get form_title(): string {
-    return this.edited_index === -1 ? "New player" : "Edit player"
+    return this.edited_id.length === 0 ? "New player" : "Edit player"
   }
 
   @Watch("dialog")
@@ -165,53 +167,48 @@ export default class extends Vue {
   }
 
   edit_item(item: Player): void {
-    // this.edited_index = this.players.indexOf(item)
-    // this.edited_item = Object.assign({}, item)
+    this.edited_id = item.id
+    this.edited_item = Object.assign({}, item)
     this.dialog = true
   }
 
   delete_item(item: Player): void {
-    // this.edited_index = this.players.indexOf(item)
-    // this.edited_item = Object.assign({}, item)
+    this.edited_id = item.id
+    this.edited_item = Object.assign({}, item)
     this.dialog_delete = true
   }
 
   delete_item_confirm(): void {
-    // this.players.splice(this.edited_index, 1)
+    const delete_id = this.edited_id
+    this.edited_id = ""
     this.close_delete()
+    this.$nextTick(() => {
+      this.delete_player(delete_id)
+    })
   }
 
   close(): void {
+    this.resetValidation()
     this.dialog = false
     this.$nextTick(() => {
-      // this.edited_item = Object.assign({}, this.default_item)
-      // this.edited_index = -1
+      this.edited_item = Object.assign({}, this.default_item)
+      this.edited_id = ""
     })
   }
 
   close_delete(): void {
     this.dialog_delete = false
     this.$nextTick(() => {
-      // this.edited_item = Object.assign({}, this.default_item)
-      // this.edited_index = -1
+      this.edited_item = Object.assign({}, this.default_item)
+      this.edited_id = ""
     })
   }
 
   save(): void {
-    if (this.edited_index > -1) {
-      // Object.assign(this.players[this.edited_index], this.edited_item)
-    } else {
-      // this.players.push(this.edited_item)
-    }
+    this.set_player(this.edited_item)
     this.close()
   }
 
-  validate(): void {
-    this.form.validate()
-  }
-  reset(): void {
-    this.form.reset()
-  }
   resetValidation(): void {
     this.form.resetValidation()
   }

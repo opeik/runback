@@ -44,8 +44,8 @@ export default class extends Vue {
     "Protecting Russia's skies",
     // Guilty Gear
     "Dragon Intalling",
-    "Buffering fafnir",
-    "UMEHARA GA KIMETAAAAAAAAAAAAAA",
+    "Counter-hitting fafnir",
+    "UMEHARA GA KIMETAAAAA",
     "Riding the lightning",
     "Knowing the smell of the game",
     // BlazBlue
@@ -54,7 +54,7 @@ export default class extends Vue {
     // Tekken
     "Complaining about Paul's damage",
     "Nerfing Gigas",
-    "Mashing round start hopkick",
+    "Mashing hopkick",
     // Marvel
     "Explaining the DHC glitch",
     // Dragon Ball
