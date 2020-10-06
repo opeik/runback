@@ -12,35 +12,11 @@ import {
   PlayerScore,
   Scoreboard,
   Settings,
-} from "Runback/../../schemas"
+} from "Runback/_types/"
 
 Vue.use(Vuex)
 
 const num_players = 2
-
-const new_commentator = (): Commentator => ({
-  player_id: "",
-})
-
-const new_player = (): Player => ({
-  id: "",
-  smash_gg_id: "",
-  name: "",
-  team: "",
-  gamer_tag: "",
-  country: "",
-  twitter: "",
-})
-
-const new_player_override = (): PlayerOverride => ({
-  should_override: false,
-  override: new_player(),
-})
-
-const new_player_score = (): PlayerScore => ({
-  player_id: "",
-  score: 0,
-})
 
 const default_bracket: Bracket = {
   bracket_stage: 0,
@@ -51,18 +27,18 @@ const default_bracket: Bracket = {
 
 let default_commentators: Commentators = {
   commentators: Array<Commentator>(num_players).fill(
-    new_commentator()
+    new Commentator()
   ) as Commentator[],
   overrides: Array<PlayerOverride>(num_players).fill(
-    new_player_override()
+    new PlayerOverride()
   ) as PlayerOverride[],
 }
 
 const default_players: Players = {} as Players
 
 const default_scoreboard: Scoreboard = {
-  scores: new Array<PlayerScore>(num_players).fill(new_player_score()),
-  overrides: new Array<PlayerOverride>(num_players).fill(new_player_override()),
+  scores: new Array<PlayerScore>(num_players).fill(new PlayerScore()),
+  overrides: new Array<PlayerOverride>(num_players).fill(new PlayerOverride()),
 }
 
 const default_settings: Settings = {
@@ -105,16 +81,16 @@ const store = new Vuex.Store({
     },
     /* Mutations to replicants start */
     set_dark_mode(state, dark_mode): void {
-      let settings: any = reps.settings.value
-      settings.dark_mode = dark_mode as boolean
+      let settings = reps.settings.value
+      settings!.dark_mode = dark_mode as boolean
     },
     set_smash_gg_api_key(state, smash_gg_api_key): void {
-      let settings: any = reps.settings.value
-      settings.smash_gg_api_key = smash_gg_api_key as string
+      let settings = reps.settings.value
+      settings!.smash_gg_api_key = smash_gg_api_key as string
     },
     set_live_dashboard_update(state, live_dashboard_update): void {
-      let settings: any = reps.settings.value
-      settings.live_dashboard_update = live_dashboard_update as boolean
+      let settings = reps.settings.value
+      settings!.live_dashboard_update = live_dashboard_update as boolean
     },
     /* Mutations to replicants end */
   },

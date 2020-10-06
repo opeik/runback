@@ -39,7 +39,7 @@
           "type": "boolean"
         },
         "override": {
-          "$ref": "Players.json#/definitions/Player"
+          "$ref": "Player.json"
         }
       },
       "required": ["override", "should_override"]

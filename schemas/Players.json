@@ -3,7 +3,7 @@
   "type": "object",
   "additionalProperties": {
     "type": "object",
-    "$ref": "#/definitions/Player",
+    "$ref": "Player.json",
     "additionalProperties": false,
     "required": [
       "id",
@@ -14,43 +14,5 @@
       "country",
       "twitter"
     ]
-  },
-  "definitions": {
-    "Player": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "smash_gg_id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "team": {
-          "type": "string"
-        },
-        "gamer_tag": {
-          "type": "string"
-        },
-        "country": {
-          "type": "string"
-        },
-        "twitter": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "id",
-        "smash_gg_id",
-        "name",
-        "team",
-        "gamer_tag",
-        "country",
-        "twitter"
-      ]
-    }
   }
 }

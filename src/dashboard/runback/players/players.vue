@@ -120,13 +120,15 @@
 <script lang="ts">
 import { Vue, Component, Watch, Ref } from "vue-property-decorator"
 import { State2Way } from "vuex-class-state2way"
+import { Player } from "Runback/_types/"
 
 @Component
 export default class Players extends Vue {
   @Ref("form") readonly form!: any
-  dialog = false
-  dialog_delete = false
-  form_valid = false
+
+  dialog: boolean = false
+  dialog_delete: boolean = false
+  form_valid: boolean = false
   search: string = ""
   headers = [
     { text: "Gamertag", value: "gamertag" },
@@ -136,22 +138,10 @@ export default class Players extends Vue {
     { text: "Twitter", value: "twitter" },
     { text: "Actions", value: "actions", sortable: false },
   ]
-  players: any[] = []
-  edited_index = -1
-  edited_item = {
-    gamertag: "",
-    name: "",
-    country: "",
-    team: "",
-    twitter: "",
-  }
-  default_item = {
-    gamertag: "",
-    name: "",
-    country: "",
-    team: "",
-    twitter: "",
-  }
+  players: Player[] = new Array<Player>()
+  edited_index: number = -1
+  edited_item: Player = new Player()
+  default_item: Player = new Player()
 
   gamertag_rules = [(v: string) => !!v || "Gamertag is required"]
   name_rules = [(v: string) => !!v || "Name is required"]
@@ -171,13 +161,13 @@ export default class Players extends Vue {
     val || this.close_delete()
   }
 
-  edit_item(item: any): void {
+  edit_item(item: Player): void {
     this.edited_index = this.players.indexOf(item)
     this.edited_item = Object.assign({}, item)
     this.dialog = true
   }
 
-  delete_item(item: any): void {
+  delete_item(item: Player): void {
     this.edited_index = this.players.indexOf(item)
     this.edited_item = Object.assign({}, item)
     this.dialog_delete = true
