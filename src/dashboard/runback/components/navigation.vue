@@ -8,6 +8,9 @@
     <v-list-item>
       <v-list-item-content>
         <v-list-item-title class="title">Runback</v-list-item-title>
+        <v-list-item-subtitle>
+          Verision {{ version }}, by <a :href="twitter">opeik</a>
+        </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
 
@@ -32,6 +35,9 @@ import { Vue, Component } from "vue-property-decorator"
 
 @Component
 export default class Navigation extends Vue {
+  readonly version = require("@/../package.json").version
+  readonly twitter: string = "https://twitter.com/iamopeik"
+
   items = [
     { title: "Dashboard", icon: "mdi-view-dashboard", link: "/" },
     { title: "Players", icon: "mdi-account-group", link: "players" },

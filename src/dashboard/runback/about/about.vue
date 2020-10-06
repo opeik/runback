@@ -13,17 +13,17 @@
               </v-avatar>
             </v-col>
             <v-col>
-              <v-row class="my-n6">
+              <v-row class="my-n4">
                 <v-col>
                   <span>Runback version {{ version }}</span>
                 </v-col>
               </v-row>
-              <v-row class="my-n6">
+              <v-row class="my-n4">
                 <v-col>
                   <span>Made by <a :href="twitter">opeik</a></span>
                 </v-col>
               </v-row>
-              <v-row class="my-n6">
+              <v-row class="my-n4">
                 <v-col>
                   <span> Source on <a :href="github">GitHub</a></span>
                 </v-col>
@@ -39,12 +39,10 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator"
 
-const VERSION = require("@/../package.json").version
-
 @Component
 export default class App extends Vue {
-  version: string = VERSION
-  github: string = "https://github.com/opeik/runback"
-  twitter: string = "https://twitter.com/iamopeik"
+  readonly version: string = require("@/../package.json").version
+  readonly github: string = "https://github.com/opeik/runback"
+  readonly twitter: string = "https://twitter.com/iamopeik"
 }
 </script>

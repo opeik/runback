@@ -15,7 +15,7 @@
             <span class="text-h4"> {{ load_quote }} </span>
           </v-col>
           <v-col cols="12" class="text-center">
-            <span class="text-h6">Starting server... </span>
+            <span class="text-h6"> Starting server... </span>
           </v-col>
         </v-row>
       </v-container>
