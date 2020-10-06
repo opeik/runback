@@ -13,8 +13,6 @@
 import { Vue, Component, Watch } from "vue-property-decorator"
 import { State2Way } from "vuex-class-state2way"
 
-import country_list from "country-list"
-
 @Component
 export default class extends Vue {
   @State2Way("set_dark_mode", "settings.dark_mode") dark_mode!: boolean
@@ -26,7 +24,6 @@ export default class extends Vue {
 
   mounted(): void {
     this.$vuetify.theme.dark = this.dark_mode
-    console.log(country_list.getCodeList())
   }
 }
 </script>

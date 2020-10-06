@@ -1,0 +1,3 @@
+[submodule "src/graphics/scoreboard/region-flags"]
+	path = src/graphics/scoreboard/img/region-flags
+	url = https://github.com/google/region-flags
