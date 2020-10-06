@@ -10,13 +10,13 @@ export = (nodecg: NodeCG): void => {
   const width = 1280
   const height = 900
   const url =
-    "http://localhost:9090/bundles/runback/dashboard/runback.html?standalone=true#/"
+    "http://localhost:9090/bundles/runback/dashboard/runback.html?standalone=true"
   const loading_url = "file://" + __dirname + "/../dashboard/loading.html"
   const main_load_delay = 10 * 1000
   const background_color = "#0f0f0f"
 
   function create_main_window() {
-    return new BrowserWindow({
+    let window = new BrowserWindow({
       show: false,
       width: width,
       height: height,
@@ -28,10 +28,25 @@ export = (nodecg: NodeCG): void => {
         nodeIntegration: true,
       },
     })
+
+    window.on("page-title-updated", (evt: any) => {
+      evt.preventDefault()
+    })
+
+    window.webContents.on("will-navigate", (event: any, url: string) => {
+      event.preventDefault()
+
+      // Stops a window being created while hot-reloading.
+      if (!url.startsWith("http://localhost")) {
+        shell.openExternal(url)
+      }
+    })
+
+    return window
   }
 
   function create_loading_window() {
-    return new BrowserWindow({
+    let window = new BrowserWindow({
       show: false,
       frame: true,
       resizable: false,
@@ -40,6 +55,12 @@ export = (nodecg: NodeCG): void => {
       title: "Runback",
       backgroundColor: background_color,
     })
+
+    window.on("page-title-updated", (evt: any) => {
+      evt.preventDefault()
+    })
+
+    return window
   }
 
   app.on("ready", () => {
@@ -49,7 +70,6 @@ export = (nodecg: NodeCG): void => {
 
     loading.webContents.on("dom-ready", () => {
       console.log("Load screen ready")
-
       loading.show()
       main = create_main_window()
       dummy = create_main_window()
@@ -59,7 +79,6 @@ export = (nodecg: NodeCG): void => {
       // then reloading the page appears to deal with this.
       dummy.once("ready-to-show", () => {
         console.log("Dummy ready")
-
         dummy.close()
         main.loadURL(url)
       })
@@ -70,29 +89,11 @@ export = (nodecg: NodeCG): void => {
 
       main.once("ready-to-show", () => {
         console.log("Main ready")
-
         let position = loading.getPosition()
         main.setPosition(position[0], position[1])
         main.show()
         loading.hide()
         loading.close()
-      })
-
-      main.on("page-title-updated", (evt: any) => {
-        evt.preventDefault()
-      })
-
-      loading.on("page-title-updated", (evt: any) => {
-        evt.preventDefault()
-      })
-
-      main.webContents.on("will-navigate", (event: any, url: string) => {
-        event.preventDefault()
-
-        // Stops a window being created while hot-reloading.
-        if (!url.startsWith("http://localhost")) {
-          shell.openExternal(url)
-        }
       })
     })
 

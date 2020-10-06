@@ -6,7 +6,7 @@
  */
 
 export interface Bracket {
-  bracket_stage?: number;
+  bracket_stage: number;
   bracket_side: number;
   grand_finals_side: number;
 }
