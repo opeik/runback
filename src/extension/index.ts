@@ -4,11 +4,11 @@ import { set } from "./util/nodecg"
 export = (nodecg: NodeCG): void => {
   set(nodecg)
 
-  const { app, BrowserWindow } = require("electron")
+  const { app, BrowserWindow, session } = require("electron")
   const shell = require("electron").shell
 
   const width = 1280
-  const height = 900
+  const height = 800
   const url =
     "http://localhost:9090/bundles/runback/dashboard/runback.html?standalone=true"
   const loading_url = "file://" + __dirname + "/../dashboard/loading.html"
@@ -24,9 +24,6 @@ export = (nodecg: NodeCG): void => {
       minHeight: 500,
       title: "Runback",
       backgroundColor: background_color,
-      webPreferences: {
-        nodeIntegration: true,
-      },
     })
 
     window.on("page-title-updated", (evt: any) => {
@@ -36,7 +33,7 @@ export = (nodecg: NodeCG): void => {
     window.webContents.on("will-navigate", (event: any, url: string) => {
       event.preventDefault()
 
-      // Stops a window being created while hot-reloading.
+      // Stops a window being created when hot-reloading.
       if (!url.startsWith("http://localhost")) {
         shell.openExternal(url)
       }
@@ -90,6 +87,7 @@ export = (nodecg: NodeCG): void => {
       main.once("ready-to-show", () => {
         console.log("Main ready")
         let position = loading.getPosition()
+
         main.setPosition(position[0], position[1])
         main.show()
         loading.hide()

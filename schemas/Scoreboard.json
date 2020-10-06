@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "scores": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PlayerScore"
+      }
+    },
+    "overrides": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PlayerOverride"
+      }
+    }
+  },
+  "required": ["scores", "overrides"],
+  "definitions": {
+    "PlayerScore": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "player_id": {
+          "type": "string"
+        },
+        "score": {
+          "type": "number"
+        }
+      },
+      "required": ["player_id", "score"]
+    },
+    "PlayerOverride": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "should_override": {
+          "type": "boolean"
+        },
+        "override": {
+          "$ref": "Players.json#/definitions/Player"
+        }
+      },
+      "required": ["override", "should_override"]
+    }
+  }
+}

@@ -5,13 +5,23 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export interface Scoreboard {
+  scores: PlayerScore[];
+  overrides: PlayerOverride[];
+}
+export interface PlayerScore {
+  player_id: string;
+  score: number;
+}
 export interface PlayerOverride {
   should_override: boolean;
   override: {
-    name?: string;
-    team?: string;
-    gamer_tag?: string;
-    country?: string;
-    twitter?: string;
+    id: string;
+    smash_gg_id: string;
+    name: string;
+    team: string;
+    gamer_tag: string;
+    country: string;
+    twitter: string;
   };
 }

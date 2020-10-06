@@ -4,28 +4,97 @@ import Vue from "vue"
 import Vuex, { Store } from "vuex"
 import {
   Bracket,
+  Commentator,
+  Commentators,
+  Player,
   Players,
   PlayerOverride,
-  Scores,
+  PlayerScore,
+  Scoreboard,
   Settings,
 } from "Runback/../../schemas"
 
 Vue.use(Vuex)
 
+const num_players = 2
+
+const new_commentator = (): Commentator => ({
+  player_id: "",
+})
+
+const new_player = (): Player => ({
+  id: "",
+  smash_gg_id: "",
+  name: "",
+  team: "",
+  gamer_tag: "",
+  country: "",
+  twitter: "",
+})
+
+const new_player_override = (): PlayerOverride => ({
+  should_override: false,
+  override: new_player(),
+})
+
+const new_player_score = (): PlayerScore => ({
+  player_id: "",
+  score: 0,
+})
+
+const default_bracket: Bracket = {
+  bracket_stage: 0,
+  bracket_side: 0,
+  grand_finals_side: 0,
+  custom_progress: "",
+}
+
+let default_commentators: Commentators = {
+  commentators: Array<Commentator>(num_players).fill(
+    new_commentator()
+  ) as Commentator[],
+  overrides: Array<PlayerOverride>(num_players).fill(
+    new_player_override()
+  ) as PlayerOverride[],
+}
+
+const default_players: Players = {} as Players
+
+const default_scoreboard: Scoreboard = {
+  scores: new Array<PlayerScore>(num_players).fill(new_player_score()),
+  overrides: new Array<PlayerOverride>(num_players).fill(new_player_override()),
+}
+
+const default_settings: Settings = {
+  dark_mode: true,
+  live_dashboard_update: false,
+  smash_gg_api_key: "",
+}
+
 // Replicants and their types
 const reps: {
   bracket: ReplicantBrowser<Bracket>
-  scores: ReplicantBrowser<Scores>
+  commentators: ReplicantBrowser<Commentators>
   players: ReplicantBrowser<Players>
-  player_override: ReplicantBrowser<PlayerOverride>
+  scoreboard: ReplicantBrowser<Scoreboard>
   settings: ReplicantBrowser<Settings>
   [k: string]: ReplicantBrowser<unknown>
 } = {
-  bracket: nodecg.Replicant("bracket"),
-  scores: nodecg.Replicant("scores"),
-  players: nodecg.Replicant("players"),
-  player_override: nodecg.Replicant("player_override"),
-  settings: nodecg.Replicant("settings"),
+  bracket: nodecg.Replicant("Bracket", {
+    defaultValue: default_bracket,
+  }),
+  commentators: nodecg.Replicant("Commentators", {
+    defaultValue: default_commentators,
+  }),
+  players: nodecg.Replicant("Players", {
+    defaultValue: default_players,
+  }),
+  scoreboard: nodecg.Replicant("Scoreboard", {
+    defaultValue: default_scoreboard,
+  }),
+  settings: nodecg.Replicant("Settings", {
+    defaultValue: default_settings,
+  }),
 }
 
 const store = new Vuex.Store({

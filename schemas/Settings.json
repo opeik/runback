@@ -17,10 +17,5 @@
         "dark_mode",
         "live_dashboard_update",
         "smash_gg_api_key"
-    ],
-    "default": {
-        "dark_mode": true,
-        "live_dashboard_update": false,
-        "smash_gg_api_key": ""
-    }
+    ]
 }
