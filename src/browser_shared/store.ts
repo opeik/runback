@@ -42,10 +42,6 @@ const reps: {
 
 @Module
 class Runback extends VuexModule {
-  get players_test(): Players {
-    return reps.players.value!
-  }
-
   @Mutation
   set_dark_mode(dark_mode: boolean): void {
     reps.settings.value!.dark_mode = dark_mode
@@ -72,8 +68,8 @@ class Runback extends VuexModule {
 
   @Mutation
   delete_player(player_id: string): void {
-    Vue.delete(this["players"], player_id)
-    Vue.nextTick(() => delete reps.players.value![player_id])
+    Vue.delete(this as any["players"], player_id)
+    delete reps.players.value![player_id]
   }
 }
 
