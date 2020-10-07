@@ -72,6 +72,7 @@
     "vuex": "^3.5.1",
     "vuex-class": "^0.3.2",
     "vuex-class-state2way": "^1.0.1",
+    "vuex-module-decorators": "^1.0.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-livereload-plugin": "^2.3.0"

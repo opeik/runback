@@ -11,11 +11,11 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator"
-import { State2Way } from "vuex-class-state2way"
+import { State } from "vuex-class"
 
 @Component
 export default class extends Vue {
-  @State2Way("set_dark_mode", "settings.dark_mode") dark_mode!: boolean
+  @State((state) => state.Runback.settings.dark_mode) dark_mode!: boolean
 
   @Watch("dark_mode")
   on_dark_mode_change(val: boolean): void {

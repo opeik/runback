@@ -117,13 +117,13 @@
 <script lang="ts">
 import { Vue, Component, Watch, Ref } from "vue-property-decorator"
 import { State2Way } from "vuex-class-state2way"
-import { Mutation, Action } from "vuex-class"
+import { Mutation, State } from "vuex-class"
 import { Player, Players } from "Runback/_types/"
 
 @Component
 export default class extends Vue {
+  @State((state) => state.Runback.players) players!: Players
   @Ref("form") readonly form!: any
-  @State2Way("set_players", "players") players!: Players
   @Mutation("set_player") set_player: any
   @Mutation("delete_player") delete_player: any
 
