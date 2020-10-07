@@ -24,7 +24,7 @@
           :items="players_array"
           item-text="gamertag"
           item-value="id"
-        >
+        />
         </v-autocomplete>
       </v-col>
     </v-row>
@@ -69,15 +69,6 @@ export default class ScoreboardEntry extends Vue {
 
   get players_array(): Player[] {
     return Object.values(this.players)
-  }
-
-  @Watch("score")
-  on_score_update(v: string): void {
-    let score = parseInt(v, 10)
-
-    if (score < 0) {
-      this.score = "0"
-    }
   }
 }
 </script>

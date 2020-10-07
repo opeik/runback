@@ -123,8 +123,8 @@ import type { ActionMethod } from "vuex"
 
 @Component
 export default class extends Vue {
-  @State((state) => state.Runback.players) players!: Players
   @Ref("form") readonly form!: any
+  @State((state) => state.Runback.players) players!: Players
   @Mutation("set_player") set_player!: ActionMethod
   @Mutation("delete_player") delete_player!: ActionMethod
 
@@ -189,7 +189,7 @@ export default class extends Vue {
   }
 
   close(): void {
-    this.resetValidation()
+    this.reset_validation()
     this.dialog = false
     this.$nextTick(() => {
       this.edited_item = Object.assign({}, this.default_item)
@@ -210,7 +210,7 @@ export default class extends Vue {
     this.close()
   }
 
-  resetValidation(): void {
+  reset_validation(): void {
     this.form.resetValidation()
   }
 }

@@ -7,7 +7,7 @@
           <v-switch
             label="Live dashboard update"
             v-model="live_dashboard_update"
-          ></v-switch>
+          />
           <v-row>
             <v-col cols="12" sm="8" md="4">
               <v-text-field

@@ -69,11 +69,29 @@ class Runback extends VuexModule {
 
   @Mutation
   delete_player(player_id: string): void {
+    reps.scoreboard.value!.scores.forEach((v, i) => {
+      if (v.player_id === player_id) {
+        reps.scoreboard.value!.scores[i].player_id = ""
+      }
+    })
+
+    reps.commentators.value!.commentators.forEach((v, i) => {
+      if (v.player_id === player_id) {
+        reps.commentators.value!.commentators[i].player_id = ""
+      }
+    })
+
     delete reps.players.value![player_id]
   }
 
   @Mutation
   set_scoreboard_score(args: { player_num: number; score: number }): void {
+    if (args.score < 0) {
+      args.score = 0
+    }
+
+    args.score = Math.trunc(args.score)
+
     reps.scoreboard.value!.scores[args.player_num].score = args.score
   }
 
@@ -92,6 +110,38 @@ class Runback extends VuexModule {
   }): void {
     reps.commentators.value!.commentators[args.commentator_num].player_id =
       args.player_id
+  }
+
+  @Mutation
+  set_scoreboard_should_override(args: {
+    player_num: number
+    should_override: boolean
+  }) {
+    reps.scoreboard.value!.overrides[args.player_num].should_override =
+      args.should_override
+  }
+
+  @Mutation
+  set_commentator_should_override(args: {
+    commentator_num: number
+    should_override: boolean
+  }) {
+    reps.commentators.value!.overrides[args.commentator_num].should_override =
+      args.should_override
+  }
+
+  @Mutation
+  set_scoreboard_override(args: { player_num: number; override: Player }) {
+    reps.scoreboard.value!.overrides[args.player_num].override = args.override
+  }
+
+  @Mutation
+  set_commentators_override(args: {
+    commentator_num: number
+    override: Player
+  }) {
+    reps.commentators.value!.overrides[args.commentator_num].override =
+      args.override
   }
 
   @Action
