@@ -10,6 +10,9 @@ import {
   Settings as SettingsI,
 } from "Runback/../../schemas"
 
+const num_players: number = 2
+const num_commentators: number = 2
+
 export class Bracket implements BracketI {
   bracket_stage: number = 0
   bracket_side: number = 0
@@ -22,8 +25,12 @@ export class Commentator implements CommentatorI {
 }
 
 export class Commentators implements CommentatorsI {
-  commentators: Commentator[] = new Array<Commentator>()
-  overrides: PlayerOverride[] = new Array<PlayerOverride>()
+  commentators: Commentator[] = new Array<Commentator>(num_commentators).fill(
+    new Commentator()
+  )
+  overrides: PlayerOverride[] = new Array<PlayerOverride>(
+    num_commentators
+  ).fill(new PlayerOverride())
 }
 
 export class Player implements PlayerI {
@@ -49,8 +56,12 @@ export class PlayerScore implements PlayerScoreI {
 }
 
 export class Scoreboard implements ScoreboardI {
-  scores: PlayerScore[] = new Array<PlayerScore>()
-  overrides: PlayerOverride[] = new Array<PlayerOverride>()
+  scores: PlayerScore[] = new Array<PlayerScore>(num_players).fill(
+    new PlayerScore()
+  )
+  overrides: PlayerOverride[] = new Array<PlayerOverride>(num_players).fill(
+    new PlayerOverride()
+  )
 }
 
 export class Settings implements SettingsI {

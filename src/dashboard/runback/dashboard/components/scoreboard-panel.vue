@@ -17,7 +17,7 @@
     <v-divider></v-divider>
     <v-row>
       <v-col v-for="i in num_players" :key="i">
-        <scoreboard-entry :player_num="i"></scoreboard-entry>
+        <scoreboard-entry :player_num="i - 1"></scoreboard-entry>
       </v-col>
     </v-row>
   </panel>

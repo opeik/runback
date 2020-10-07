@@ -9,6 +9,7 @@ import {
   Commentators,
   Player,
   Players,
+  PlayerScore,
   Scoreboard,
   Settings,
 } from "Runback/_types/"
@@ -68,8 +69,29 @@ class Runback extends VuexModule {
 
   @Mutation
   delete_player(player_id: string): void {
-    Vue.delete(this as any["players"], player_id)
     delete reps.players.value![player_id]
+  }
+
+  @Mutation
+  set_scoreboard_score(args: { player_num: number; score: number }): void {
+    reps.scoreboard.value!.scores[args.player_num].score = args.score
+  }
+
+  @Mutation
+  set_scoreboard_player_id(args: {
+    player_num: number
+    player_id: string
+  }): void {
+    reps.scoreboard.value!.scores[args.player_num].player_id = args.player_id
+  }
+
+  @Mutation
+  set_commentator_player_id(args: {
+    commentator_num: number
+    player_id: string
+  }): void {
+    reps.commentators.value!.commentators[args.commentator_num].player_id =
+      args.player_id
   }
 }
 

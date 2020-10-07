@@ -18,7 +18,7 @@ export default class extends Vue {
   @State((state) => state.Runback.settings.dark_mode) dark_mode!: boolean
 
   @Watch("dark_mode")
-  on_dark_mode_change(val: boolean): void {
+  on_dark_mode_change(v: boolean): void {
     this.$vuetify.theme.dark = this.dark_mode
   }
 

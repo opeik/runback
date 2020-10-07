@@ -13,7 +13,7 @@
     <v-divider></v-divider>
     <v-row>
       <v-col v-for="i in num_commentators" :key="i">
-        <commentary-entry :player_num="i"></commentary-entry>
+        <commentary-entry :commentator_num="i - 1"></commentary-entry>
       </v-col>
     </v-row>
   </panel>

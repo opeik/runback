@@ -119,13 +119,14 @@ import { Vue, Component, Watch, Ref } from "vue-property-decorator"
 import { State2Way } from "vuex-class-state2way"
 import { Mutation, State } from "vuex-class"
 import { Player, Players } from "Runback/_types/"
+import type { ActionMethod } from "vuex"
 
 @Component
 export default class extends Vue {
   @State((state) => state.Runback.players) players!: Players
   @Ref("form") readonly form!: any
-  @Mutation("set_player") set_player: any
-  @Mutation("delete_player") delete_player: any
+  @Mutation("set_player") set_player!: ActionMethod
+  @Mutation("delete_player") delete_player!: ActionMethod
 
   dialog: boolean = false
   dialog_delete: boolean = false
