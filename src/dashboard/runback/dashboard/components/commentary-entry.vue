@@ -20,7 +20,6 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator"
 import { Mutation, State } from "vuex-class"
-import { State2Way } from "vuex-class-state2way"
 import { Player, Players, Commentator, Commentators } from "Runback/_types/"
 import type { ActionMethod } from "vuex"
 

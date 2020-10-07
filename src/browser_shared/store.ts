@@ -93,6 +93,48 @@ class Runback extends VuexModule {
     reps.commentators.value!.commentators[args.commentator_num].player_id =
       args.player_id
   }
+
+  @Action
+  swap_players(): void {
+    let left: string = reps.scoreboard.value!.scores[0].player_id
+    let right: string = reps.scoreboard.value!.scores[1].player_id
+
+    this.context.commit("set_scoreboard_player_id", {
+      player_num: 0,
+      player_id: right,
+    })
+
+    this.context.commit("set_scoreboard_player_id", {
+      player_num: 1,
+      player_id: left,
+    })
+  }
+
+  @Action
+  swap_commentators(): void {
+    let left: string = reps.commentators.value!.commentators[0].player_id
+    let right: string = reps.commentators.value!.commentators[1].player_id
+
+    this.context.commit("set_commentator_player_id", {
+      commentator_num: 0,
+      player_id: right,
+    })
+
+    this.context.commit("set_commentator_player_id", {
+      commentator_num: 1,
+      player_id: left,
+    })
+  }
+
+  @Action
+  reset_score(): void {
+    for (let i = 0; i < reps.scoreboard.value!.scores.length; ++i) {
+      this.context.commit("set_scoreboard_score", {
+        player_num: i,
+        score: 0,
+      })
+    }
+  }
 }
 
 const store = new Vuex.Store({
