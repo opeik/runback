@@ -9,17 +9,21 @@
     "bracket_side": {
       "type": "number"
     },
-    "grand_finals_side": {
+    "grand_final_side": {
       "type": "number"
     },
     "custom_progress": {
       "type": "string"
+    },
+    "custom_progress_enabled": {
+      "type": "boolean"
     }
   },
   "required": [
     "bracket_stage",
     "bracket_side",
-    "grand_finals_side",
-    "custom_progress"
+    "grand_final_side",
+    "custom_progress",
+    "custom_progress_enabled"
   ]
 }

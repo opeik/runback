@@ -14,7 +14,7 @@
         </template>
         <v-card>
           <v-card-title>
-            <span class="headline">Details</span>
+            <span class="headline">Commentary details</span>
           </v-card-title>
 
           <v-card-text>

@@ -16,8 +16,9 @@ const num_commentators: number = 2
 export class Bracket implements BracketI {
   bracket_stage: number = 0
   bracket_side: number = 0
-  grand_finals_side: number = 0
+  grand_final_side: number = 0
   custom_progress: string = ""
+  custom_progress_enabled: boolean = false
 }
 
 export class Commentator implements CommentatorI {

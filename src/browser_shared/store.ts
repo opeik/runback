@@ -12,9 +12,12 @@ import {
   PlayerScore,
   Scoreboard,
   Settings,
+  Rules,
 } from "Runback/_types/"
 
 Vue.use(Vuex)
+
+const rules = new Rules()
 
 const reps: {
   bracket: ReplicantBrowser<Bracket>
@@ -141,6 +144,46 @@ class Runback extends VuexModule {
   }) {
     reps.commentators.value!.overrides[args.commentator_num].override =
       args.override
+  }
+
+  @Mutation
+  set_bracket_stage(bracket_stage: number) {
+    if (bracket_stage < 0 || bracket_stage > rules.stage_list.length) {
+      bracket_stage = 0
+    }
+
+    reps.bracket.value!.bracket_stage = bracket_stage
+  }
+
+  @Mutation
+  set_bracket_side(bracket_side: number) {
+    if (bracket_side < 0 || bracket_side > rules.side_list.length) {
+      bracket_side = 0
+    }
+
+    reps.bracket.value!.bracket_side = bracket_side
+  }
+
+  @Mutation
+  set_grand_final_side(grand_final_side: number) {
+    if (
+      grand_final_side <= 0 ||
+      grand_final_side > rules.grand_final_list.length
+    ) {
+      grand_final_side = 0
+    }
+
+    reps.bracket.value!.grand_final_side = grand_final_side
+  }
+
+  @Mutation
+  set_custom_progress(custom_progress: string) {
+    reps.bracket.value!.custom_progress = custom_progress
+  }
+
+  @Mutation
+  set_custom_progress_enabled(custom_progress_enabled: boolean) {
+    reps.bracket.value!.custom_progress_enabled = custom_progress_enabled
   }
 
   @Action

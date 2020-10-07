@@ -8,6 +8,7 @@
 export interface Bracket {
   bracket_stage: number;
   bracket_side: number;
-  grand_finals_side: number;
+  grand_final_side: number;
   custom_progress: string;
+  custom_progress_enabled: boolean;
 }
