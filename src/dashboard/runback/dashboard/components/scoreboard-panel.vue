@@ -211,10 +211,6 @@ export default class ScoreboardPanel extends Vue {
 
   clear(): void {
     this.edited_item = Object.assign({}, this.players[this.edited_id])
-    this.set_scoreboard_override({
-      player_num: this.selected_player_num,
-      override: this.edited_item,
-    })
   }
 }
 </script>

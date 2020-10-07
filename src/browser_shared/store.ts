@@ -91,7 +91,6 @@ class Runback extends VuexModule {
     }
 
     args.score = Math.trunc(args.score)
-
     reps.scoreboard.value!.scores[args.player_num].score = args.score
   }
 
@@ -122,7 +121,7 @@ class Runback extends VuexModule {
   }
 
   @Mutation
-  set_commentator_should_override(args: {
+  set_commentators_should_override(args: {
     commentator_num: number
     should_override: boolean
   }) {
