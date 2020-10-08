@@ -277,7 +277,7 @@ class Runback extends VuexModule {
       let current_version = new SemVer(version)
       let new_version = new SemVer(tag_name)
 
-      if (new_version >= current_version) {
+      if (new_version > current_version) {
         this.context.commit("set_is_out_of_date", true)
         this.context.commit("set_new_version", tag_name)
         found_new_version = true
