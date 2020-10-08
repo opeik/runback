@@ -21,7 +21,9 @@
             </v-list-item-group>
           </v-list>
 
-          <v-list flat subheader>
+          <v-divider />
+
+          <v-list subheader>
             <v-subheader>Smash.gg</v-subheader>
             <v-list-item>
               <v-row>

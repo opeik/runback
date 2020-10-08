@@ -1,10 +1,5 @@
 <template>
-  <v-navigation-drawer
-    app
-    permanent
-    :mini-variant="should_draw_mini"
-    class="pt-4"
-  >
+  <v-navigation-drawer app permanent :mini-variant="should_draw_mini">
     <v-list-item>
       <v-list-item-icon class="mr-4">
         <v-icon :size="icon_size">$logo</v-icon>
@@ -13,7 +8,7 @@
       <v-list-item-content>
         <v-list-item-title class="title">Runback</v-list-item-title>
         <v-list-item-subtitle>
-          Verision {{ version }}, by <a :href="twitter">opeik</a>
+          v{{ version }}, by <a :href="twitter">opeik</a>
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -55,7 +50,7 @@ export default class Navigation extends Vue {
   }
 
   get icon_size(): number {
-    return this.$vuetify.breakpoint.mdAndUp ? 48 : 24
+    return this.$vuetify.breakpoint.mdAndDown ? 24 : 72
   }
 }
 </script>
