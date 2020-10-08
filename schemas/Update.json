@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "is_out_of_date": {
+      "type": "boolean"
+    },
+    "new_version": {
+      "type": "string"
+    }
+  },
+  "required": ["is_out_of_date", "new_version"]
+}

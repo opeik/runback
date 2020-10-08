@@ -147,21 +147,6 @@
       accept="application/json"
       @change="import_players($event.target.files[0])"
     />
-
-    <v-snackbar v-model="snackbar" :color="snackbar_background_color">
-      {{ snackbar_text }}
-
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          text
-          v-bind="attrs"
-          :color="snackbar_button_color"
-          @click="snackbar = false"
-        >
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
   </v-row>
 </template>
 
@@ -171,6 +156,7 @@ import { Mutation, State, Action } from "vuex-class"
 import { Player, Players } from "Runback/_types/"
 import { saveAs } from "file-saver"
 import type { ActionMethod } from "vuex"
+import { EventBus } from "Runback/event-bus"
 
 @Component
 export default class extends Vue {
@@ -179,8 +165,8 @@ export default class extends Vue {
   @State((state) => state.Runback.players) players!: Players
   @Mutation("set_player") set_player!: ActionMethod
   @Mutation("create_player") create_player!: ActionMethod
-  @Action("import_players") import_players_mutation!: ActionMethod
   @Mutation("delete_player") delete_player!: ActionMethod
+  @Action("import_players") import_players_mutation!: ActionMethod
 
   dialog: boolean = false
   dialog_delete: boolean = false
@@ -199,11 +185,6 @@ export default class extends Vue {
   edited_item: Player = new Player()
   selected_items: Player[] = []
   readonly default_item: Player = new Player()
-
-  snackbar: boolean = false
-  snackbar_text: string = ""
-  snackbar_background_color: string = ""
-  snackbar_button_color: string = ""
 
   gamertag_rules = [(v: string) => !!v || "Gamertag is required"]
   name_rules = [(v: string) => !!v || "Name is required"]
@@ -229,6 +210,20 @@ export default class extends Vue {
     return this.$vuetify.breakpoint.mobile
   }
 
+  create_snackbar(
+    text: string,
+    color?: { button?: string; background?: string },
+    label?: string,
+    link?: string
+  ) {
+    EventBus.$emit("create-snackbar", {
+      text: text,
+      color: color,
+      label: label,
+      link: link,
+    })
+  }
+
   @Watch("dialog")
   on_dialog_change(val: String): void {
     val || this.close()
@@ -237,17 +232,6 @@ export default class extends Vue {
   @Watch("dialog_delete")
   on_dialog_delete_change(val: String): void {
     val || this.close_delete()
-  }
-
-  create_snackbar(
-    text: string,
-    background_color?: string,
-    button_color?: string
-  ) {
-    this.snackbar_background_color = background_color ? background_color : ""
-    this.snackbar_button_color = button_color ? button_color : ""
-    this.snackbar_text = text
-    this.snackbar = true
   }
 
   delete_selected(): void {
@@ -272,16 +256,18 @@ export default class extends Vue {
         this.import_players_mutation(players)
         this.create_snackbar("Successfully imported players")
       } catch (e) {
-        this.create_snackbar(
-          `Error occured importing players: ${e.message}`,
-          "error"
-        )
+        this.create_snackbar(`Error occured importing players: ${e.message}`, {
+          background: "error",
+        })
+
         console.error(e)
       }
     }
 
     file_reader.onerror = (event) => {
-      this.create_snackbar("Error occured while importing players", "error")
+      this.create_snackbar("Error occurred while reading players", {
+        background: "error",
+      })
     }
 
     file_reader.readAsText(file)
@@ -292,6 +278,7 @@ export default class extends Vue {
     let json = JSON.stringify(this.selected_items)
     let blob = new Blob([json], { type: "text/plain;charset=utf-8" })
     saveAs(blob, "Exported players.json")
+    this.create_snackbar("Successfully exported players")
   }
 
   edit_item(item: Player): void {

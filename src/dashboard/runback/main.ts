@@ -17,6 +17,7 @@ import CommentaryPanel from "Runback/dashboard/components/commentary-panel.vue"
 import CommentaryEntry from "Runback/dashboard/components/commentary-entry.vue"
 import EventPanel from "Runback/dashboard/components/event-panel.vue"
 import Logo from "Runback/components/logo.vue"
+import Snackbar from "Runback/components/snackbar.vue"
 
 Vue.component("panel", Panel)
 Vue.component("navigation", Navigation)
@@ -28,6 +29,7 @@ Vue.component("commentary-panel", CommentaryPanel)
 Vue.component("commentary-entry", CommentaryEntry)
 Vue.component("event-panel", EventPanel)
 Vue.component("logo", Logo)
+Vue.component("snackbar", Snackbar)
 
 waitForReplicants().then((store) => {
   new Vue({
