@@ -34,13 +34,11 @@ export default class extends Vue {
     "Disrespecting your plus frames",
     // Street Fighter
     "Parrying your super",
-    "Waking up dp'ing",
     "Fighting like gentlemen",
     "Fighting a new rival",
     "Keeping it classy",
     "Protecting Russia's skies",
     // Guilty Gear
-    "Dragon Intalling",
     "Counter-hitting fafnir",
     "Riding the lightning",
     "Knowing the smell of the game",
