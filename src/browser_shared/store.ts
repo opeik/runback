@@ -14,6 +14,7 @@ import {
   Settings,
   Rules,
 } from "Runback/_types/"
+import UUID from "pure-uuid"
 
 Vue.use(Vuex)
 
@@ -62,12 +63,21 @@ class Runback extends VuexModule {
   }
 
   @Mutation
-  set_player(player: Player): void {
-    if (player.id.length === 0) {
+  create_player(player: Player): void {
+    while (player.id in reps.players.value! || player.id.length === 0) {
       player.id = new Uuid(4).toString()
     }
 
     reps.players.value![player.id] = player
+  }
+
+  @Mutation
+  set_player(player: Player): void {
+    if (!(player.id in reps.players.value!)) {
+      console.error("Invalid player id to update")
+    } else {
+      reps.players.value![player.id] = player
+    }
   }
 
   @Mutation
@@ -184,6 +194,14 @@ class Runback extends VuexModule {
   @Mutation
   set_custom_progress_enabled(custom_progress_enabled: boolean) {
     reps.bracket.value!.custom_progress_enabled = custom_progress_enabled
+  }
+
+  @Action
+  import_players(players: Player[]) {
+    for (let player of players) {
+      player.id = ""
+      this.context.commit("create_player", player)
+    }
   }
 
   @Action

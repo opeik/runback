@@ -3,11 +3,13 @@
     <v-col>
       <v-card>
         <v-data-table
+          v-model="selected_items"
           :headers="headers"
           :items="players_array"
           :search="search"
           :items-per-page="15"
           sort-by="gamertag"
+          show-select
         >
           <template v-slot:top>
             <v-toolbar flat>
@@ -24,12 +26,38 @@
               </v-row>
 
               <v-spacer></v-spacer>
+
+              <v-btn
+                class="mx-2"
+                @click="delete_selected"
+                :disabled="!are_items_selected"
+                v-if="!is_mobile"
+                >Delete</v-btn
+              >
+
+              <v-btn
+                class="mx-2"
+                @click="export_players"
+                :disabled="!are_items_selected"
+                v-if="!is_mobile"
+                >Export</v-btn
+              >
+
+              <v-divider vertical class="mx-2" />
+
+              <v-btn
+                class="mx-2"
+                @click="input_upload.click()"
+                v-if="!is_mobile"
+                >Import</v-btn
+              >
+
               <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
                     color="primary"
                     dark
-                    class="mt-1"
+                    class="mt-1 ml-2"
                     v-bind="attrs"
                     v-on="on"
                   >
@@ -111,21 +139,47 @@
         </v-data-table>
       </v-card>
     </v-col>
+
+    <input
+      v-show="false"
+      ref="input_upload"
+      type="file"
+      accept="application/json"
+      @change="import_players($event.target.files[0])"
+    />
+
+    <v-snackbar v-model="snackbar" :color="snackbar_background_color">
+      {{ snackbar_text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          text
+          v-bind="attrs"
+          :color="snackbar_button_color"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-row>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Watch, Ref } from "vue-property-decorator"
-import { State2Way } from "vuex-class-state2way"
-import { Mutation, State } from "vuex-class"
+import { Mutation, State, Action } from "vuex-class"
 import { Player, Players } from "Runback/_types/"
+import { saveAs } from "file-saver"
 import type { ActionMethod } from "vuex"
 
 @Component
 export default class extends Vue {
   @Ref("form") readonly form!: any
+  @Ref("input_upload") readonly input_upload!: HTMLInputElement
   @State((state) => state.Runback.players) players!: Players
   @Mutation("set_player") set_player!: ActionMethod
+  @Mutation("create_player") create_player!: ActionMethod
+  @Action("import_players") import_players_mutation!: ActionMethod
   @Mutation("delete_player") delete_player!: ActionMethod
 
   dialog: boolean = false
@@ -143,7 +197,13 @@ export default class extends Vue {
 
   edited_id: string = ""
   edited_item: Player = new Player()
+  selected_items: Player[] = []
   readonly default_item: Player = new Player()
+
+  snackbar: boolean = false
+  snackbar_text: string = ""
+  snackbar_background_color: string = ""
+  snackbar_button_color: string = ""
 
   gamertag_rules = [(v: string) => !!v || "Gamertag is required"]
   name_rules = [(v: string) => !!v || "Name is required"]
@@ -154,7 +214,19 @@ export default class extends Vue {
   }
 
   get form_title(): string {
-    return this.edited_id.length === 0 ? "New player" : "Edit player"
+    return this.is_new_player ? "New player" : "Edit player"
+  }
+
+  get is_new_player(): boolean {
+    return this.edited_id.length === 0
+  }
+
+  get are_items_selected(): boolean {
+    return this.selected_items.length !== 0
+  }
+
+  get is_mobile(): boolean {
+    return this.$vuetify.breakpoint.mobile
   }
 
   @Watch("dialog")
@@ -165,6 +237,61 @@ export default class extends Vue {
   @Watch("dialog_delete")
   on_dialog_delete_change(val: String): void {
     val || this.close_delete()
+  }
+
+  create_snackbar(
+    text: string,
+    background_color?: string,
+    button_color?: string
+  ) {
+    this.snackbar_background_color = background_color ? background_color : ""
+    this.snackbar_button_color = button_color ? button_color : ""
+    this.snackbar_text = text
+    this.snackbar = true
+  }
+
+  delete_selected(): void {
+    for (const player_id of this.selected_items) {
+      this.$nextTick(() => {
+        this.delete_player(player_id.id)
+      })
+    }
+
+    this.selected_items = []
+  }
+
+  import_players(file: File): void {
+    const file_reader = new FileReader()
+
+    file_reader.onload = (event) => {
+      file_reader.abort()
+
+      try {
+        let json = event!.target!.result!.toString()
+        let players: Players[] = JSON.parse(json)
+        this.import_players_mutation(players)
+        this.create_snackbar("Successfully imported players")
+      } catch (e) {
+        this.create_snackbar(
+          `Error occured importing players: ${e.message}`,
+          "error"
+        )
+        console.error(e)
+      }
+    }
+
+    file_reader.onerror = (event) => {
+      this.create_snackbar("Error occured while importing players", "error")
+    }
+
+    file_reader.readAsText(file)
+    this.input_upload.value = ""
+  }
+
+  export_players(): void {
+    let json = JSON.stringify(this.selected_items)
+    let blob = new Blob([json], { type: "text/plain;charset=utf-8" })
+    saveAs(blob, "Exported players.json")
   }
 
   edit_item(item: Player): void {
@@ -206,7 +333,12 @@ export default class extends Vue {
   }
 
   save(): void {
-    this.set_player(this.edited_item)
+    if (this.is_new_player) {
+      this.create_player(this.edited_item)
+    } else {
+      this.set_player(this.edited_item)
+    }
+
     this.close()
   }
 

@@ -32,7 +32,6 @@ export default class extends Vue {
     // Misc
     "Demanding rollback netcode",
     "Disrespecting your plus frames",
-    "Completing the download",
     // Street Fighter
     "Parrying your super",
     "Waking up dp'ing",
@@ -43,7 +42,6 @@ export default class extends Vue {
     // Guilty Gear
     "Dragon Intalling",
     "Counter-hitting fafnir",
-    "UMEHARA GA KIMETAAAAA",
     "Riding the lightning",
     "Knowing the smell of the game",
     // BlazBlue
