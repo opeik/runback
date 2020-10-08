@@ -4,6 +4,7 @@ import Vuetify from "vuetify/lib"
 import "./common.css"
 import "./fonts/roboto.css"
 import colors from "vuetify/lib/util/colors"
+import Logo from "Runback/components/logo.vue"
 
 Vue.use(Vuetify)
 
@@ -18,6 +19,13 @@ export default new Vuetify({
       dark: {
         primary: colors.deepPurple.lighten1,
         accent: colors.deepPurple.accent1,
+      },
+    },
+  },
+  icons: {
+    values: {
+      logo: {
+        component: Logo,
       },
     },
   },

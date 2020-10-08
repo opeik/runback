@@ -16,6 +16,7 @@ import BracketPanel from "Runback/dashboard/components/bracket-panel.vue"
 import CommentaryPanel from "Runback/dashboard/components/commentary-panel.vue"
 import CommentaryEntry from "Runback/dashboard/components/commentary-entry.vue"
 import EventPanel from "Runback/dashboard/components/event-panel.vue"
+import Logo from "Runback/components/logo.vue"
 
 Vue.component("panel", Panel)
 Vue.component("navigation", Navigation)
@@ -26,6 +27,7 @@ Vue.component("bracket-panel", BracketPanel)
 Vue.component("commentary-panel", CommentaryPanel)
 Vue.component("commentary-entry", CommentaryEntry)
 Vue.component("event-panel", EventPanel)
+Vue.component("logo", Logo)
 
 waitForReplicants().then((store) => {
   new Vue({
