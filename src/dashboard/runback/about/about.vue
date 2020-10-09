@@ -4,7 +4,7 @@
       <v-card>
         <v-card-text>
           <v-row align="center">
-            <v-list class="ml-2 mb-2 mt-n2">
+            <v-list class="ml-2 mt-n4">
               <v-list-item>
                 <v-list-item-icon class="mr-8">
                   <v-icon :size="100">$logo</v-icon>
