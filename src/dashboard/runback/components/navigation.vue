@@ -8,7 +8,7 @@
       <v-list-item-content>
         <v-list-item-title class="title">Runback</v-list-item-title>
         <v-list-item-subtitle>
-          v{{ version }}, by <a :href="twitter">opeik</a>
+          By <a :href="twitter">opeik</a>
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>

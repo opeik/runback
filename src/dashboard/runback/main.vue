@@ -33,12 +33,7 @@ export default class extends Vue {
     this.$vuetify.theme.dark = this.dark_mode
     await this.check_up_to_date()
     if (this.update.is_out_of_date) {
-      this.create_snackbar(
-        `New update available: ${this.update.new_version}`,
-        {},
-        "Update",
-        "/about"
-      )
+      this.create_snackbar("Runback is out of date", {}, "Update", "/about")
     }
   }
 

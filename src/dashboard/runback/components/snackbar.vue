@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar app v-model="snackbar" :color="snackbar_background_color">
+  <v-snackbar app v-model="snackbar" :color="background_color">
     {{ text }}
 
     <template v-slot:action="{ attrs }">
@@ -24,7 +24,7 @@ import { EventBus } from "Runback/event-bus"
 export default class Snackbar extends Vue {
   snackbar: boolean = false
   text: string = ""
-  background_color: string = ""
+  background_color = ""
   button_color: string = ""
   label: string = ""
   link: string = ""
