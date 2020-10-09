@@ -13,7 +13,7 @@
                 <v-btn class="mx-4" @click="copy_url(base_url + graphic.url)"
                   >Copy URL</v-btn
                 >
-                <v-btn :href="base_url + graphic.url">Open</v-btn>
+                <v-btn :href="base_url + graphic.url" class="mr-4">Open</v-btn>
               </v-row>
             </v-list-item-action>
           </v-list-item>

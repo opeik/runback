@@ -2,10 +2,10 @@
   <v-row>
     <v-col cols="12" md="6">
       <v-container>
-        <v-row align="center">
-          <v-list class="ml-2 mt-n4">
+        <v-list>
+          <v-list class="ml-4 mt-2 mb-2">
             <v-list-item>
-              <v-list-item-icon class="mr-8">
+              <v-list-item-icon class="">
                 <v-icon :size="100">$logo</v-icon>
               </v-list-item-icon>
 
@@ -21,49 +21,49 @@
               <v-list-item-action> </v-list-item-action>
             </v-list-item>
           </v-list>
-        </v-row>
 
-        <v-divider class="py-2" />
+          <v-divider class="py-2" />
 
-        <v-row align="center">
-          <v-col>
-            <v-row align="center">
-              <v-col cols="2" class="text-center my-2">
-                <v-progress-circular
-                  v-if="checking_for_updates"
-                  indeterminate
-                  color="primary"
-                  size="24"
-                ></v-progress-circular>
-                <v-icon v-else> {{ icon_name }} </v-icon>
-              </v-col>
-              <v-col cols="auto">
-                <v-list class="ml-n4">
-                  <v-list-item class="my-n6">
-                    <v-list-item-content>
-                      <v-list-item-subtitle>
-                        {{ message }}
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
+          <v-row align="center">
+            <v-col>
+              <v-row align="center">
+                <v-col cols="2" class="text-center my-2 ml-2">
+                  <v-progress-circular
+                    v-if="checking_for_updates"
+                    indeterminate
+                    color="primary"
+                    size="24"
+                  ></v-progress-circular>
+                  <v-icon v-else> {{ icon_name }} </v-icon>
+                </v-col>
+                <v-col cols="auto">
+                  <v-list class="ml-n6">
+                    <v-list-item class="my-n6">
+                      <v-list-item-content>
+                        <v-list-item-subtitle>
+                          {{ message }}
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
+                    </v-list-item>
 
-                  <v-list-item
-                    class="my-n6"
-                    v-if="is_out_of_date && !checking_for_updates"
-                  >
-                    <v-list-item-content>
-                      <v-list-item-subtitle>
-                        <a :href="new_version_url">
-                          Version {{ new_version }} available
-                        </a>
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
+                    <v-list-item
+                      class="my-n6"
+                      v-if="is_out_of_date && !checking_for_updates"
+                    >
+                      <v-list-item-content>
+                        <v-list-item-subtitle>
+                          <a :href="new_version_url">
+                            Version {{ new_version }} available
+                          </a>
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-list>
       </v-container>
     </v-col>
   </v-row>
