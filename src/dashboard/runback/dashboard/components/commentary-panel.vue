@@ -114,7 +114,6 @@ export default class CommentaryPanel extends Vue {
   readonly default_item: Player = new Player()
 
   edited_id: string = ""
-  num_players: number = 0
   dialog: boolean = false
   form_valid: boolean = false
   edited_item: Player = new Player()

@@ -106,7 +106,7 @@ export default class BracketPanel extends Vue {
   }
 
   get is_grand_final(): boolean {
-    return this.bracket_stage === this.rules.grand_final
+    return this.rules.is_grand_final(this.bracket_stage)
   }
 }
 </script>

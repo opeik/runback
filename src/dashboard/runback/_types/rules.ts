@@ -28,13 +28,17 @@ export class Rules {
   ]
   readonly winners_text: string = "W"
   readonly losers_text: string = "L"
-  readonly finals_is_winner: Array<{ p1: boolean; p2: boolean }> = [
-    { p1: true, p2: false },
-    { p1: false, p2: true },
-    { p1: false, p2: false },
+  readonly grand_final_is_winner: Array<Array<boolean>> = [
+    [true, false],
+    [false, true],
+    [false, false],
   ]
 
-  is_grand_finals(stage: number) {
-    return stage === this.grand_final
+  is_grand_final(stage: number) {
+    return stage === this.grand_final_stage
+  }
+
+  is_winners(grand_final_side: number, player_num: number): boolean {
+    return this.grand_final_is_winner[grand_final_side - 1][player_num]
   }
 }
