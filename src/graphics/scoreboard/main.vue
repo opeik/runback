@@ -29,7 +29,7 @@
             multiLine: false,
           }"
         >
-          {{ local.bracket_stage }}
+          {{ local.progress }}
         </fitty>
       </div>
 
@@ -253,11 +253,39 @@ export default class App extends Vue {
     players: new Array<Player>(this.num_players).fill(new Player()),
     scores: new Array<number>(this.num_players).fill(0),
     grand_final_is_winners: new Array<boolean>(this.num_players).fill(false),
-    bracket_stage: 0,
+    progress: "",
   }
 
   get bracket_stage(): number {
     return this.bracket.bracket_stage
+  }
+
+  get progress(): string {
+    let progress: string = ""
+
+    if (this.custom_progress_enabled) {
+      progress = this.custom_progress
+    } else if (
+      this.rules.is_grand_final(this.bracket_stage) ||
+      this.bracket_side === this.rules.none_side
+    ) {
+      progress = this.rules.stage_list[this.bracket_stage - 1].text
+    } else {
+      progress =
+        this.rules.side_list[this.bracket_side - 1].text +
+        " " +
+        this.rules.stage_list[this.bracket_stage - 1].text
+    }
+
+    return progress
+  }
+
+  get custom_progress_enabled(): boolean {
+    return this.bracket.custom_progress_enabled
+  }
+
+  get custom_progress(): string {
+    return this.bracket.custom_progress
   }
 
   get is_grand_final(): boolean {
@@ -268,13 +296,16 @@ export default class App extends Vue {
     return this.bracket.grand_final_side
   }
 
+  get bracket_side(): number {
+    return this.bracket.bracket_side
+  }
+
   mounted(): void {
     this.local.players.forEach((e, i) => {
-      console.log(e, i)
       this.local.players[i] = this.players[this.player_id_from_num(i)]
       this.local.grand_final_is_winners[i] = this.player_is_winners_from_num(i)
     })
-    this.local.bracket_stage = this.bracket_stage
+    this.local.progress = this.progress
     this.setup_animation_events()
   }
 
@@ -291,7 +322,6 @@ export default class App extends Vue {
       country = "au"
     }
 
-    console.log("./img/region-flags/svg/" + country.toUpperCase() + ".svg")
     return require("./img/region-flags/svg/" + country.toUpperCase() + ".svg")
   }
 
@@ -418,7 +448,7 @@ export default class App extends Vue {
         } else if (animation_event.animationName === "ani-text-out") {
           this.updating.bracket_stage = false
           this.entering.bracket_stage = true
-          this.local.bracket_stage = this.bracket_stage
+          this.local.progress = this.progress
         }
       },
     },

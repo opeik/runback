@@ -34,6 +34,10 @@ export class Rules {
     [false, false],
   ]
 
+  get none_side(): number {
+    return this.side_list.findIndex((e) => e.text === "None") + 1
+  }
+
   is_grand_final(stage: number) {
     return stage === this.grand_final_stage
   }
