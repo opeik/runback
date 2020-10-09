@@ -2,22 +2,61 @@
   <v-row>
     <v-col cols="12" md="6">
       <v-card>
-        <v-list-item>
-          <v-list-item-icon class="mr-8">
-            <v-icon :size="125">$logo</v-icon>
-          </v-list-item-icon>
+        <v-row align="center">
+          <v-col cols="auto">
+            <v-row align="center">
+              <v-col cols="auto">
+                <v-icon class="ml-6" size="125">$logo</v-icon>
+              </v-col>
+              <v-col cols="auto">
+                <v-list class="ml-n2">
+                  <v-list-item class="my=n6">
+                    <v-list-item-content>
+                      <v-list-item-title class="text-h6"
+                        >Runback</v-list-item-title
+                      >
+                    </v-list-item-content>
+                  </v-list-item>
 
-          <v-list-item-content>
-            <v-list-item-title class="title">Runback</v-list-item-title>
-            <v-list-item-subtitle> Version {{ version }} </v-list-item-subtitle>
-            <v-list-item-subtitle>
-              Developed by <a :href="twitter">opeik</a>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-action> </v-list-item-action>
-        </v-list-item>
-        <v-divider />
-        <v-list-item> Updates here </v-list-item>
+                  <v-list-item class="my-n6">
+                    <v-list-item-content>
+                      <v-list-item-subtitle
+                        >Version {{ version }}
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+
+                  <v-list-item>
+                    <v-list-item-content class="my-n6">
+                      <v-list-item-subtitle>
+                        Developed by <a :href="twitter">opeik</a>
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-col>
+            </v-row>
+          </v-col>
+
+          <v-divider vertical class="my-6" />
+
+          <v-col cols="auto">
+            <v-row align="center">
+              <v-col cols="auto" class="text-subtitle-2">
+                <span class="ml-2">
+                  {{ message }}
+                </span>
+              </v-col>
+              <v-col cols="auto" v-if="checking_for_updates">
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                  class="ml-n2"
+                ></v-progress-circular>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
       </v-card>
     </v-col>
   </v-row>
@@ -38,8 +77,26 @@ export default class extends Vue {
   @State((state) => state.Runback.update) update!: Update
   @Action("check_up_to_date") check_up_to_date!: ActionMethod
 
+  checking_for_updates: boolean = false
+
+  get message(): string {
+    if (this.checking_for_updates) {
+      return "Checking for updates..."
+    } else if (this.update.is_out_of_date) {
+      return `Out of date, new version ${this.update.new_version}.`
+    } else {
+      return "Up to date!"
+    }
+  }
+
+  async mounted(): Promise<void> {
+    await this.check_updates()
+  }
+
   async check_updates(): Promise<void> {
+    this.checking_for_updates = true
     await this.check_up_to_date()
+    this.checking_for_updates = false
     console.log(this.update.is_out_of_date)
   }
 }
