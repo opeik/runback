@@ -15,7 +15,7 @@
       <img id="main-panel" src="./img/main.svg" />
 
       <div
-        id="bracket_stage-text-wrapper"
+        id="bracket-stage-text-wrapper"
         :class="[
           entering.bracket_stage ? 'text-in' : '',
           updating.bracket_stage ? 'text-out' : '',
@@ -69,10 +69,10 @@
         id="p1-grand-final-side-wrapper"
         class="grand-final-side-wrapper"
         :class="[
-          entering.grand_final_side && isGrandFinals
+          entering.grand_final_side && is_grand_final
             ? 'p1-grand-final-side-in'
             : '',
-          entering.main || !isGrandFinals ? 'p1-grand-final-side-initial' : '',
+          entering.main || !is_grand_final ? 'p1-grand-final-side-initial' : '',
           updating.grand_final_side ? 'p1-grand_final-side-out' : '',
         ]"
       >
@@ -95,11 +95,11 @@
         id="p2-grand-final-side-wrapper"
         class="grand-final-side-wrapper"
         :class="[
-          entering.grand_final_side && isGrandFinals
-            ? 'p2-grand_final_side-in'
+          entering.grand_final_side && is_grand_final
+            ? 'p2-grand-final-side-in'
             : '',
-          entering.main || !isGrandFinals ? 'p2-grand_final_side-initial' : '',
-          updating.grand_final_side ? 'p2-grand_final_side-out' : '',
+          entering.main || !is_grand_final ? 'p2-grand-final-side-initial' : '',
+          updating.grand_final_side ? 'p2-grand-final-side-out' : '',
         ]"
       >
         <img :src="side_panel_path(1)" />
@@ -109,7 +109,7 @@
         >
           <span>
             {{
-              local.grand_final_is_winners[0]
+              local.grand_final_is_winners[1]
                 ? rules.winners_text
                 : rules.losers_text
             }}
@@ -244,9 +244,16 @@ export default class App extends Vue {
   readonly cjk_font_size_ratio = 0.8
   readonly num_players = 2
 
-  font_sizes = {
+  readonly font_sizes = {
     name: 45,
     bracket_stage: 35,
+  }
+
+  local = {
+    players: new Array<Player>(this.num_players).fill(new Player()),
+    scores: new Array<number>(this.num_players).fill(0),
+    grand_final_is_winners: new Array<boolean>(this.num_players).fill(false),
+    bracket_stage: 0,
   }
 
   get bracket_stage(): number {
@@ -261,7 +268,7 @@ export default class App extends Vue {
     return this.bracket.grand_final_side
   }
 
-  created(): void {
+  mounted(): void {
     this.local.players.forEach((e, i) => {
       console.log(e, i)
       this.local.players[i] = this.players[this.player_id_from_num(i)]
@@ -280,6 +287,11 @@ export default class App extends Vue {
   }
 
   flag_image_path(country: string): string {
+    if (country.length === 0) {
+      country = "au"
+    }
+
+    console.log("./img/region-flags/svg/" + country.toUpperCase() + ".svg")
     return require("./img/region-flags/svg/" + country.toUpperCase() + ".svg")
   }
 
@@ -334,11 +346,10 @@ export default class App extends Vue {
     scores: new Array<boolean>(this.num_players).fill(false),
   }
 
-  local = {
-    players: new Array<Player>(this.num_players).fill(new Player()),
-    scores: new Array<number>(this.num_players).fill(0),
-    grand_final_is_winners: new Array<boolean>(this.num_players).fill(false),
-    bracket_stage: 0,
+  setup_animation_events(): void {
+    this.animation_end_events.forEach((e) => {
+      document.querySelector(e.id)?.addEventListener("animationend", e.c)
+    })
   }
 
   text_wrapper_callback(event: Event | undefined, player_num: number): void {
@@ -436,12 +447,6 @@ export default class App extends Vue {
       },
     },
   ]
-
-  setup_animation_events(): void {
-    this.animation_end_events.forEach((e) => {
-      document.querySelector(e.id)!.addEventListener("animationend", e.c)
-    })
-  }
 }
 </script>
 
@@ -545,7 +550,7 @@ img {
   transform: translateX(-50%);
 }
 
-#bracket_stage-text-wrapper {
+#bracket-stage-text-wrapper {
   position: absolute;
   top: var(--bracket_stage-text-offset-y);
   left: var(--bracket_stage-text-offset-x);
@@ -556,7 +561,7 @@ img {
   transform: translateX(-50%);
 }
 
-#bracket_stage-text {
+#bracket-stage-text {
   color: white;
   font-family: "Bebas Neue Regular", "Rounded Mplus Regular";
 }
