@@ -157,6 +157,7 @@ import { Player, Players } from "Runback/_types/"
 import { saveAs } from "file-saver"
 import type { ActionMethod } from "vuex"
 import { EventBus } from "Runback/event-bus"
+import Snackbar from "Runback/components/snackbar.vue"
 
 @Component
 export default class extends Vue {
@@ -210,20 +211,6 @@ export default class extends Vue {
     return this.$vuetify.breakpoint.mobile
   }
 
-  create_snackbar(
-    text: string,
-    color?: { button?: string; background?: string },
-    label?: string,
-    link?: string
-  ) {
-    EventBus.$emit("create-snackbar", {
-      text: text,
-      color: color,
-      label: label,
-      link: link,
-    })
-  }
-
   @Watch("dialog")
   on_dialog_change(val: String): void {
     val || this.close()
@@ -254,18 +241,21 @@ export default class extends Vue {
         let json = event!.target!.result!.toString()
         let players: Players[] = JSON.parse(json)
         this.import_players_mutation(players)
-        this.create_snackbar("Successfully imported players")
+        Snackbar.create_snackbar("Successfully imported players")
       } catch (e) {
-        this.create_snackbar(`Error occured importing players: ${e.message}`, {
-          background: "error",
-        })
+        Snackbar.create_snackbar(
+          `Error occured importing players: ${e.message}`,
+          {
+            background: "error",
+          }
+        )
 
         console.error(e)
       }
     }
 
     file_reader.onerror = (event) => {
-      this.create_snackbar("Error occurred while reading players", {
+      Snackbar.create_snackbar("Error occurred while reading players", {
         background: "error",
       })
     }
@@ -278,7 +268,7 @@ export default class extends Vue {
     let json = JSON.stringify(this.selected_items)
     let blob = new Blob([json], { type: "text/plain;charset=utf-8" })
     saveAs(blob, "Exported players.json")
-    this.create_snackbar("Successfully exported players")
+    Snackbar.create_snackbar("Successfully exported players")
   }
 
   edit_item(item: Player): void {

@@ -17,6 +17,7 @@ import { State, Mutation, Action } from "vuex-class"
 import { EventBus } from "Runback/event-bus"
 import { Update } from "Runback/_types/"
 import type { ActionMethod } from "vuex"
+import Snackbar from "Runback/components/snackbar.vue"
 
 @Component
 export default class extends Vue {
@@ -33,22 +34,8 @@ export default class extends Vue {
     this.$vuetify.theme.dark = this.dark_mode
     await this.check_up_to_date()
     if (this.update.is_out_of_date) {
-      this.create_snackbar("Runback is out of date", {}, "Update", "/about")
+      Snackbar.create_snackbar("Runback is out of date", {}, "Update", "/about")
     }
-  }
-
-  create_snackbar(
-    text: string,
-    color?: { button?: string; background?: string },
-    label?: string,
-    link?: string
-  ) {
-    EventBus.$emit("create-snackbar", {
-      text: text,
-      color: color,
-      label: label,
-      link: link,
-    })
   }
 }
 </script>

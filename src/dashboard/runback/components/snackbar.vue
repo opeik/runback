@@ -38,12 +38,31 @@ export default class Snackbar extends Vue {
         label?: string
         link?: string
       }) => {
-        this.create_snackbar(args.text, args.color, args.label, args.link)
+        this.internal_create_snackbar(
+          args.text,
+          args.color,
+          args.label,
+          args.link
+        )
       }
     )
   }
 
-  create_snackbar(
+  static create_snackbar(
+    text: string,
+    color?: { button?: string; background?: string },
+    label?: string,
+    link?: string
+  ) {
+    EventBus.$emit("create-snackbar", {
+      text: text,
+      color: color,
+      label: label,
+      link: link,
+    })
+  }
+
+  internal_create_snackbar(
     text: string,
     color?: { button?: string; background?: string },
     label?: string,
