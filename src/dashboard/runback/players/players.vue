@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <v-card>
+      <v-container>
         <v-data-table
           v-model="selected_items"
           :headers="headers"
@@ -137,7 +137,7 @@
             <v-icon small @click="delete_item(item)"> mdi-delete </v-icon>
           </template>
         </v-data-table>
-      </v-card>
+      </v-container>
     </v-col>
 
     <input
