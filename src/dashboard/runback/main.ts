@@ -4,7 +4,7 @@ import Vue from "vue"
 import vuetify from "../_misc/vuetify"
 import router from "../_misc/vue-router"
 import App from "./main.vue"
-import waitForReplicants from "../../browser_shared/store"
+import waitForReplicants from "Runback/../../browser_shared/store"
 import "./runback.css"
 
 import Panel from "Runback/components/panel.vue"

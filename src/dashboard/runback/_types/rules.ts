@@ -1,5 +1,5 @@
 export class Rules {
-  readonly grand_final: number = 13
+  readonly grand_final_stage: number = 13
 
   readonly stage_list: Array<{ text: string; value: number }> = [
     { text: "Pools", value: 1 },
@@ -33,4 +33,8 @@ export class Rules {
     { p1: false, p2: true },
     { p1: false, p2: false },
   ]
+
+  is_grand_finals(stage: number) {
+    return stage === this.grand_final
+  }
 }
