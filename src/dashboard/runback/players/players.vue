@@ -79,13 +79,16 @@
                       <v-text-field
                         v-model="edited_item.name"
                         label="Name"
-                        :rules="name_rules"
                       ></v-text-field>
-                      <v-text-field
-                        v-model="edited_item.country"
+
+                      <v-autocomplete
                         label="Country"
-                        :rules="country_rules"
-                      ></v-text-field>
+                        v-model="edited_item.country"
+                        :items="countries"
+                        item-text="name"
+                        item-value="code"
+                      />
+
                       <v-text-field
                         v-model="edited_item.team"
                         label="Team"
@@ -158,6 +161,7 @@ import { saveAs } from "file-saver"
 import type { ActionMethod } from "vuex"
 import { EventBus } from "Runback/event-bus"
 import Snackbar from "Runback/components/snackbar.vue"
+import countryList from "country-list"
 
 @Component
 export default class extends Vue {
@@ -168,6 +172,8 @@ export default class extends Vue {
   @Mutation("create_player") create_player!: ActionMethod
   @Mutation("delete_player") delete_player!: ActionMethod
   @Action("import_players") import_players_mutation!: ActionMethod
+
+  readonly countries = countryList.getData()
 
   dialog: boolean = false
   dialog_delete: boolean = false
@@ -188,7 +194,6 @@ export default class extends Vue {
   readonly default_item: Player = new Player()
 
   gamertag_rules = [(v: string) => !!v || "Gamertag is required"]
-  name_rules = [(v: string) => !!v || "Name is required"]
   country_rules = [(v: string) => !!v || "Country is required"]
 
   get players_array(): Player[] {

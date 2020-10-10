@@ -49,11 +49,13 @@
                 label="Name"
                 :rules="name_rules"
               ></v-text-field>
-              <v-text-field
-                v-model="edited_item.country"
+              <v-autocomplete
                 label="Country"
-                :rules="country_rules"
-              ></v-text-field>
+                v-model="edited_item.country"
+                :items="countries"
+                item-text="name"
+                item-value="code"
+              />
               <v-text-field
                 v-model="edited_item.team"
                 label="Team"
@@ -97,6 +99,7 @@ import { Vue, Component, Prop, Ref, Watch } from "vue-property-decorator"
 import { Mutation, State, Action } from "vuex-class"
 import { Player, Players, Commentator, Commentators } from "Runback/_types/"
 import type { ActionMethod } from "vuex"
+import countryList from "country-list"
 
 @Component
 export default class CommentaryPanel extends Vue {
@@ -112,6 +115,7 @@ export default class CommentaryPanel extends Vue {
   num_commentators: number = 0
 
   readonly default_item: Player = new Player()
+  readonly countries = countryList.getData()
 
   edited_id: string = ""
   dialog: boolean = false
