@@ -1,35 +1,30 @@
-
 <template>
   <div id="scoreboard">
     <div
       id="back-panel-wrapper"
-      :class="animation.entering.main ? 'back-in main-initial' : ''"
+      :class="entering.main ? 'back-in main-initial' : ''"
     >
       <img id="back-panel" src="./img/back.svg" />
     </div>
 
     <div
       id="main-panel-wrapper"
-      :class="animation.entering.main ? 'main-in main-initial' : ''"
+      :class="entering.main ? 'main-in main-initial' : ''"
     >
       <img id="main-panel" src="./img/main.svg" />
 
       <div
-        id="bracket-stage-text-wrapper"
+        id="progress-text-wrapper"
         :class="[
-          animation.entering.bracket_stage ? 'text-in' : '',
-          animation.updating.bracket_stage ? 'text-out' : '',
+          entering.progress ? 'text-in' : '',
+          updating.progress ? 'text-out' : '',
         ]"
       >
         <fitty
-          id="bracket-stage-text"
-          :options="{
-            minSize: 1,
-            maxSize: font_sizes.bracket_stage,
-            multiLine: false,
-          }"
+          id="progress-text"
+          :options="{ minSize: 1, maxSize: progressFontSize, multiLine: false }"
         >
-          {{ animation.local.progress }}
+          {{ local.progress }}
         </fitty>
       </div>
 
@@ -37,15 +32,15 @@
         id="p1-games-text-wrapper"
         class="games-text-wrapper"
         :class="[
-          animation.entering.scores[0] ? 'text-in' : '',
-          animation.updating.scores[0] ? 'text-out' : '',
+          entering.p1Games ? 'text-in' : '',
+          updating.p1Games ? 'text-out' : '',
         ]"
       >
         <fitty
           class="games-text"
           :options="{ minSize: 1, maxSize: 55, multiLine: false }"
         >
-          {{ animation.local.scores[0] }}
+          {{ local.p1.games }}
         </fitty>
       </div>
 
@@ -53,70 +48,48 @@
         id="p2-games-text-wrapper"
         class="games-text-wrapper"
         :class="[
-          animation.entering.scores[1] ? 'text-in' : '',
-          animation.updating.scores[1] ? 'text-out' : '',
+          entering.p2Games ? 'text-in' : '',
+          updating.p2Games ? 'text-out' : '',
         ]"
       >
         <fitty
           class="games-text"
           :options="{ minSize: 1, maxSize: 55, multiLine: false }"
         >
-          {{ animation.local.scores[1] }}
+          {{ local.p2.games }}
         </fitty>
       </div>
 
       <div
-        id="p1-grand-final-side-wrapper"
-        class="grand-final-side-wrapper"
+        id="p1-side-wrapper"
+        class="side-wrapper"
         :class="[
-          animation.entering.grand_final_side && view.is_grand_final
-            ? 'p1-grand-final-side-in'
-            : '',
-          animation.entering.main || !view.is_grand_final
-            ? 'p1-grand-final-side-initial'
-            : '',
-          animation.updating.grand_final_side ? 'p1-grand_final-side-out' : '',
+          entering.side && isGrandFinals ? 'p1-side-in' : '',
+          entering.main || !isGrandFinals ? 'p1-side-initial' : '',
+          updating.side ? 'p1-side-out' : '',
         ]"
       >
-        <img :src="side_panel_path(0)" />
-        <div
-          id="p1-grand-final-side-text"
-          class="grand-final-side-text-wrapper"
-        >
+        <img :src="p1SidePanelPath" />
+        <div id="p1-side-text" class="side-text-wrapper">
           <span>
-            {{
-              animation.local.grand_final_is_winners[0]
-                ? rules.winners_text
-                : rules.losers_text
-            }}
+            {{ local.p1.side }}
           </span>
         </div>
       </div>
 
       <div
-        id="p2-grand-final-side-wrapper"
-        class="grand-final-side-wrapper"
+        id="p2-side-wrapper"
+        class="side-wrapper"
         :class="[
-          animation.entering.grand_final_side && view.is_grand_final
-            ? 'p2-grand-final-side-in'
-            : '',
-          animation.entering.main || !view.is_grand_final
-            ? 'p2-grand-final-side-initial'
-            : '',
-          animation.updating.grand_final_side ? 'p2-grand_final-side-out' : '',
+          entering.side && isGrandFinals ? 'p2-side-in' : '',
+          entering.main || !isGrandFinals ? 'p2-side-initial' : '',
+          updating.side ? 'p2-side-out' : '',
         ]"
       >
-        <img :src="side_panel_path(1)" />
-        <div
-          id="p2-grand-final-side-text"
-          class="grand-final-side-text-wrapper"
-        >
+        <img :src="p2SidePanelPath" />
+        <div id="p2-side-text" class="side-text-wrapper">
           <span>
-            {{
-              animation.local.grand_final_is_winners[1]
-                ? rules.winners_text
-                : rules.losers_text
-            }}
+            {{ local.p2.side }}
           </span>
         </div>
       </div>
@@ -125,9 +98,9 @@
         id="p1-name-wrapper"
         class="name-wrapper"
         :class="[
-          animation.entering.players ? 'p1-name-in' : '',
-          animation.entering.main ? 'p1-name-initial' : '',
-          animation.updating.players ? 'p1-name-out' : '',
+          entering.players ? 'p1-name-in' : '',
+          entering.main ? 'p1-name-initial' : '',
+          updating.players ? 'p1-name-out' : '',
         ]"
       >
         <img src="./img/name1.svg" />
@@ -135,22 +108,18 @@
         <div
           id="p1-name-text-wrapper"
           class="name-text-wrapper"
-          :class="view.is_grand_final ? 'name-text-small' : ''"
+          :class="isGrandFinals ? 'name-text-small' : ''"
         >
           <fitty
-            ref="p1-name-fitty"
-            :options="{
-              minSize: 1,
-              maxSize: name_font_size(0),
-              multiLine: false,
-            }"
+            ref="p1NameFitty"
+            :options="{ minSize: 1, maxSize: p1NameFontSize, multiLine: false }"
           >
             <span class="team-text">
-              {{ animation.local.players[0].team }}
+              {{ local.p1.team }}
             </span>
 
             <span class="gamertag-text">
-              {{ animation.local.players[0].gamertag }}
+              {{ local.p1.gamerTag }}
             </span>
           </fitty>
         </div>
@@ -159,16 +128,13 @@
           id="p1-flag-wrapper"
           class="flag-wrapper"
           :class="[
-            animation.entering.players ? 'p1-flag-in p1-flag-initial' : '',
-            animation.entering.main ? 'hidden' : '',
-            animation.updating.players ? 'p1-flag-out' : '',
+            entering.players ? 'p1-flag-in p1-flag-initial' : '',
+            entering.main ? 'hidden' : '',
+            updating.players ? 'p1-flag-out' : '',
           ]"
         >
           <div class="flag-mask">
-            <img
-              class="flag"
-              :src="flag_image_path(animation.local.players[0].country)"
-            />
+            <img class="flag" :src="flagPath(local.p1.country)" />
           </div>
         </div>
       </div>
@@ -177,9 +143,9 @@
         id="p2-name-wrapper"
         class="name-wrapper"
         :class="[
-          animation.entering.players ? 'p2-name-in' : '',
-          animation.entering.main ? 'p2-name-initial' : '',
-          animation.updating.players ? 'p2-name-out' : '',
+          entering.players ? 'p2-name-in' : '',
+          entering.main ? 'p2-name-initial' : '',
+          updating.players ? 'p2-name-out' : '',
         ]"
       >
         <img src="./img/name2.svg" />
@@ -187,22 +153,18 @@
         <div
           id="p2-name-text-wrapper"
           class="name-text-wrapper"
-          :class="view.is_grand_final ? 'name-text-small' : ''"
+          :class="isGrandFinals ? 'name-text-small' : ''"
         >
           <fitty
-            ref="p2-name-fitty"
-            :options="{
-              minSize: 1,
-              maxSize: name_font_size(1),
-              multiLine: false,
-            }"
+            ref="p2NameFitty"
+            :options="{ minSize: 1, maxSize: p2NameFontSize, multiLine: false }"
           >
             <span class="team-text">
-              {{ animation.local.players[1].team }}
+              {{ local.p2.team }}
             </span>
 
             <span class="gamertag-text">
-              {{ animation.local.players[1].gamertag }}
+              {{ local.p2.gamerTag }}
             </span>
           </fitty>
         </div>
@@ -211,16 +173,13 @@
           id="p2-flag-wrapper"
           class="flag-wrapper"
           :class="[
-            animation.entering.players ? 'p2-flag-in p2-flag-initial' : '',
-            animation.entering.main ? 'hidden' : '',
-            animation.updating.players ? 'p2-flag-out' : '',
+            entering.players ? 'p2-flag-in p2-flag-initial' : '',
+            entering.main ? 'hidden' : '',
+            updating.players ? 'p2-flag-out' : '',
           ]"
         >
           <div class="flag-mask">
-            <img
-              class="flag"
-              :src="flag_image_path(animation.local.players[1].country)"
-            />
+            <img class="flag" :src="flagPath(local.p2.country)" />
           </div>
         </div>
       </div>
@@ -232,69 +191,158 @@
 import { Vue, Component, Watch, Ref } from "vue-property-decorator"
 import { State } from "vuex-class"
 import Fitty from "./components/fitty.vue"
-import {
-  Player,
-  Players,
-  Bracket,
-  Scoreboard,
-  Rules,
-  ScoreboardView,
-} from "Runback/_types/"
-import Countries from "i18n-iso-countries"
-import { AnimationManager } from "./animation-manager"
+import { Bracket, Player, Players, Scoreboard, Rules } from "Runback/_types"
 import CJK from "cjk-regex"
-import cjk_regex from "cjk-regex"
+
+type EventCallback = (event: Event) => void
 
 @Component
 export default class App extends Vue {
-  @State((state) => state.Runback.players) players!: Players
-  @State((state) => state.Runback.scoreboard) scoreboard!: Scoreboard
-  @State((state) => state.Runback.bracket) bracket!: Bracket
-  @Ref("p1-name-fitty") p1_name_fitty!: Fitty
-  @Ref("p2-name-fitty") p2_name_fitty!: Fitty
+  @State((state) => state.Runback.players) playersState!: Players
+  @State((state) => state.Runback.scoreboard) scoreboardState!: Scoreboard
+  @State((state) => state.Runback.bracket) bracketState!: Bracket
 
-  readonly cjk_regex = CJK().toRegExp()
-  readonly rules = new Rules()
-  readonly cjk_font_size_ratio = 0.8
-  readonly num_players = 2
-  readonly font_sizes = {
+  @Ref("p1NameFitty") p1NameFitty!: Fitty
+  @Ref("p2NameFitty") p2NameFitty!: Fitty
+
+  local = {
+    progress: "" as string,
+
+    p1: {
+      gamerTag: "" as string,
+      team: "" as string,
+      games: 0 as number,
+      country: "" as string,
+      side: "" as string,
+    },
+
+    p2: {
+      gamerTag: "" as string,
+      team: "" as string,
+      games: 0 as number,
+      country: "" as string,
+      side: "" as string,
+    },
+  }
+
+  entering = {
+    main: true as boolean,
+    players: false as boolean,
+    progress: false as boolean,
+    p1Games: false as boolean,
+    p2Games: false as boolean,
+    side: false as boolean,
+  }
+
+  updating = {
+    progress: false as boolean,
+    players: false as boolean,
+    p1Games: false as boolean,
+    p2Games: false as boolean,
+    side: false as boolean,
+  }
+
+  updateQueue = []
+
+  readonly cjkFontSizeRatio = 0.8
+  readonly cjkRegex = CJK().toRegExp()
+
+  fontSizes = {
     name: 45,
-    bracket_stage: 35,
+    progress: 35,
   }
 
-  view: ScoreboardView = {} as ScoreboardView
-  animation: AnimationManager = {} as AnimationManager
+  readonly rules = new Rules()
+  readonly progressList = this.rules.stage_list
+  readonly sideList = this.rules.side_list
+  readonly finalsList = this.rules.grand_final_list
+  readonly finalsIsWinner = this.rules.grand_final_is_winner
 
-  created(): void {
-    this.view = new ScoreboardView(
-      this.num_players,
-      this.bracket,
-      this.players,
-      this.scoreboard
-    )
-    this.animation = new AnimationManager(
-      this.num_players,
-      this.bracket,
-      this.players,
-      this.scoreboard,
-      this.view
-    )
+  readonly winnersText = this.rules.winners_text
+  readonly losersText = this.rules.losers_text
+  readonly grandFinals: number = 13
+
+  get players(): Players {
+    return this.playersState
   }
 
-  mounted(): void {
-    this.animation.setup_fitties([this.p1_name_fitty, this.p2_name_fitty])
-    this.animation.setup_animation_events()
+  get scoreboard(): Scoreboard {
+    return this.scoreboardState
   }
 
-  side_panel_path(player_num: number): string {
-    const base: string = "./img/side" + (player_num + 1) + "-"
-    const is_winners = this.view.player_is_winners_from_num(player_num)
-    const url = base + (is_winners ? "winners" : "losers")
-
-    return require(url + ".svg")
+  get bracket(): Bracket {
+    return this.bracketState
   }
 
-  flag_image_path(country: string): string {
+  gamerTag(playerIndex: number): string {
+    let player_id = this.scoreboard.scores[playerIndex].player_id
+    if (!(player_id in this.players)) {
+      return ""
+    }
+
+    return this.scoreboard.overrides[playerIndex].should_override
+      ? this.scoreboard.overrides[playerIndex].override.gamertag
+      : this.players[this.scoreboard.scores[playerIndex].player_id].gamertag ||
+          ""
+  }
+
+  games(playerIndex: number): number {
+    return this.scoreboard.scores[playerIndex].score || 0
+  }
+
+  team(playerIndex: number): string {
+    let player_id = this.scoreboard.scores[playerIndex].player_id
+    if (!(player_id in this.players)) {
+      return ""
+    }
+
+    return this.scoreboard.overrides[playerIndex].should_override
+      ? this.scoreboard.overrides[playerIndex].override.team
+      : this.players[this.scoreboard.scores[playerIndex].player_id].team
+  }
+
+  sideWrapper(playerIndex: number): string {
+    let isWinner =
+      playerIndex === 0
+        ? this.finalsIsWinner[this.bracket.grand_final_side - 1][0]
+        : this.finalsIsWinner[this.bracket.grand_final_side - 1][1]
+
+    return isWinner ? this.winnersText : this.losersText
+  }
+
+  progressWrapper(): string {
+    const noneSide: number = 1
+    let progress: string = ""
+
+    if (this.bracket.custom_progress_enabled)
+      progress = this.bracket.custom_progress
+    else if (
+      this.bracket.bracket_stage === this.grandFinals ||
+      this.bracket.bracket_side === noneSide
+    ) {
+      progress = this.progressList[this.bracket.bracket_stage - 1].text
+    } else {
+      progress =
+        this.sideList[this.bracket.bracket_side - 1].text +
+        " " +
+        this.progressList[this.bracket.bracket_stage - 1].text
+    }
+
+    return progress
+  }
+
+  country(playerIndex: number): string {
+    let player_id = this.scoreboard.scores[playerIndex].player_id
+    if (!(player_id in this.players)) {
+      return "AU"
+    }
+
+    return this.scoreboard.overrides[playerIndex].should_override
+      ? this.scoreboard.overrides[playerIndex].override.country
+      : this.players[this.scoreboard.scores[playerIndex].player_id].country
+  }
+
+  flagPath(country: string): string {
     if (country.length === 0) {
       country = "au"
     }
@@ -302,127 +350,298 @@ export default class App extends Vue {
     return require("./img/region-flags/svg/" + country.toUpperCase() + ".svg")
   }
 
-  does_contain_cjk(s: string): boolean {
-    return this.cjk_regex.test(s)
+  sidePanelPath(playerIndex: number): string {
+    let base: string = "./img/side" + (playerIndex + 1) + "-"
+    let isWinner: boolean =
+      (playerIndex === 0 ? this.local.p1.side : this.local.p2.side) ===
+      this.winnersText
+    base += isWinner ? "winners" : "losers"
+
+    return require(base + ".svg")
   }
 
-  name_font_size(player_num: number): number {
-    const base_size = this.font_sizes.name
-    const player = this.view.player_from_num(player_num)
-    const contains_cjk =
-      this.does_contain_cjk(player.gamertag) ||
-      this.does_contain_cjk(player.team)
-
-    return contains_cjk ? base_size * this.cjk_font_size_ratio : base_size
+  get p1SidePanelPath(): string {
+    return this.sidePanelPath(0)
   }
 
-  // The Wall of Watches™
-  did_first_update = {
-    progress: false,
-    grand_final_side: new Array<boolean>(this.num_players).fill(false),
-    gamertag: new Array<boolean>(this.num_players).fill(false),
-    country: new Array<boolean>(this.num_players).fill(false),
-    team: new Array<boolean>(this.num_players).fill(false),
-    score: new Array<boolean>(this.num_players).fill(false),
+  get p2SidePanelPath(): string {
+    return this.sidePanelPath(1)
   }
 
-  @Watch("view.progress")
-  progressWatch(_: string, old_value: string): void {
-    if (!this.did_first_update.progress) {
-      this.did_first_update.progress = true
-      return
+  containsCjk(s: string): boolean {
+    return this.cjkRegex.test(s)
+  }
+
+  nameFontSize(playerIndex: number): number {
+    let base = this.fontSizes.name
+
+    return this.containsCjk(this.team(playerIndex)) ||
+      this.containsCjk(this.gamerTag(playerIndex))
+      ? base * this.cjkFontSizeRatio
+      : base
+  }
+
+  get progressFontSize(): number {
+    let base = this.fontSizes.progress
+
+    return this.containsCjk(this.progress) ? base * this.cjkFontSizeRatio : base
+  }
+
+  get p1NameFontSize(): number {
+    return this.nameFontSize(0)
+  }
+
+  get p2NameFontSize(): number {
+    return this.nameFontSize(1)
+  }
+
+  refitNameText(): void {
+    this.p1NameFitty.fit()
+    this.p2NameFitty.fit()
+  }
+
+  created(): void {
+    this.local.p1.gamerTag = this.p1GamerTag
+    this.local.p1.team = this.p1Team
+    this.local.p1.games = this.p1Games
+    this.local.p1.country = this.p1Country
+
+    this.local.p2.gamerTag = this.p2GamerTag
+    this.local.p2.team = this.p2Team
+    this.local.p2.games = this.p2Games
+    this.local.p2.country = this.p2Country
+
+    this.local.p1.side = this.p1Side
+    this.local.p2.side = this.p2Side
+
+    this.local.progress = this.progress
+  }
+
+  readonly animationEndEvents: Array<{ id: string; c: EventCallback }> = [
+    {
+      id: "#main-panel-wrapper",
+      c: (EventCallback) => {
+        if ((event as AnimationEvent)!.animationName === "ani-main-panel-in") {
+          this.entering.main = false
+          this.entering.players = true
+          this.entering.side = true
+          this.refitNameText()
+        }
+      },
+    },
+    {
+      id: "#p1-name-wrapper",
+      c: (EventCallback) => {
+        if ((event as AnimationEvent)!.animationName === "ani-p1-flag-in") {
+          this.entering.players = false
+        } else if (
+          (event as AnimationEvent)!.animationName === "ani-p1-name-out"
+        ) {
+          this.local.p1.gamerTag = this.p1GamerTag
+          this.local.p1.team = this.p1Team
+          this.local.p1.country = this.p1Country
+
+          this.local.p2.gamerTag = this.p2GamerTag
+          this.local.p2.team = this.p2Team
+          this.local.p2.country = this.p2Country
+
+          this.updating.players = false
+          this.entering.players = true
+          this.refitNameText()
+        }
+      },
+    },
+    {
+      id: "#p1-games-text-wrapper",
+      c: (EventCallback) => {
+        if ((event as AnimationEvent)!.animationName === "ani-text-in") {
+          this.entering.p1Games = false
+        } else if (
+          (event as AnimationEvent)!.animationName === "ani-text-out"
+        ) {
+          this.updating.p1Games = false
+          this.entering.p1Games = true
+          this.local.p1.games = this.p1Games
+        }
+      },
+    },
+    {
+      id: "#p2-games-text-wrapper",
+      c: (EventCallback) => {
+        if ((event as AnimationEvent)!.animationName === "ani-text-in") {
+          this.entering.p2Games = false
+        } else if (
+          (event as AnimationEvent)!.animationName === "ani-text-out"
+        ) {
+          this.updating.p2Games = false
+          this.entering.p2Games = true
+          this.local.p2.games = this.p2Games
+        }
+      },
+    },
+    {
+      id: "#progress-text-wrapper",
+      c: (EventCallback) => {
+        if ((event as AnimationEvent)!.animationName === "ani-text-in") {
+          this.entering.progress = false
+        } else if (
+          (event as AnimationEvent)!.animationName === "ani-text-out"
+        ) {
+          this.updating.progress = false
+          this.entering.progress = true
+          this.local.progress = this.progress
+        }
+      },
+    },
+    {
+      id: "#p1-side-wrapper",
+      c: (EventCallback) => {
+        if ((event as AnimationEvent)!.animationName === "ani-p1-side-in") {
+          this.entering.side = false
+        } else if (
+          (event as AnimationEvent)!.animationName === "ani-p1-side-out"
+        ) {
+          this.updating.side = false
+
+          if (this.isGrandFinals) {
+            this.entering.side = true
+          }
+
+          this.local.p1.side = this.p1Side
+          this.local.p2.side = this.p2Side
+        }
+      },
+    },
+  ]
+
+  setupAnimationEndEvents(): void {
+    this.animationEndEvents.forEach((e) => {
+      document.querySelector(e.id)!.addEventListener("animationend", e.c)
+    })
+  }
+
+  mounted(): void {
+    this.setupAnimationEndEvents()
+    this.refitNameText()
+  }
+
+  get progress(): string {
+    return this.progressWrapper()
+  }
+
+  isGrandFinalsWrapper(): boolean {
+    return this.bracket.bracket_stage === this.grandFinals
+  }
+
+  get isGrandFinals(): boolean {
+    return this.isGrandFinalsWrapper()
+  }
+
+  @Watch("progress")
+  progressWatch(newValue: string, oldValue: string): void {
+    if (this.isGrandFinals) {
+      this.entering.side = true
+      this.refitNameText()
+    } else if (oldValue === this.progressList[this.grandFinals - 1].text) {
+      this.updating.side = true
+      this.refitNameText()
     }
 
-    console.log("Progress")
-
-    if (this.view.is_grand_final) {
-      this.animation.entering.grand_final_side = true
-      this.animation.refit_text()
-    } else if (
-      old_value === this.rules.stage_name(this.rules.grand_final_stage_num)
-    ) {
-      this.animation.updating.grand_final_side = true
-      this.animation.refit_text()
-    }
-
-    this.animation.updating.bracket_stage = true
+    this.updating.progress = true
   }
 
-  on_grand_final_side_change(old_value: string, player_num: number): void {
-    if (!this.did_first_update.grand_final_side[player_num]) {
-      this.did_first_update.grand_final_side[player_num] = true
-      return
-    }
+  get p1GamerTag(): string {
+    return this.gamerTag(0)
+  }
 
-    if (this.bracket.bracket_stage === this.rules.grand_final_stage_num) {
-      this.animation.updating.grand_final_side = true
+  get p1Side(): string {
+    return this.sideWrapper(0)
+  }
+
+  @Watch("p1Side")
+  p1SideWatch(newValue: string, oldValue: string): void {
+    if (this.bracket.bracket_stage === this.grandFinals) {
+      this.updating.side = true
     }
   }
 
-  @Watch("view.p1_grand_final_side")
-  on_p1_grand_final_side_change(_: string, old_value: string): void {
-    this.on_grand_final_side_change(old_value, 0)
+  get p2Side(): string {
+    return this.sideWrapper(1)
   }
 
-  @Watch("view.p1_grand_final_side")
-  on_p2_grand_final_side_change(_: string, old_value: string): void {
-    this.on_grand_final_side_change(old_value, 1)
-  }
-
-  on_player_change(player_num: number, key: string): void {
-    if (!((this.did_first_update as any)[key] as any)[player_num]) {
-      ;((this.did_first_update as any)[key] as any)[player_num] = true
-      return
-    }
-
-    this.animation.updating.players = true
-  }
-
-  @Watch("view.p1_gamertag")
-  on_p1_gamertag_change(_: string, old_value: string): void {
-    this.on_player_change(0, "gamertag")
-  }
-
-  @Watch("view.p2_gamertag")
-  on_p2_gamertag_change(_: string, old_value: string): void {
-    this.on_player_change(1, "gamertag")
-  }
-
-  @Watch("view.p1_team")
-  on_p1_team_change(_: string, old_value: string): void {
-    this.on_player_change(0, "team")
-  }
-
-  @Watch("view.p2_team")
-  on_p2_team_change(_: string, old_value: string): void {
-    this.on_player_change(1, "team")
-  }
-
-  @Watch("view.p1_country")
-  on_p1_country_change(_: string, old_value: string): void {
-    this.on_player_change(0, "country")
-  }
-
-  @Watch("view.p2_country")
-  on_p2_country_change(_: string, old_value: string): void {
-    this.on_player_change(1, "country")
-  }
-
-  on_score_change(player_num: number) {
-    if (!this.did_first_update.score[player_num]) {
-      this.did_first_update.score[player_num] = true
-      return
+  @Watch("p2Side")
+  p2SideWatch(newValue: string, oldValue: string): void {
+    if (this.bracket.bracket_stage === this.grandFinals) {
+      this.updating.side = true
     }
   }
 
-  @Watch("view.p1_score")
-  on_p1_score_change(_: number, old_value: number): void {
-    this.on_score_change(0)
+  @Watch("p1GamerTag")
+  p1GamerTagWatch(newValue: string, oldValue: string): void {
+    this.updating.players = true
   }
 
-  @Watch("view.p2_score")
-  on_p2_score_change(_: number, old_value: number): void {
-    this.on_score_change(1)
+  get p1Team(): string {
+    return this.team(0)
+  }
+
+  @Watch("p1Team")
+  p1TeamWatch(newValue: string, oldValue: string): void {
+    this.updating.players = true
+  }
+
+  get p1Games(): number {
+    return this.games(0)
+  }
+
+  @Watch("p1Country")
+  p1CountryWatch(newValue: string, oldValue: string): void {
+    this.updating.players = true
+  }
+
+  get p2GamerTag(): string {
+    return this.gamerTag(1)
+  }
+
+  @Watch("p1Games")
+  p1GamesWatch(newValue: number, oldValue: number): void {
+    this.updating.p1Games = true
+  }
+
+  get p1Country(): string {
+    return this.country(0)
+  }
+
+  @Watch("p2GamerTag")
+  p2GamerTagWatch(newValue: string, oldValue: string): void {
+    this.updating.players = true
+  }
+
+  get p2Team(): string {
+    return this.team(1)
+  }
+
+  @Watch("p2Team")
+  p2TeamWatch(newValue: string, oldValue: string): void {
+    this.updating.players = true
+  }
+
+  get p2Country(): string {
+    return this.country(1)
+  }
+
+  @Watch("p2Country")
+  p2CountryWatch(newValue: string, oldValue: string): void {
+    this.updating.players = true
+  }
+
+  get p2Games(): number {
+    return this.games(1)
+  }
+
+  @Watch("p2Games")
+  p2GamesWatch(newValue: number, oldValue: number): void {
+    this.updating.p2Games = true
   }
 }
 </script>
@@ -442,14 +661,12 @@ export default class App extends Vue {
   --name-panel-p2-mask-start: polygon(85% 0, 100% 0, 100% 100%, 85% 100%);
   --name-panel-mask-end: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 
-  --grand-final-side-panel-height: calc(var(--main-panel-height) * 0.5);
-  --grand-final-side-panel-width: 43px;
-  --grand-final-side-text-height: var(--grand-final-side-panel-height);
-  --grand-final-side-text-width: var(--grand-final-side-panel-width);
-  --grand-final-side-start-x: 1px;
-  --grand-final-side-end-x: calc(
-    var(--grand-final-side-panel-width) * 0.8 * -1
-  );
+  --side-panel-height: calc(var(--main-panel-height) * 0.5);
+  --side-panel-width: 43px;
+  --side-text-height: var(--side-panel-height);
+  --side-text-width: var(--side-panel-width);
+  --side-start-x: 1px;
+  --side-end-x: calc(var(--side-panel-width) * 0.8 * -1);
 
   --flag-height: 50px;
   --flag-width: 120px;
@@ -470,11 +687,11 @@ export default class App extends Vue {
     var(--main-panel-height) * 0.5 - (var(--games-text-height) * 0.5)
   );
 
-  --bracket_stage-text-width: calc(var(--main-panel-width) * 0.65);
-  --bracket_stage-text-height: calc(var(--main-panel-height) * 0.55);
-  --bracket_stage-text-offset-x: calc(var(--main-panel-width) * 0.5);
-  --bracket_stage-text-offset-y: calc(
-    var(--main-panel-height) * 0.35 - (var(--bracket_stage-text-height) * 0.5)
+  --progress-text-width: calc(var(--main-panel-width) * 0.65);
+  --progress-text-height: calc(var(--main-panel-height) * 0.55);
+  --progress-text-offset-x: calc(var(--main-panel-width) * 0.5);
+  --progress-text-offset-y: calc(
+    var(--main-panel-height) * 0.35 - (var(--progress-text-height) * 0.5)
   );
 
   --text-in-duration: 0.25s;
@@ -487,8 +704,8 @@ export default class App extends Vue {
   --flag-in-duration: 0.75s;
   --flag-in-delay: 0.25s;
   --flag-out-duration: 0.3s;
-  --grand-final-side-in-duration: 0.5s;
-  --grand-final-side-out-duration: 0.5s;
+  --side-in-duration: 0.5s;
+  --side-out-duration: 0.5s;
 
   --animation-curve: cubic-bezier(0.19, 1, 0.22, 1);
   --text-curve: linear;
@@ -527,18 +744,18 @@ img {
   transform: translateX(-50%);
 }
 
-#bracket-stage-text-wrapper {
+#progress-text-wrapper {
   position: absolute;
-  top: var(--bracket_stage-text-offset-y);
-  left: var(--bracket_stage-text-offset-x);
-  width: var(--bracket_stage-text-width);
-  height: var(--bracket_stage-text-height);
-  line-height: var(--bracket_stage-text-height);
+  top: var(--progress-text-offset-y);
+  left: var(--progress-text-offset-x);
+  width: var(--progress-text-width);
+  height: var(--progress-text-height);
+  line-height: var(--progress-text-height);
   text-align: center;
   transform: translateX(-50%);
 }
 
-#bracket-stage-text {
+#progress-text {
   color: white;
   font-family: "Bebas Neue Regular", "Rounded Mplus Regular";
 }
@@ -583,24 +800,24 @@ img {
   right: var(--games-text-offset-x);
 }
 
-#p1-grand-final-side-wrapper {
-  left: var(--grand-final-side-end-x);
+#p1-side-wrapper {
+  left: var(--side-end-x);
 }
 
-#p2-grand-final-side-wrapper {
-  right: var(--grand-final-side-end-x);
+#p2-side-wrapper {
+  right: var(--side-end-x);
 }
 
 .hidden {
   opacity: 0;
 }
 
-.p1-grand-final-side-initial {
-  left: var(--grand-final-side-start-x) !important;
+.p1-side-initial {
+  left: var(--side-start-x) !important;
 }
 
-.p2-grand-final-side-initial {
-  right: var(--grand-final-side-start-x) !important;
+.p2-side-initial {
+  right: var(--side-start-x) !important;
 }
 
 .main-initial {
@@ -623,24 +840,24 @@ img {
   clip-path: var(--name-panel-p2-mask-start);
 }
 
-.grand-final-side-wrapper {
+.side-wrapper {
   position: absolute;
-  height: var(--grand-final-side-panel-height);
-  width: var(--grand-final-side-panel-width);
+  height: var(--side-panel-height);
+  width: var(--side-panel-width);
   top: 0;
   z-index: -1;
   overflow: visible;
   filter: drop-shadow(0px 2px 5px #222);
 }
 
-.grand-final-side-text-wrapper {
+.side-text-wrapper {
   position: absolute;
-  height: var(--grand-final-side-text-height);
-  width: var(--grand-final-side-text-width);
+  height: var(--side-text-height);
+  width: var(--side-text-width);
   top: 0;
   font-family: "Bebas Neue Bold";
   text-align: center;
-  line-height: var(--grand-final-side-panel-height);
+  line-height: var(--side-panel-height);
   font-size: 30px;
   color: black;
 }
@@ -685,7 +902,7 @@ img {
 
 .name-text-small {
   width: calc(
-    var(--name-text-width) - (var(--grand-final-side-panel-width) * 0.85)
+    var(--name-text-width) - (var(--side-panel-width) * 0.85)
   ) !important;
 }
 
@@ -775,27 +992,23 @@ img {
   animation-timing-function: var(--animation-curve);
 }
 
-.p1-grand-final-side-in {
-  animation: ani-p1-grand-final-side-in var(--grand-final-side-in-duration)
-    forwards;
+.p1-side-in {
+  animation: ani-p1-side-in var(--side-in-duration) forwards;
   animation-timing-function: var(--animation-curve);
 }
 
-.p2-grand-final-side-in {
-  animation: ani-p2-grand-final-side-in var(--grand-final-side-in-duration)
-    forwards;
+.p2-side-in {
+  animation: ani-p2-side-in var(--side-in-duration) forwards;
   animation-timing-function: var(--animation-curve);
 }
 
-.p1-grand-final-side-out {
-  animation: ani-p1-grand-final-side-out var(--grand-final-side-out-duration)
-    forwards;
+.p1-side-out {
+  animation: ani-p1-side-out var(--side-out-duration) forwards;
   animation-timing-function: var(--animation-curve);
 }
 
-.p2-grand-final-side-out {
-  animation: ani-p2-grand-final-side-out var(--grand-final-side-out-duration)
-    forwards;
+.p2-side-out {
+  animation: ani-p2-side-out var(--side-out-duration) forwards;
   animation-timing-function: var(--animation-curve);
 }
 
@@ -906,39 +1119,39 @@ img {
   }
 }
 
-@keyframes ani-p1-grand-final-side-in {
+@keyframes ani-p1-side-in {
   0% {
-    left: var(--grand-final-side-start-x);
+    left: var(--side-start-x);
   }
   100% {
-    left: var(--grand-final-side-end-x);
+    left: var(--side-end-x);
   }
 }
 
-@keyframes ani-p1-grand-final-side-out {
+@keyframes ani-p1-side-out {
   0% {
-    left: var(--grand-final-side-end-x);
+    left: var(--side-end-x);
   }
   100% {
-    left: var(--grand-final-side-start-x);
+    left: var(--side-start-x);
   }
 }
 
-@keyframes ani-p2-grand-final-side-in {
+@keyframes ani-p2-side-in {
   0% {
-    right: var(--grand-final-side-start-x);
+    right: var(--side-start-x);
   }
   100% {
-    right: var(--grand-final-side-end-x);
+    right: var(--side-end-x);
   }
 }
 
-@keyframes ani-p2-grand-final-side-out {
+@keyframes ani-p2-side-out {
   0% {
-    right: var(--grand-final-side-end-x);
+    right: var(--side-end-x);
   }
   100% {
-    right: var(--grand-final-side-start-x);
+    right: var(--side-start-x);
   }
 }
 </style>
