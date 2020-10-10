@@ -69,7 +69,7 @@ const config = (name) => {
   return {
     context: path.resolve(__dirname, `src/${name}`),
     mode: isProd ? "production" : "development",
-    target: "electron-main",
+    target: "electron-renderer",
     // devtool: isProd ? undefined : 'cheap-source-map',
     entry,
     output: {

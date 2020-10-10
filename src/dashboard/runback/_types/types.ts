@@ -8,7 +8,6 @@ import {
   PlayerScore as PlayerScoreI,
   Scoreboard as ScoreboardI,
   Settings as SettingsI,
-  Update as UpdateI,
 } from "Runback/../../schemas"
 
 const num_players: number = 2
@@ -74,9 +73,4 @@ export class Settings implements SettingsI {
   dark_mode: boolean = true
   live_dashboard_update: boolean = false
   smash_gg_api_key: string = ""
-}
-
-export class Update implements UpdateI {
-  is_out_of_date: boolean = false
-  new_version: string = ""
 }
