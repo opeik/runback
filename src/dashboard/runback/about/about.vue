@@ -72,8 +72,7 @@
 <script lang="ts">
 import { json } from "body-parser"
 import { Vue, Component } from "vue-property-decorator"
-import { Update } from "Runback/_types/"
-import { State, Mutation, Action } from "vuex-class"
+import { Updater } from "Runback/_types/"
 import type { ActionMethod } from "vuex"
 
 @Component
@@ -81,15 +80,15 @@ export default class extends Vue {
   readonly version: string = require("@/../package.json").version
   readonly github: string = "https://github.com/opeik/runback"
   readonly twitter: string = "https://twitter.com/iamopeik"
-  @State((state) => state.Runback.update) update!: Update
-  @Action("check_up_to_date") check_up_to_date!: ActionMethod
 
   checking_for_updates: boolean = false
+  is_out_of_date: boolean = false
+  new_version: string = ""
 
   get message(): string {
     if (this.checking_for_updates) {
       return "Checking for updates"
-    } else if (this.update.is_out_of_date) {
+    } else if (this.is_out_of_date) {
       return "Out of date"
     } else {
       return "Up to date!"
@@ -112,17 +111,14 @@ export default class extends Vue {
     await this.check_updates()
   }
 
-  get is_out_of_date(): boolean {
-    return this.update.is_out_of_date
-  }
-
-  get new_version(): string {
-    return this.update.new_version
-  }
-
   async check_updates(): Promise<void> {
     this.checking_for_updates = true
-    await this.check_up_to_date()
+
+    let r = await Updater.check_up_to_date()
+    if (r.found_new_version) {
+      this.is_out_of_date = true
+      this.new_version = r.version!
+    }
     this.checking_for_updates = false
   }
 }

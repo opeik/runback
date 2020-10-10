@@ -4,7 +4,6 @@ import type { ReplicantBrowser } from "nodecg/types/browser"
 import Vue from "vue"
 import Vuex, { Store } from "vuex"
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators"
-import { SemVer } from "semver"
 import {
   Bracket,
   Commentators,
@@ -14,7 +13,7 @@ import {
   Scoreboard,
   Settings,
   Rules,
-  Update,
+  Updater,
 } from "Runback/_types/"
 import UUID from "pure-uuid"
 
@@ -29,7 +28,6 @@ const reps: {
   players: ReplicantBrowser<Players>
   scoreboard: ReplicantBrowser<Scoreboard>
   settings: ReplicantBrowser<Settings>
-  update: ReplicantBrowser<Update>
   [k: string]: ReplicantBrowser<unknown>
 } = {
   bracket: nodecg.Replicant("Bracket", {
@@ -46,9 +44,6 @@ const reps: {
   }),
   settings: nodecg.Replicant("Settings", {
     defaultValue: new Settings(),
-  }),
-  update: nodecg.Replicant("Update", {
-    defaultValue: new Update(),
   }),
 }
 
@@ -203,16 +198,6 @@ class Runback extends VuexModule {
     reps.bracket.value!.custom_progress_enabled = custom_progress_enabled
   }
 
-  @Mutation
-  set_is_out_of_date(is_out_of_date: boolean) {
-    reps.update.value!.is_out_of_date = is_out_of_date
-  }
-
-  @Mutation
-  set_new_version(new_version: string) {
-    reps.update.value!.new_version = new_version
-  }
-
   @Action
   import_players(players: Player[]) {
     for (let player of players) {
@@ -261,36 +246,6 @@ class Runback extends VuexModule {
         score: 0,
       })
     }
-  }
-
-  @Action
-  async check_up_to_date(): Promise<void> {
-    const tag_list_endpoint: string =
-      "https://api.github.com/repos/opeik/runback/tags"
-
-    let response = await fetch(tag_list_endpoint)
-    let json = await response.json()
-    let found_new_version = false
-
-    json.forEach((e: any) => {
-      let tag_name = e.name
-      let current_version = new SemVer(version)
-      let new_version = new SemVer(tag_name)
-
-      if (new_version > current_version) {
-        this.context.commit("set_is_out_of_date", true)
-        this.context.commit("set_new_version", tag_name)
-        found_new_version = true
-      }
-    })
-
-    if (!found_new_version) {
-      this.context.commit("set_is_out_of_date", false)
-      this.context.commit("set_new_version", "")
-    }
-
-    // Replicants are slooooooow.
-    await new Promise((r) => setTimeout(r, 500))
   }
 }
 

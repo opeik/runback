@@ -8,7 +8,7 @@ export = (nodecg: NodeCG): void => {
   const shell = require("electron").shell
 
   const url =
-    "http://localhost:9090/bundles/runback/dashboard/runback.html?standalone=true"
+    "http://localhost:9090/bundles/runback/dashboard/runback.html?standalone=true/#/"
   const loading_url = "file://" + __dirname + "/../dashboard/loading.html"
   const main_load_delay = 10 * 1000
   const background_color = "#0f0f0f"
@@ -31,13 +31,13 @@ export = (nodecg: NodeCG): void => {
       evt.preventDefault()
     })
 
-    window.webContents.on("will-navigate", (event: any, url: string) => {
+    window.webContents.on("will-navigate", (event: any, link: string) => {
       event.preventDefault()
 
       // Stops a window being created when hot-reloading.
-      //if (!url.startsWith("http://localhost")) {
-        shell.openExternal(url)
-      //}
+      if (link !== url) {
+        shell.openExternal(link)
+      }
     })
 
     return window

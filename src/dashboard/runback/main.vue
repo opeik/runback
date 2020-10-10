@@ -15,15 +15,13 @@
 import { Vue, Component, Watch } from "vue-property-decorator"
 import { State, Mutation, Action } from "vuex-class"
 import { EventBus } from "Runback/event-bus"
-import { Update } from "Runback/_types/"
+import { Updater } from "Runback/_types/"
 import type { ActionMethod } from "vuex"
 import Snackbar from "Runback/components/snackbar.vue"
 
 @Component
 export default class extends Vue {
   @State((state) => state.Runback.settings.dark_mode) dark_mode!: boolean
-  @State((state) => state.Runback.update) update!: Update
-  @Action("check_up_to_date") check_up_to_date!: ActionMethod
 
   @Watch("dark_mode")
   on_dark_mode_change(v: boolean): void {
@@ -32,8 +30,9 @@ export default class extends Vue {
 
   async mounted(): Promise<void> {
     this.$vuetify.theme.dark = this.dark_mode
-    await this.check_up_to_date()
-    if (this.update.is_out_of_date) {
+
+    let r = await Updater.check_up_to_date()
+    if (r.found_new_version) {
       Snackbar.create_snackbar("Runback is out of date", {}, "Update", "/about")
     }
   }
