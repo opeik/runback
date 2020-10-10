@@ -35,9 +35,9 @@ export = (nodecg: NodeCG): void => {
       event.preventDefault()
 
       // Stops a window being created when hot-reloading.
-      if (!url.startsWith("http://localhost")) {
+      //if (!url.startsWith("http://localhost")) {
         shell.openExternal(url)
-      }
+      //}
     })
 
     return window

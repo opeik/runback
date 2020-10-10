@@ -302,6 +302,10 @@ export default class App extends Vue {
   }
 
   sideWrapper(playerIndex: number): string {
+    if (this.bracket.grand_final_side === 0) {
+      return ""
+    }
+
     let isWinner =
       playerIndex === 0
         ? this.finalsIsWinner[this.bracket.grand_final_side - 1][0]
@@ -316,7 +320,9 @@ export default class App extends Vue {
 
     if (this.bracket.custom_progress_enabled)
       progress = this.bracket.custom_progress
-    else if (
+    else if (this.bracket.bracket_stage === 0) {
+      return ""
+    } else if (
       this.bracket.bracket_stage === this.grandFinals ||
       this.bracket.bracket_side === noneSide
     ) {
