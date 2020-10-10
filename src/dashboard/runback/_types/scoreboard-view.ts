@@ -95,6 +95,14 @@ export class ScoreboardView {
     return this.player_from_num(1).team
   }
 
+  get p1_score(): number {
+    return this.player_score_from_num(0)
+  }
+
+  get p2_score(): number {
+    return this.player_score_from_num(1)
+  }
+
   player_from_num(player_num: number): Player {
     return this.players[this.player_id_from_num(player_num)]
   }

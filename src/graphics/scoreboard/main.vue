@@ -320,7 +320,10 @@ export default class App extends Vue {
   did_first_update = {
     progress: false,
     grand_final_side: new Array<boolean>(this.num_players).fill(false),
-    player: false,
+    gamertag: new Array<boolean>(this.num_players).fill(false),
+    country: new Array<boolean>(this.num_players).fill(false),
+    team: new Array<boolean>(this.num_players).fill(false),
+    score: new Array<boolean>(this.num_players).fill(false),
   }
 
   @Watch("view.progress")
@@ -329,6 +332,8 @@ export default class App extends Vue {
       this.did_first_update.progress = true
       return
     }
+
+    console.log("Progress")
 
     if (this.view.is_grand_final) {
       this.animation.entering.grand_final_side = true
@@ -343,7 +348,12 @@ export default class App extends Vue {
     this.animation.updating.bracket_stage = true
   }
 
-  on_grand_final_side_change(old_value: string): void {
+  on_grand_final_side_change(old_value: string, player_num: number): void {
+    if (!this.did_first_update.grand_final_side[player_num]) {
+      this.did_first_update.grand_final_side[player_num] = true
+      return
+    }
+
     if (this.bracket.bracket_stage === this.rules.grand_final_stage_num) {
       this.animation.updating.grand_final_side = true
     }
@@ -351,27 +361,17 @@ export default class App extends Vue {
 
   @Watch("view.p1_grand_final_side")
   on_p1_grand_final_side_change(_: string, old_value: string): void {
-    if (!this.did_first_update.grand_final_side[0]) {
-      this.did_first_update.grand_final_side[0] = true
-      return
-    }
-
-    this.on_grand_final_side_change(old_value)
+    this.on_grand_final_side_change(old_value, 0)
   }
 
   @Watch("view.p1_grand_final_side")
   on_p2_grand_final_side_change(_: string, old_value: string): void {
-    if (!this.did_first_update.grand_final_side[1]) {
-      this.did_first_update.grand_final_side[1] = true
-      return
-    }
-
-    this.on_grand_final_side_change(old_value)
+    this.on_grand_final_side_change(old_value, 1)
   }
 
-  on_player_change(): void {
-    if (!this.did_first_update.player) {
-      this.did_first_update.player = true
+  on_player_change(player_num: number, key: string): void {
+    if (!((this.did_first_update as any)[key] as any)[player_num]) {
+      ;((this.did_first_update as any)[key] as any)[player_num] = true
       return
     }
 
@@ -380,32 +380,49 @@ export default class App extends Vue {
 
   @Watch("view.p1_gamertag")
   on_p1_gamertag_change(_: string, old_value: string): void {
-    this.on_player_change()
+    this.on_player_change(0, "gamertag")
   }
 
   @Watch("view.p2_gamertag")
   on_p2_gamertag_change(_: string, old_value: string): void {
-    this.on_player_change()
+    this.on_player_change(1, "gamertag")
   }
 
   @Watch("view.p1_team")
   on_p1_team_change(_: string, old_value: string): void {
-    this.on_player_change()
+    this.on_player_change(0, "team")
   }
 
   @Watch("view.p2_team")
   on_p2_team_change(_: string, old_value: string): void {
-    this.on_player_change()
+    this.on_player_change(1, "team")
   }
 
   @Watch("view.p1_country")
   on_p1_country_change(_: string, old_value: string): void {
-    this.on_player_change()
+    this.on_player_change(0, "country")
   }
 
   @Watch("view.p2_country")
   on_p2_country_change(_: string, old_value: string): void {
-    this.on_player_change()
+    this.on_player_change(1, "country")
+  }
+
+  on_score_change(player_num: number) {
+    if (!this.did_first_update.score[player_num]) {
+      this.did_first_update.score[player_num] = true
+      return
+    }
+  }
+
+  @Watch("view.p1_score")
+  on_p1_score_change(_: number, old_value: number): void {
+    this.on_score_change(0)
+  }
+
+  @Watch("view.p2_score")
+  on_p2_score_change(_: number, old_value: number): void {
+    this.on_score_change(1)
   }
 }
 </script>
