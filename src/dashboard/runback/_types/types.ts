@@ -20,6 +20,10 @@ export class Bracket implements BracketI {
   grand_final_side: number = 0
   custom_progress: string = ""
   custom_progress_enabled: boolean = false
+
+  static test(self: Bracket): void {
+    console.log(self.bracket_side)
+  }
 }
 
 export class Commentator implements CommentatorI {

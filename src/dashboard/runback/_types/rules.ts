@@ -34,8 +34,20 @@ export class Rules {
     [false, false],
   ]
 
-  get none_side(): number {
+  get none_side_num(): number {
     return this.side_list.findIndex((e) => e.text === "None") + 1
+  }
+
+  get grand_final_stage_num(): number {
+    return this.stage_list.findIndex((e) => e.text === "Grand Final") + 1
+  }
+
+  stage_name(stage: number) {
+    return this.stage_list[stage].text
+  }
+
+  side_name(side: number) {
+    return this.side_list[side].text
   }
 
   is_grand_final(stage: number) {
