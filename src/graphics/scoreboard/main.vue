@@ -103,7 +103,7 @@
           animation.entering.main || !view.is_grand_final
             ? 'p2-grand-final-side-initial'
             : '',
-          animation.updating.grand_final_side ? 'p2-grand-final-side-out' : '',
+          animation.updating.grand_final_side ? 'p2-grand_final-side-out' : '',
         ]"
       >
         <img :src="side_panel_path(1)" />
@@ -242,6 +242,8 @@ import {
 } from "Runback/_types/"
 import Countries from "i18n-iso-countries"
 import { AnimationManager } from "./animation-manager"
+import CJK from "cjk-regex"
+import cjk_regex from "cjk-regex"
 
 @Component
 export default class App extends Vue {
@@ -251,6 +253,7 @@ export default class App extends Vue {
   @Ref("p1-name-fitty") p1_name_fitty!: Fitty
   @Ref("p2-name-fitty") p2_name_fitty!: Fitty
 
+  readonly cjk_regex = CJK().toRegExp()
   readonly rules = new Rules()
   readonly cjk_font_size_ratio = 0.8
   readonly num_players = 2
@@ -300,19 +303,109 @@ export default class App extends Vue {
   }
 
   does_contain_cjk(s: string): boolean {
-    let regex = new RegExp(
-      "[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]"
-    )
-    return regex.test(s)
+    return this.cjk_regex.test(s)
   }
 
   name_font_size(player_num: number): number {
     const base_size = this.font_sizes.name
     const player = this.view.player_from_num(player_num)
     const contains_cjk =
-      this.does_contain_cjk(player.name) || this.does_contain_cjk(player.team)
+      this.does_contain_cjk(player.gamertag) ||
+      this.does_contain_cjk(player.team)
 
     return contains_cjk ? base_size * this.cjk_font_size_ratio : base_size
+  }
+
+  // The Wall of Watches™
+  did_first_update = {
+    progress: false,
+    grand_final_side: new Array<boolean>(this.num_players).fill(false),
+    player: false,
+  }
+
+  @Watch("view.progress")
+  progressWatch(_: string, old_value: string): void {
+    if (!this.did_first_update.progress) {
+      this.did_first_update.progress = true
+      return
+    }
+
+    if (this.view.is_grand_final) {
+      this.animation.entering.grand_final_side = true
+      this.animation.refit_text()
+    } else if (
+      old_value === this.rules.stage_name(this.rules.grand_final_stage_num)
+    ) {
+      this.animation.updating.grand_final_side = true
+      this.animation.refit_text()
+    }
+
+    this.animation.updating.bracket_stage = true
+  }
+
+  on_grand_final_side_change(old_value: string): void {
+    if (this.bracket.bracket_stage === this.rules.grand_final_stage_num) {
+      this.animation.updating.grand_final_side = true
+    }
+  }
+
+  @Watch("view.p1_grand_final_side")
+  on_p1_grand_final_side_change(_: string, old_value: string): void {
+    if (!this.did_first_update.grand_final_side[0]) {
+      this.did_first_update.grand_final_side[0] = true
+      return
+    }
+
+    this.on_grand_final_side_change(old_value)
+  }
+
+  @Watch("view.p1_grand_final_side")
+  on_p2_grand_final_side_change(_: string, old_value: string): void {
+    if (!this.did_first_update.grand_final_side[1]) {
+      this.did_first_update.grand_final_side[1] = true
+      return
+    }
+
+    this.on_grand_final_side_change(old_value)
+  }
+
+  on_player_change(): void {
+    if (!this.did_first_update.player) {
+      this.did_first_update.player = true
+      return
+    }
+
+    this.animation.updating.players = true
+  }
+
+  @Watch("view.p1_gamertag")
+  on_p1_gamertag_change(_: string, old_value: string): void {
+    this.on_player_change()
+  }
+
+  @Watch("view.p2_gamertag")
+  on_p2_gamertag_change(_: string, old_value: string): void {
+    this.on_player_change()
+  }
+
+  @Watch("view.p1_team")
+  on_p1_team_change(_: string, old_value: string): void {
+    this.on_player_change()
+  }
+
+  @Watch("view.p2_team")
+  on_p2_team_change(_: string, old_value: string): void {
+    this.on_player_change()
+  }
+
+  @Watch("view.p1_country")
+  on_p1_country_change(_: string, old_value: string): void {
+    this.on_player_change()
+  }
+
+  @Watch("view.p2_country")
+  on_p2_country_change(_: string, old_value: string): void {
+    this.on_player_change()
   }
 }
 </script>

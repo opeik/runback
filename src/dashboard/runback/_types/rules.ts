@@ -43,11 +43,11 @@ export class Rules {
   }
 
   stage_name(stage: number) {
-    return this.stage_list[stage].text
+    return this.stage_list[stage - 1].text
   }
 
   side_name(side: number) {
-    return this.side_list[side].text
+    return this.side_list[side - 1].text
   }
 
   is_grand_final(stage: number) {

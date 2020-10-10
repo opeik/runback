@@ -40,6 +40,7 @@ export class AnimationManager {
   players = {} as Players
   scoreboard = new Scoreboard()
   view = {} as ScoreboardView
+  rules = new Rules()
 
   local = new Local()
   entering = new Entering()
@@ -79,6 +80,15 @@ export class AnimationManager {
       grand_final_side: false,
       scores: new Array<boolean>(this.num_players).fill(false),
     }
+
+    this.local.players.forEach((e, i) => {
+      this.local.players[i] = this.view.player_from_num(i)
+      this.local.scores[i] = this.view.player_score_from_num(i)
+      this.local.grand_final_is_winners[
+        i
+      ] = this.view.player_is_winners_from_num(i)
+      this.local.progress = this.view.progress
+    })
   }
 
   setup_animation_events(): void {
@@ -172,10 +182,10 @@ export class AnimationManager {
       c: (EventCallback) => {
         let animation_event = event! as AnimationEvent
 
-        if (animation_event.animationName === "ani-p1-grand_final_side-in") {
+        if (animation_event.animationName === "ani-p1-grand-final-side-in") {
           this.entering.grand_final_side = false
         } else if (
-          animation_event.animationName === "ani-p1-grand_final_side-out"
+          animation_event.animationName === "ani-p1-grand-final-side-out"
         ) {
           this.updating.grand_final_side = false
 

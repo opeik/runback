@@ -63,6 +63,38 @@ export class ScoreboardView {
     return this.bracket.bracket_side
   }
 
+  get p1_grand_final_side(): boolean {
+    return this.player_is_winners_from_num(0)
+  }
+
+  get p2_grand_final_side(): boolean {
+    return this.player_is_winners_from_num(2)
+  }
+
+  get p1_gamertag(): string {
+    return this.player_from_num(0).gamertag
+  }
+
+  get p2_gamertag(): string {
+    return this.player_from_num(1).gamertag
+  }
+
+  get p1_team(): string {
+    return this.player_from_num(0).team
+  }
+
+  get p2_team(): string {
+    return this.player_from_num(1).team
+  }
+
+  get p1_country(): string {
+    return this.player_from_num(0).team
+  }
+
+  get p2_country(): string {
+    return this.player_from_num(1).team
+  }
+
   player_from_num(player_num: number): Player {
     return this.players[this.player_id_from_num(player_num)]
   }
