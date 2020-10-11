@@ -18,7 +18,7 @@
           <template v-slot:top>
             <v-toolbar flat>
               <v-row>
-                <v-col cols="12" sm="9" md="6">
+                <v-col cols="12" sm="11" md="10">
                   <v-text-field
                     v-model="search"
                     append-icon="mdi-magnify"

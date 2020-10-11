@@ -14,15 +14,10 @@ const num_players: number = 2
 const num_commentators: number = 2
 
 export class Bracket implements BracketI {
-  bracket_stage: number = 0
-  bracket_side: number = 0
-  grand_final_side: number = 0
+  stage: number = 0
+  side: number = 0
   custom_progress: string = ""
   custom_progress_enabled: boolean = false
-
-  static test(self: Bracket): void {
-    console.log(self.bracket_side)
-  }
 }
 
 export class Commentator implements CommentatorI {

@@ -1,60 +1,36 @@
-export class Rules {
-  readonly grand_final_stage: number = 13
+import {Stage, Side} from "./"
 
-  readonly stage_list: Array<{ text: string; value: number }> = [
-    { text: "Pools", value: 1 },
-    { text: "Top 128", value: 2 },
-    { text: "Top 96", value: 3 },
-    { text: "Top 64", value: 4 },
-    { text: "Top 48", value: 5 },
-    { text: "Top 32", value: 6 },
-    { text: "Top 16", value: 7 },
-    { text: "Top 8", value: 8 },
-    { text: "Top 4", value: 9 },
-    { text: "Quarter Final", value: 10 },
-    { text: "Semi Final", value: 11 },
-    { text: "Final", value: 12 },
-    { text: "Grand Final", value: 13 },
-  ]
-  readonly side_list: Array<{ text: string; value: number }> = [
-    { text: "None", value: 1 },
-    { text: "Winners", value: 2 },
-    { text: "Losers", value: 3 },
-  ]
-  readonly grand_final_list: Array<{ text: string; value: number }> = [
-    { text: "Winners — Losers", value: 1 },
-    { text: "Losers — Winners", value: 2 },
-    { text: "Losers — Losers (Reset)", value: 3 },
-  ]
-  readonly winners_text: string = "W"
-  readonly losers_text: string = "L"
-  readonly grand_final_is_winner: Array<Array<boolean>> = [
+export class Rules {
+  readonly winners_abbreviation: string = "W"
+  readonly losers_abbreviation: string = "L"
+
+  readonly stage_list = Object.values(Stage)
+  readonly side_list = Object.values(Side).filter(
+    e => e.value === Side.None.value || e.value < Side.WinnersLosers.value)
+  readonly grand_final_side_list = Object.values(Side).filter(
+    e => e.value === Side.None.value || e.value >= Side.WinnersLosers.value)
+
+  readonly winner_table = [
     [true, false],
     [false, true],
-    [false, false],
+    [false, false]
   ]
 
-  get none_side_num(): number {
-    return this.side_list.findIndex((e) => e.text === "None") + 1
+  is_winner(player_num: number, side: Side): boolean {
+    if (!(side.value >= Side.WinnersLosers.value && side.value <= Side.LosersLosers.value)) {
+      return false
+    }
+
+    return this.winner_table[side.value - Side.WinnersLosers.value][player_num]
   }
 
-  get grand_final_stage_num(): number {
-    return this.stage_list.findIndex((e) => e.text === "Grand Final") + 1
-  }
+  side_abbreviation(side: Side): string {
+    if (side.value === Side.Winners.value) {
+      return this.winners_abbreviation
+    } else if (side.value === Side.Losers.value) {
+      return this.losers_abbreviation
+    }
 
-  stage_name(stage: number) {
-    return this.stage_list[stage - 1].text
-  }
-
-  side_name(side: number) {
-    return this.side_list[side - 1].text
-  }
-
-  is_grand_final(stage: number) {
-    return stage === this.grand_final_stage
-  }
-
-  is_winners(grand_final_side: number, player_num: number): boolean {
-    return this.grand_final_is_winner[grand_final_side - 1][player_num]
+    return ""
   }
 }

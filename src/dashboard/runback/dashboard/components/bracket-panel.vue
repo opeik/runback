@@ -1,7 +1,7 @@
 <template>
   <panel title="Bracket" icon="tournament">
     <v-autocomplete
-      :items="rules.stage_list"
+      :items="bracket_stage_list"
       v-model="bracket_stage"
       label="Stage"
       item-text="text"
@@ -10,20 +10,9 @@
     ></v-autocomplete>
 
     <v-autocomplete
-      :items="rules.side_list"
-      :disabled="is_grand_final"
+      :items="bracket_side_list"
       v-model="bracket_side"
       label="Bracket side"
-      item-text="text"
-      item-value="value"
-      required
-    ></v-autocomplete>
-
-    <v-autocomplete
-      :items="rules.grand_final_list"
-      :disabled="!is_grand_final"
-      v-model="grand_final_side"
-      label="Grand Final side"
       item-text="text"
       item-value="value"
       required
@@ -49,7 +38,7 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator"
-import { Bracket, Rules } from "Runback/_types/"
+import { Bracket, Rules, Stage, Side } from "Runback/_types/"
 import { Mutation, State, Action } from "vuex-class"
 import type { ActionMethod } from "vuex"
 
@@ -58,15 +47,26 @@ export default class BracketPanel extends Vue {
   @State((state) => state.Runback.bracket) bracket!: Bracket
   @Mutation("set_bracket_stage") set_bracket_stage!: ActionMethod
   @Mutation("set_bracket_side") set_bracket_side!: ActionMethod
-  @Mutation("set_grand_final_side") set_grand_final_side!: ActionMethod
   @Mutation("set_custom_progress") set_custom_progress!: ActionMethod
   @Mutation("set_custom_progress_enabled")
   set_custom_progress_enabled!: ActionMethod
 
   readonly rules = new Rules()
 
+  get bracket_side_list(): Array<Side> {
+    let tmp = this.is_grand_final
+      ? (this.rules.grand_final_side_list as any)
+      : (this.rules.side_list as any)
+
+    return tmp.filter((e: Side) => e.value !== Stage.Unset.value)
+  }
+
+  get bracket_stage_list(): Array<Stage> {
+    return this.rules.stage_list.filter((e) => e.value !== Stage.Unset.value)
+  }
+
   get bracket_stage(): number {
-    return this.bracket.bracket_stage
+    return this.bracket.stage
   }
 
   set bracket_stage(v: number) {
@@ -74,19 +74,11 @@ export default class BracketPanel extends Vue {
   }
 
   get bracket_side(): number {
-    return this.bracket.bracket_side
+    return this.bracket.side
   }
 
   set bracket_side(v: number) {
     this.set_bracket_side(v)
-  }
-
-  get grand_final_side(): number {
-    return this.bracket.grand_final_side
-  }
-
-  set grand_final_side(v: number) {
-    this.set_grand_final_side(v)
   }
 
   get custom_progress(): string {
@@ -106,7 +98,7 @@ export default class BracketPanel extends Vue {
   }
 
   get is_grand_final(): boolean {
-    return this.rules.is_grand_final(this.bracket_stage)
+    return this.bracket_stage === Stage.GrandFinal.value
   }
 }
 </script>

@@ -3,13 +3,10 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "bracket_stage": {
+    "stage": {
       "type": "number"
     },
-    "bracket_side": {
-      "type": "number"
-    },
-    "grand_final_side": {
+    "side": {
       "type": "number"
     },
     "custom_progress": {
@@ -20,9 +17,8 @@
     }
   },
   "required": [
-    "bracket_stage",
-    "bracket_side",
-    "grand_final_side",
+    "stage",
+    "side",
     "custom_progress",
     "custom_progress_enabled"
   ]

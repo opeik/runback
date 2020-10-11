@@ -19,7 +19,7 @@ import UUID from "pure-uuid"
 
 Vue.use(Vuex)
 
-const rules: Rules = new Rules()
+const rules = new Rules()
 const version: string = require("@/../package.json").version
 
 const reps: {
@@ -102,8 +102,10 @@ class Runback extends VuexModule {
   @Mutation
   set_scoreboard_score(args: { player_num: number; score: number }): void {
     if (args.score < 0) {
+      console.warn("Score is negative")
       args.score = 0
     } else if (Number.isNaN(args.score)) {
+      console.warn("Score is NaN")
       args.score = 0
     }
 
@@ -166,28 +168,18 @@ class Runback extends VuexModule {
       bracket_stage = 0
     }
 
-    reps.bracket.value!.bracket_stage = bracket_stage
+    reps.bracket.value!.stage = bracket_stage
   }
 
   @Mutation
   set_bracket_side(bracket_side: number) {
-    if (bracket_side < 0 || bracket_side > rules.side_list.length) {
+    if (bracket_side < 0 || bracket_side >
+      (rules.side_list.length + rules.grand_final_side_list.length)) {
+      console.warn("Bracket side out of bounds")
       bracket_side = 0
     }
 
-    reps.bracket.value!.bracket_side = bracket_side
-  }
-
-  @Mutation
-  set_grand_final_side(grand_final_side: number) {
-    if (
-      grand_final_side <= 0 ||
-      grand_final_side > rules.grand_final_list.length
-    ) {
-      grand_final_side = 0
-    }
-
-    reps.bracket.value!.grand_final_side = grand_final_side
+    reps.bracket.value!.side = bracket_side
   }
 
   @Mutation

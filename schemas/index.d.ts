@@ -4,4 +4,3 @@ export * from './Player';
 export * from './Players';
 export * from './Scoreboard';
 export * from './Settings';
-export * from './Update';
