@@ -76,7 +76,7 @@
     "webpack-livereload-plugin": "^2.3.0"
   },
   "nodecg": {
-    "compatibleRange": "^1.6.0",
+    "compatibleRange": "^0.1.0",
     "dashboardPanels": [
       {
         "name": "runback",
