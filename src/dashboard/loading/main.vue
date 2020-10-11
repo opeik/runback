@@ -32,16 +32,26 @@ export default class extends Vue {
     // Misc
     "Demanding rollback netcode",
     "Disrespecting your plus frames",
+    "Taking your lunch money",
     // Street Fighter
     "Parrying your super",
     "Fighting like gentlemen",
     "Fighting a new rival",
     "Keeping it classy",
     "Protecting Russia's skies",
+    "Waking up with dragon punch",
+    "Teching those throws",
+    "Finding the heart of battle",
+    "Chucking plasma",
+    "Practicing instant Raging Demon",
+    "Executing the Yeah Nah Yeah",
     // Guilty Gear
     "Counter-hitting fafnir",
     "Riding the lightning",
     "Knowing the smell of the game",
+    "Dropping the Instant kill combo",
+    "What are you standing up for?",
+    "Grabbing your burst",
     // BlazBlue
     "Turning the wheel of fate",
     "Escaping from crossing fate",
@@ -49,10 +59,17 @@ export default class extends Vue {
     "Complaining about Paul's damage",
     "Nerfing Gigas",
     "Mashing hopkick",
+    "Sidestepping your electric",
+    "Punishing hellsweep with 1,1,2",
     // Marvel
     "Explaining the DHC glitch",
+    "When's Mahvel?",
+    "Thanking god for the machine",
+    "Setting up shop",
+    "Getting motivated",
+    "Activating X-Factor",
     // Dragon Ball
-    "Adding another Goku",
+    "Adding yet another Goku",
   ]
 
   get_random_int(min: number, max: number): number {
