@@ -3,5 +3,4 @@ import { set } from "./util/nodecg"
 
 export = (nodecg: NodeCG): void => {
   set(nodecg)
-
 }
