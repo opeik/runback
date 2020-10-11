@@ -328,10 +328,15 @@ export default class App extends Vue {
     ) {
       progress = this.progressList[this.bracket.bracket_stage - 1].text
     } else {
-      progress =
-        this.sideList[this.bracket.bracket_side - 1].text +
-        " " +
-        this.progressList[this.bracket.bracket_stage - 1].text
+      let side = ""
+
+      if (this.bracket.bracket_side !== 0) {
+        let side = (progress = this.sideList[this.bracket.bracket_side - 1]
+          .text)
+      }
+
+      let stage = this.progressList[this.bracket.bracket_stage - 1].text
+      return side + " " + stage
     }
 
     return progress
