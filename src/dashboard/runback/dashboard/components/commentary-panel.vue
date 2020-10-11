@@ -7,14 +7,19 @@
       </v-btn>
       <v-dialog v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn class="mx-2" v-bind="attrs" v-on="on">
+          <v-btn
+            class="mx-2"
+            v-bind="attrs"
+            v-on="on"
+            :disabled="!are_both_commentators_selected"
+          >
             <v-icon left>mdi-pencil</v-icon>
-            Details
+            Override
           </v-btn>
         </template>
         <v-card>
           <v-card-title>
-            <span class="headline">Commentary details</span>
+            <span class="headline">Commentary override</span>
           </v-card-title>
 
           <v-card-text>
@@ -25,17 +30,17 @@
                     label="Player"
                     class="mb-n2"
                     v-model="edited_id"
-                    :items="players_array"
                     item-text="gamertag"
                     item-value="id"
+                    :items="players_array"
                     @input="edit_item"
                   />
                 </v-col>
                 <v-col cols="4">
                   <v-switch
                     v-model="should_override"
+                    label="Enabled"
                     :disabled="!is_selected"
-                    label="Override"
                   />
                 </v-col>
               </v-row>
@@ -43,26 +48,31 @@
                 v-model="edited_item.gamertag"
                 label="Gamertag"
                 :rules="gamertag_rules"
+                :disabled="!is_selected"
               ></v-text-field>
               <v-text-field
                 v-model="edited_item.name"
                 label="Name"
                 :rules="name_rules"
+                :disabled="!is_selected"
               ></v-text-field>
               <v-autocomplete
                 label="Country"
                 v-model="edited_item.country"
-                :items="countries"
                 item-text="name"
                 item-value="code"
+                :items="countries"
+                :disabled="!is_selected"
               />
               <v-text-field
                 v-model="edited_item.team"
                 label="Team"
+                :disabled="!is_selected"
               ></v-text-field>
               <v-text-field
                 v-model="edited_item.twitter"
                 label="Twitter"
+                :disabled="!is_selected"
               ></v-text-field>
             </v-form>
           </v-card-text>
@@ -144,6 +154,18 @@ export default class CommentaryPanel extends Vue {
     }
 
     return this.commentators.overrides[this.selected_player_num].should_override
+  }
+
+  get are_both_commentators_selected(): boolean {
+    let selected = true
+
+    this.commentators.commentators.forEach((e) => {
+      if (e.player_id.length === 0) {
+        selected = false
+      }
+    })
+
+    return selected
   }
 
   set should_override(v: boolean) {

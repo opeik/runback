@@ -9,7 +9,9 @@
           class="display-1 centered-input black--text"
           type="number"
           min="0"
+          max="99"
           v-model="score"
+          @keypress="prevent_typing($event)"
         />
       </v-col>
     </v-row>
@@ -21,9 +23,9 @@
           label="Player"
           class="mb-n2"
           v-model="player_id"
-          :items="players_array"
           item-text="gamertag"
           item-value="id"
+          :items="players_array"
         />
         </v-autocomplete>
       </v-col>
@@ -69,6 +71,10 @@ export default class ScoreboardEntry extends Vue {
 
   get players_array(): Player[] {
     return Object.values(this.players)
+  }
+
+  prevent_typing(evt: any) {
+    evt.preventDefault()
   }
 }
 </script>

@@ -11,6 +11,10 @@
           sort-by="gamertag"
           show-select
         >
+          <template v-slot:item.country="{ item }">
+            {{ country_name(item.country) }}
+          </template>
+
           <template v-slot:top>
             <v-toolbar flat>
               <v-row>
@@ -162,6 +166,7 @@ import type { ActionMethod } from "vuex"
 import { EventBus } from "Runback/event-bus"
 import Snackbar from "Runback/components/snackbar.vue"
 import countryList from "country-list"
+import clone from "clone"
 
 @Component
 export default class extends Vue {
@@ -214,6 +219,14 @@ export default class extends Vue {
 
   get is_mobile(): boolean {
     return this.$vuetify.breakpoint.mobile
+  }
+
+  country_name(code: string) {
+    if (code.length === 0) {
+      return ""
+    } else {
+      return countryList.getName(code)
+    }
   }
 
   @Watch("dialog")

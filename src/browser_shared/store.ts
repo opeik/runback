@@ -103,6 +103,8 @@ class Runback extends VuexModule {
   set_scoreboard_score(args: { player_num: number; score: number }): void {
     if (args.score < 0) {
       args.score = 0
+    } else if (Number.isNaN(args.score)) {
+      args.score = 0
     }
 
     args.score = Math.trunc(args.score)
