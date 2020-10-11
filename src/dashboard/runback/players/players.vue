@@ -7,7 +7,7 @@
           :headers="headers"
           :items="players_array"
           :search="search"
-          :items-per-page="15"
+          :items-per-page="10"
           sort-by="gamertag"
           show-select
         >
