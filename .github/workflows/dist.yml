@@ -35,7 +35,7 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
-        run: npm install && npm install electron-builder && \ 
+        run: npm install && npm install electron-builder &&
           cd bundles/runback && npm install && git submodule update --init --recursive
 
       - name: Build runback
