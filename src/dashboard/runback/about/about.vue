@@ -70,7 +70,6 @@
 </template>
 
 <script lang="ts">
-import { json } from "body-parser"
 import { Vue, Component } from "vue-property-decorator"
 import { Updater } from "Runback/_types/"
 import type { ActionMethod } from "vuex"
