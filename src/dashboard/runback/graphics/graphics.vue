@@ -23,6 +23,12 @@
               </v-row>
             </v-list-item-action>
           </v-list-item>
+
+          <v-list-item>
+            <span class="text-caption"
+              >Click and drag the open button into OBS to import a graphic</span
+            >
+          </v-list-item>
         </v-list>
       </v-container>
     </v-col>
