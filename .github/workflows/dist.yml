@@ -1,0 +1,49 @@
+name: Dist
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Clone electroncg
+        uses: actions/checkout@v2
+        with:
+          repository: opeik/electroncg
+
+      - name: Clone runback
+        uses: actions/checkout@v2
+        with:
+          repository: opeik/runback
+          path: bundles/runback
+
+      - name: Cache packages
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm install && npm install electron-builder &&
+          cd bundles/runback && npm install && git submodule update --init --recursive
+
+      - name: Build runback
+        run: cd bundles/runback && npm run-script build
+   
+      - name: Create and publish binary
+        uses: samuelmeuli/action-electron-builder@v1.6.0
+        with:
+          github_token: ${{ secrets.ELECTRON_BUILDER_PAT }}
+          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+          build_script_name: dist
