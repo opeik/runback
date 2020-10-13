@@ -10,10 +10,16 @@
 
             <v-list-item-action>
               <v-row>
-                <v-btn class="mx-4" @click="copy_url(base_url + graphic.url)"
+                <v-btn
+                  class="mx-4"
+                  @click="copy_url(format_url(graphic.name, graphic.file))"
                   >Copy URL</v-btn
                 >
-                <v-btn :href="base_url + graphic.url" class="mr-4">Open</v-btn>
+                <v-btn
+                  :href="format_url(graphic.name, graphic.file)"
+                  class="mr-4"
+                  >Open</v-btn
+                >
               </v-row>
             </v-list-item-action>
           </v-list-item>
@@ -29,10 +35,16 @@ import { Vue, Component } from "vue-property-decorator"
 @Component
 export default class extends Vue {
   readonly base_url: string = "http://localhost:9090/bundles/runback/graphics/"
-  graphics = [{ name: "Scoreboard", url: "scoreboard.html" }]
+  readonly width = 1920
+  readonly height = 1080
+  graphics = [{ name: "Scoreboard", file: "scoreboard.html" }]
 
   copy_url(url: string) {
     navigator.clipboard.writeText(url)
+  }
+
+  format_url(name: string, file: string): string {
+    return `${this.base_url}${file}?layer-name=${name}&layer-height=${this.height}&layer-width=${this.width}`
   }
 }
 </script>
