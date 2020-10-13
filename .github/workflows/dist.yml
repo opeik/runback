@@ -44,4 +44,4 @@ jobs:
       - name: Create binary
         run: yarn dist
         env:
-          super_secret: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.ELECTRON_BUILDER_PAT }}
