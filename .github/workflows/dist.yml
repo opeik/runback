@@ -26,8 +26,12 @@ jobs:
           repository: opeik/runback
           path: bundles/runback
 
+      - name: Install dependencies
+        run: npm install && npm install -g electron-builder && \ 
+          cd bundles/runback && npm install && git submodule update --init --recursive
+
       - name: Build runback
-        run: cd bundles/runback && git submodule update --init --recursive && npm install && npm run-script build
+        run: cd bundles/runback && npm run-script build
 
       - name: Build electroncg
-        run: npm install -g electron-builder && npm install && yarn dist
+        run: yarn dist
