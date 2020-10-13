@@ -19,7 +19,7 @@ jobs:
           submodules: true
 
       - name: Build runback
-        run: cd bundles/runback && npm install && npm run-script build
+        run: git submodule update --init --recursive && cd bundles/runback && npm install && npm run-script build
         
       - name: Build electroncg
         run: npm install -g electron-builder && npm install && yarn dist
