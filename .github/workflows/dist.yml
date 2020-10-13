@@ -16,10 +16,14 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: opeik/electroncg
-          submodules: true
+
+      - uses: actions/checkout@v2
+        with:
+          repository: opeik/runback
+          path: bundles/runback
 
       - name: Build runback
-        run: git submodule update --init --recursive && cd bundles/runback && npm install && npm run-script build
-        
+        run: cd bundles/runback && git submodule update --init --recursive && npm install && npm run-script build
+
       - name: Build electroncg
         run: npm install -g electron-builder && npm install && yarn dist
