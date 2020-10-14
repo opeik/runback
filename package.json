@@ -57,9 +57,8 @@
     "watch": "run-p watch:*",
     "watch:browser": "webpack -w",
     "watch:extension": "tsc -b tsconfig.extension.json -w",
-    "release": "electron-builder",
-    "postinstall": "electron-builder install-app-deps",
-    "prepare-release": "./electron-builder/prepare-release.sh"
+    "release": "./electron-builder/prepare-release.sh && electron-builder",
+    "postinstall": "electron-builder install-app-deps"
   },
   "devDependencies": {
     "@mdi/font": "^5.4.55",
