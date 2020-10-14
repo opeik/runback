@@ -30,7 +30,7 @@ jobs:
         run: npm install && git submodule update --init --recursive && cd lib/nodecg && npm install
 
       - name: Build runback
-        run: npm run-script build && npm run-script prepare-release
+        run: npm run-script build
 
       - name: Create and publish binary
         uses: samuelmeuli/action-electron-builder@v1.6.0
