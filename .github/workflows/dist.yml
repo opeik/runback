@@ -16,11 +16,9 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
-      - name: Clone runback
-        uses: actions/checkout@v2
-        with:
-          repository: opeik/runback
-          path: bundles/runback
+    steps:
+      - name: Check out Runback
+        uses: actions/checkout@v1
 
       - name: Cache packages
         uses: actions/cache@v2
