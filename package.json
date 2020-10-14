@@ -1,6 +1,6 @@
 {
   "name": "runback",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Broadcast graphics for fighting games",
   "homepage": "https://github.com/opeik/runback",
   "bugs": {
@@ -17,30 +17,31 @@
     "productName": "Runback",
     "directories": {
       "output": "release",
+      "app": "build/nodecg",
       "buildResources": "electron-builder"
     },
     "asar": false
   },
   "files": [
-    "../../build",
-    "../../bundles/*",
-    "../../db/.empty_directory",
-    "../../lib",
-    "../../schemas",
-    "../../src",
-    "../../types",
-    "!../../release/*",
-    "!../../**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
-    "!../../**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
-    "!../../**/node_modules/*.d.ts",
-    "!../../**/node_modules/.bin",
-    "!../../**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
-    "!../../.editorconfig",
-    "!../../**/._*",
-    "!../../**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
-    "!../../**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
-    "!../../**/{appveyor.yml,.travis.yml,circle.yml}",
-    "!../../**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
+    "build/nodecg/bundles/runback/build",
+    "build/nodecg/bundles/runback/bundles/*",
+    "build/nodecg/bundles/runback/db/.empty_directory",
+    "build/nodecg/bundles/runback/lib",
+    "build/nodecg/bundles/runback/schemas",
+    "build/nodecg/bundles/runback/src",
+    "build/nodecg/bundles/runback/types",
+    "!release/*",
+    "!build/**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+    "!build/**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+    "!build/**/node_modules/*.d.ts",
+    "!build/**/node_modules/.bin",
+    "!build/**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+    "!build/.editorconfig",
+    "!build/**/._*",
+    "!build/**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
+    "!build/**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
+    "!build/**/{appveyor.yml,.travis.yml,circle.yml}",
+    "!build/**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
   ],
   "scripts": {
     "autofix": "run-s autofix:*",
