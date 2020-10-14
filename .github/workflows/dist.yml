@@ -27,7 +27,7 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
-        run: npm install && git submodule update --init --recursive
+        run: npm install && git submodule update --init --recursive && cd lib/nodecg && npm install
 
       - name: Build runback
         run: npm run-script build && npm run-script prepare-release
