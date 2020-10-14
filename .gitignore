@@ -119,3 +119,5 @@ dist
 /dashboard/
 /extension/
 /graphics/
+/build/
+/release/
