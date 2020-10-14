@@ -38,3 +38,5 @@ jobs:
           github_token: ${{ secrets.ELECTRON_BUILDER_PAT }}
           release: ${{ startsWith(github.ref, 'refs/tags/v') }}
           build_script_name: release
+        env:
+          USE_HARD_LINKS: false
