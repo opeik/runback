@@ -11,7 +11,7 @@
     "url": "git+https://github.com/opeik/runback.git"
   },
   "license": "ISC",
-  "author": "opeik",
+  "author": "Sandro Stikić (opeik)",
   "build": {
     "appId": "me.stikic.runback",
     "productName": "Runback",
@@ -22,27 +22,6 @@
     },
     "asar": false
   },
-  "files": [
-    "build/nodecg/bundles/runback/build",
-    "build/nodecg/bundles/runback/bundles/*",
-    "build/nodecg/bundles/runback/db/.empty_directory",
-    "build/nodecg/bundles/runback/lib",
-    "build/nodecg/bundles/runback/schemas",
-    "build/nodecg/bundles/runback/src",
-    "build/nodecg/bundles/runback/types",
-    "!release/*",
-    "!build/**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
-    "!build/**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
-    "!build/**/node_modules/*.d.ts",
-    "!build/**/node_modules/.bin",
-    "!build/**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
-    "!build/.editorconfig",
-    "!build/**/._*",
-    "!build/**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
-    "!build/**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
-    "!build/**/{appveyor.yml,.travis.yml,circle.yml}",
-    "!build/**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
-  ],
   "scripts": {
     "autofix": "run-s autofix:*",
     "autofix:browser": "eslint --fix --ext .ts,.vue src/dashboard && eslint --fix --ext .ts,.vue src/graphics && eslint --fix --ext .ts src/browser_shared",
@@ -57,8 +36,7 @@
     "watch": "run-p watch:*",
     "watch:browser": "webpack -w",
     "watch:extension": "tsc -b tsconfig.extension.json -w",
-    "release": "./electron-builder/prepare-release.sh && electron-builder",
-    "postinstall": "electron-builder install-app-deps"
+    "dist": "./electron-builder/prepare-release.sh && electron-builder install-app-deps && electron-builder"
   },
   "devDependencies": {
     "@mdi/font": "^5.4.55",
@@ -111,7 +89,7 @@
     "webpack-livereload-plugin": "^2.3.0"
   },
   "nodecg": {
-    "compatibleRange": "^1.6.0",
+    "compatibleRange": "^0.2.0",
     "dashboardPanels": [
       {
         "name": "runback",

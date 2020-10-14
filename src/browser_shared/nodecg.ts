@@ -4,6 +4,9 @@
  * We also don't use "import type" yet as it seems to break Vetur for Vue SFCs.
  */
 
-import { NodeCGBrowser, NodeCGStaticBrowser } from '../../../../types/browser';
+import { NodeCGBrowser, NodeCGStaticBrowser } from "lib/nodecg/types/browser"
 
-export const { nodecg, NodeCG }: { nodecg: NodeCGBrowser; NodeCG: NodeCGStaticBrowser } = window;
+export const {
+  nodecg,
+  NodeCG,
+}: { nodecg: NodeCGBrowser; NodeCG: NodeCGStaticBrowser } = window

@@ -45,7 +45,7 @@
                 "*"
             ],
             "nodecg/*": [
-                "../../*"
+                "lib/nodecg/*"
             ],
             "Runback/*": [
                 "src/dashboard/runback/*"
