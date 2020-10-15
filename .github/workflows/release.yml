@@ -36,28 +36,28 @@ jobs:
         with:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-          
+
       - name: Clear npm cache on Windows
         if: matrix.os == 'windows-latest'
         run: npm cache clean --force
 
       - name: Install runback dependencies
-        run: npm install
+        run: yarn install
 
       - name: Install nodecg dependencies
         working-directory: lib/nodecg
-        run: npm install
+        run: yarn install
 
       - name: Install nodecg build dependencies
         working-directory: build/nodecg
-        run: npm install
+        run: yarn install
 
       - name: Install runback build dependencies
         working-directory: build/nodecg/bundles/runback
-        run: npm install
+        run: yarn install
 
       - name: Build runback
-        run: npm run-script build
+        run: yarn build
 
       - name: Create and publish binary
         uses: samuelmeuli/action-electron-builder@v1.6.0
