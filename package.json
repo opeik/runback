@@ -20,11 +20,23 @@
       "app": "build/nodecg",
       "buildResources": "electron-builder"
     },
-    "publish": [
-      {
-        "provider": "github"
-      }
-    ],
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable",
+        "appx"
+      ]
+    },
     "asar": false
   },
   "scripts": {
