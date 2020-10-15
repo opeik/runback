@@ -27,7 +27,7 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
-        run: npm install
+        run: npm install && rm -rf {lib/*,build} && git submodule update --init --recursive && cd lib/nodecg && npm install
 
       - if: matrix.os == 'ubuntu-latest'
         name: Install snapcraft
