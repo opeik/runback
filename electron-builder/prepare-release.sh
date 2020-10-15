@@ -2,6 +2,8 @@
 
 set -euxo pipefail
 
+rm -rf {lib/*,build}
+git submodule update --init --recursive && cd lib/nodecg && npm install && cd ../..
 mkdir -p build/nodecg/bundles/runback
 cd lib/nodecg && npm install && cd ../..
 cp -rf lib/nodecg/{index.js,build,lib,schemas,src,types,package-lock.json} build/nodecg/
