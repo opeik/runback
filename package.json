@@ -20,6 +20,11 @@
       "app": "build/nodecg",
       "buildResources": "electron-builder"
     },
+    "publish": [
+      {
+        "provider": "github"
+      }
+    ],
     "asar": false
   },
   "scripts": {
