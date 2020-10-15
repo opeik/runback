@@ -29,11 +29,6 @@ jobs:
       - name: Install dependencies
         run: npm install && rm -rf {lib/*,build} && git submodule update --init --recursive && cd lib/nodecg && npm install
 
-      - if: matrix.os == 'ubuntu-latest'
-        name: Install snapcraft
-        run: |
-          sudo snap install snapcraft --classic
-
       - name: Build runback
         run: npm run-script build
 
