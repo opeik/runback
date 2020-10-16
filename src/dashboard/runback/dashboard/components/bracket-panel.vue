@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator"
+import { Vue, Component, Watch } from "vue-property-decorator"
 import { Bracket, Rules, Stage, Side } from "Runback/_types/"
 import { Mutation, State, Action } from "vuex-class"
 import type { ActionMethod } from "vuex"
@@ -99,6 +99,19 @@ export default class BracketPanel extends Vue {
 
   get is_grand_final(): boolean {
     return this.bracket_stage === Stage.GrandFinal.value
+  }
+
+  @Watch("bracket.stage")
+  on_bracket_stage_change(old_value: number, new_value: number): void {
+    if (old_value === Stage.GrandFinal.value) {
+      this.set_bracket_side(Side.Unset.value)
+    } else if (
+      old_value >= Stage.Unset.value &&
+      old_value <= Stage.GrandFinal.value &&
+      new_value === Stage.GrandFinal.value
+    ) {
+      this.set_bracket_side(Side.Unset.value)
+    }
   }
 }
 </script>
