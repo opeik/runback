@@ -49,7 +49,6 @@ export default class extends Vue {
   }
 
   mounted(): void {
-    // Add an event listener
     document.addEventListener("dragstart", (e: any) => {
       this.dragged = e!.target!
       e.dataTransfer.setDragImage(
@@ -60,9 +59,7 @@ export default class extends Vue {
       e.dataTransfer.setData("text/uri-list", this.dragged.href)
     })
 
-    // Optionally, remove the focus from the button
     document.addEventListener("dragend", (e) => this.dragged.blur())
-    // If using an anchor, block the default behaviour
     document.addEventListener("click", (e) => e.preventDefault())
   }
 
