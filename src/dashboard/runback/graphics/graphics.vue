@@ -18,16 +18,11 @@
                 <v-btn
                   :href="format_url(graphic.name, graphic.file)"
                   class="mr-4"
-                  >Open</v-btn
+                  draggable
+                  >Drag into OBS</v-btn
                 >
               </v-row>
             </v-list-item-action>
-          </v-list-item>
-
-          <v-list-item>
-            <span class="text-caption"
-              >Click and drag the open button into OBS to import a graphic</span
-            >
           </v-list-item>
         </v-list>
       </v-container>
@@ -43,7 +38,32 @@ export default class extends Vue {
   readonly base_url: string = "http://localhost:9090/bundles/runback/graphics/"
   readonly width = 1920
   readonly height = 1080
+  readonly drag_offset = 30
   graphics = [{ name: "Scoreboard", file: "scoreboard.html" }]
+  dragged: any = {}
+  drag_img = new Image()
+
+  created(): void {
+    this.drag_img.src = require("./img/obs-logo.svg")
+  }
+
+  mounted(): void {
+    // Add an event listener
+    document.addEventListener("dragstart", (e: any) => {
+      this.dragged = e!.target!
+      e.dataTransfer.setDragImage(
+        this.drag_img,
+        this.drag_offset,
+        this.drag_offset
+      )
+      e.dataTransfer.setData("text/uri-list", this.dragged.href)
+    })
+
+    // Optionally, remove the focus from the button
+    document.addEventListener("dragend", (e) => this.dragged.blur())
+    // If using an anchor, block the default behaviour
+    document.addEventListener("click", (e) => e.preventDefault())
+  }
 
   copy_url(url: string) {
     navigator.clipboard.writeText(url)
