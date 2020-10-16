@@ -160,11 +160,11 @@
 <script lang="ts">
 import { Vue, Component, Watch, Ref } from "vue-property-decorator"
 import { Mutation, State, Action } from "vuex-class"
-import { Player, Players } from "Runback/_types/"
+import { Player, Players } from "src/dashboard/runback/_types/"
 import { saveAs } from "file-saver"
 import type { ActionMethod } from "vuex"
-import { EventBus } from "Runback/event-bus"
-import Snackbar from "Runback/components/snackbar.vue"
+import { EventBus } from "src/dashboard/runback/event-bus"
+import Snackbar from "src/dashboard/runback/components/snackbar.vue"
 import countryList from "country-list"
 import clone from "clone"
 

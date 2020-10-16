@@ -2,7 +2,7 @@
 
 import Vue from "vue"
 import App from "./main.vue"
-import waitForReplicants from "Runback/../../browser_shared/store"
+import waitForReplicants from "src/browser_shared/store"
 import "../_misc/fonts/bebas.css"
 import "../_misc/fonts/gilroy.css"
 import "../_misc/fonts/rounded-mplus.css"

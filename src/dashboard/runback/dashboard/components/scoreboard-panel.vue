@@ -110,7 +110,7 @@
 <script lang="ts">
 import { Vue, Component, Prop, Ref, Watch } from "vue-property-decorator"
 import { Mutation, State, Action } from "vuex-class"
-import { Player, Players, PlayerScore, Scoreboard } from "Runback/_types/"
+import { Player, Players, PlayerScore, Scoreboard } from "src/dashboard/runback/_types/"
 import type { ActionMethod } from "vuex"
 import countryList from "country-list"
 

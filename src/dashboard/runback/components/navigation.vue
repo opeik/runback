@@ -34,7 +34,7 @@ import { Vue, Component } from "vue-property-decorator"
 
 @Component
 export default class Navigation extends Vue {
-  readonly version = require("@/../package.json").version
+  readonly version = require("src/../package.json").version
   readonly twitter: string = "https://twitter.com/iamopeik"
 
   items = [

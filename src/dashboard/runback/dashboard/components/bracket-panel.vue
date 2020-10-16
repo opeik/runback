@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator"
-import { Bracket, Rules, Stage, Side } from "Runback/_types/"
+import { Bracket, Rules, Stage, Side } from "src/dashboard/runback/_types/"
 import { Mutation, State, Action } from "vuex-class"
 import type { ActionMethod } from "vuex"
 

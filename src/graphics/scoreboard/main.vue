@@ -208,7 +208,7 @@ import {
   Rules,
   Stage,
   Side,
-} from "Runback/_types"
+} from "src/dashboard/runback/_types"
 import CJK from "cjk-regex"
 
 @Component

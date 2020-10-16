@@ -4,7 +4,7 @@ import Vuetify from "vuetify/lib"
 import "./common.css"
 import "./fonts/roboto.css"
 import colors from "vuetify/lib/util/colors"
-import Logo from "Runback/components/logo.vue"
+import Logo from "src/dashboard/runback/components/logo.vue"
 
 Vue.use(Vuetify)
 

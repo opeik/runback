@@ -1,10 +1,10 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
-import Dashboard from "Runback/dashboard/dashboard.vue"
-import Players from "Runback/players/players.vue"
-import Graphics from "Runback/graphics/graphics.vue"
-import Settings from "Runback/settings/settings.vue"
-import About from "Runback/about/about.vue"
+import Dashboard from "src/dashboard/runback/dashboard/dashboard.vue"
+import Players from "src/dashboard/runback/players/players.vue"
+import Graphics from "src/dashboard/runback/graphics/graphics.vue"
+import Settings from "src/dashboard/runback/settings/settings.vue"
+import About from "src/dashboard/runback/about/about.vue"
 
 Vue.use(VueRouter)
 

@@ -51,7 +51,7 @@
 import { Vue, Component, Watch, PropSync, Prop } from "vue-property-decorator"
 import { State, Mutation } from "vuex-class"
 import { State2Way } from "vuex-class-state2way"
-import { Settings } from "Runback/_types/"
+import { Settings } from "src/dashboard/runback/_types/"
 import type { ActionMethod } from "vuex"
 
 @Component

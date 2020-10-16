@@ -80,8 +80,7 @@ const config = (name) => {
       extensions: [".js", ".ts", ".tsx", ".json"],
       alias: {
         vue: "vue/dist/vue.esm.js",
-        "@": path.resolve(__dirname, `src/`),
-        Runback: path.resolve(__dirname, `src/dashboard/runback`),
+        src: path.resolve(__dirname, `src/`),
       },
     },
     module: {

@@ -14,13 +14,13 @@ import {
   Settings,
   Rules,
   Updater,
-} from "Runback/_types/"
+} from "src/dashboard/runback/_types"
 import UUID from "pure-uuid"
 
 Vue.use(Vuex)
 
 const rules = new Rules()
-const version: string = require("@/../package.json").version
+const version: string = require("src/../package.json").version
 
 const reps: {
   bracket: ReplicantBrowser<Bracket>
@@ -173,8 +173,10 @@ class Runback extends VuexModule {
 
   @Mutation
   set_bracket_side(bracket_side: number) {
-    if (bracket_side < 0 || bracket_side >
-      (rules.side_list.length + rules.grand_final_side_list.length)) {
+    if (
+      bracket_side < 0 ||
+      bracket_side > rules.side_list.length + rules.grand_final_side_list.length
+    ) {
       console.warn("Bracket side out of bounds")
       bracket_side = 0
     }

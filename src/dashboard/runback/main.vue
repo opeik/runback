@@ -14,10 +14,10 @@
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator"
 import { State, Mutation, Action } from "vuex-class"
-import { EventBus } from "Runback/event-bus"
-import { Updater } from "Runback/_types/"
+import { EventBus } from "src/dashboard/runback/event-bus"
+import { Updater } from "src/dashboard/runback/_types/"
 import type { ActionMethod } from "vuex"
-import Snackbar from "Runback/components/snackbar.vue"
+import Snackbar from "src/dashboard/runback/components/snackbar.vue"
 
 @Component
 export default class extends Vue {

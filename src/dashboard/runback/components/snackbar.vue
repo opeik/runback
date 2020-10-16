@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator"
-import { EventBus } from "Runback/event-bus"
+import { EventBus } from "src/dashboard/runback/event-bus"
 
 @Component
 export default class Snackbar extends Vue {
