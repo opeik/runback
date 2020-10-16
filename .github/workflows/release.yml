@@ -14,15 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - os: macos-latest
-            USE_HARD_LINKS: false
-
-          - os: ubuntu-latest
-            USE_HARD_LINKS: false
-
-          - os: windows-latest
-            USE_HARD_LINKS: true
+        - os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
       - name: Check out Runback
@@ -31,29 +23,12 @@ jobs:
           submodules: true
 
       - name: Cache packages
-        if: matrix.os != 'windows-latest'
         uses: actions/cache@v2
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Clear npm cache on Windows
-        if: matrix.os == 'windows-latest'
-        run: npm cache clean --force
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yark.lock') }}
 
       - name: Install runback dependencies
-        run: yarn install
-
-      - name: Install nodecg dependencies
-        working-directory: lib/nodecg
-        run: yarn install
-
-      - name: Install nodecg build dependencies
-        working-directory: build/nodecg
-        run: yarn install
-
-      - name: Install runback build dependencies
-        working-directory: build/nodecg/bundles/runback
         run: yarn install
 
       - name: Build runback
@@ -66,4 +41,4 @@ jobs:
           release: ${{ startsWith(github.ref, 'refs/tags/v') }}
           build_script_name: release
         env:
-          USE_HARD_LINKS: ${{matrix.USE_HARD_LINKS}}
+          USE_HARD_LINKS: false

@@ -53,8 +53,8 @@
     "watch": "run-p watch:*",
     "watch:browser": "webpack -w",
     "watch:extension": "tsc -b tsconfig.extension.json -w",
-    "dist": "electron-builder",
-    "release": "electron-builder"
+    "dist": "bash ./electron-builder/prepare-build.sh && electron-builder",
+    "release": "bash ./electron-builder/prepare-build.sh && electron-builder"
   },
   "devDependencies": {
     "@mdi/font": "^5.4.55",
@@ -91,6 +91,7 @@
     "typescript": "^3.9.7",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.5",
+    "vue-devtools": "^5.1.4",
     "vue-hot-reload-api": "^2.3.4",
     "vue-loader": "^15.9.3",
     "vue-property-decorator": "^9.0.0",
