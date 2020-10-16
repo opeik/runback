@@ -16,9 +16,10 @@
                   >Copy URL</v-btn
                 >
                 <v-btn
-                  :href="format_url(graphic.name, graphic.file)"
                   class="mr-4"
                   draggable
+                  :href="format_url(graphic.name, graphic.file)"
+                  color="primary"
                   >Drag into OBS</v-btn
                 >
               </v-row>
