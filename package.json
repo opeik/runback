@@ -32,9 +32,7 @@
     },
     "win": {
       "target": [
-        "nsis",
-        "portable",
-        "appx"
+        "nsis"
       ]
     },
     "asar": false
