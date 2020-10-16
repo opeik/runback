@@ -2,6 +2,7 @@
   "name": "Runback",
   "description": "Broadcast graphics for fighting games",
   "main": "index.js",
+  "license": "GPL-3.0",
   "author": "Sandro Stikić (opeik)",
   "version": "0.2.0",
   "dependencies": {

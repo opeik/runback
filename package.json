@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/opeik/runback.git"
   },
-  "license": "ISC",
+  "license": "GPL-3.0",
   "author": "Sandro Stikić (opeik)",
   "build": {
     "appId": "me.stikic.runback",
