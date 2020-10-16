@@ -25,7 +25,7 @@ jobs:
       - name: Cache packages
         uses: actions/cache@v2
         with:
-          path: "**/node_modules"
+          path: "{,lib/nodecg}/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yark.lock') }}
 
       - name: Install runback dependencies
