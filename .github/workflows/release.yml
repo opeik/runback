@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        - os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
       - name: Check out Runback
@@ -30,6 +30,10 @@ jobs:
 
       - name: Install runback dependencies
         run: yarn install
+
+      - name: Install nodecg dependencies
+        run: yarn install
+        working-directory: lib/nodecg
 
       - name: Build runback
         run: yarn build
