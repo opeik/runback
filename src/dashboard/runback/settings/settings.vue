@@ -4,20 +4,18 @@
       <v-container>
         <v-list subheader>
           <v-subheader>Display</v-subheader>
-          <v-list-item-group>
-            <v-list-item @click="dark_mode = !dark_mode">
-              <v-list-item-action>
-                <v-switch v-model="dark_mode" color="primary"></v-switch>
-              </v-list-item-action>
+          <v-list-item>
+            <v-list-item-action>
+              <v-switch v-model="dark_mode" color="primary"></v-switch>
+            </v-list-item-action>
 
-              <v-list-item-content>
-                <v-list-item-title>Dark mode</v-list-item-title>
-                <v-list-item-subtitle
-                  >For late night broadcasting</v-list-item-subtitle
-                >
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
+            <v-list-item-content>
+              <v-list-item-title>Dark mode</v-list-item-title>
+              <v-list-item-subtitle
+                >For late night broadcasting</v-list-item-subtitle
+              >
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
 
         <v-divider />
