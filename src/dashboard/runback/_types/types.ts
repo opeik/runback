@@ -1,30 +1,18 @@
-import {
-  Bracket as BracketI,
-  Commentator as CommentatorI,
-  Commentators as CommentatorsI,
-  Player as PlayerI,
-  Players as PlayersI,
-  PlayerOverride as PlayerOverrideI,
-  PlayerScore as PlayerScoreI,
-  Scoreboard as ScoreboardI,
-  Settings as SettingsI,
-} from "Runback/../../schemas"
-
 const num_players: number = 2
 const num_commentators: number = 2
 
-export class Bracket implements BracketI {
+export class Bracket {
   stage: number = 0
   side: number = 0
   custom_progress: string = ""
   custom_progress_enabled: boolean = false
 }
 
-export class Commentator implements CommentatorI {
+export class Commentator {
   player_id: string = ""
 }
 
-export class Commentators implements CommentatorsI {
+export class Commentators {
   commentators: Commentator[] = new Array<Commentator>(num_commentators).fill(
     new Commentator()
   )
@@ -33,7 +21,7 @@ export class Commentators implements CommentatorsI {
   ).fill(new PlayerOverride())
 }
 
-export class Player implements PlayerI {
+export class Player {
   id: string = ""
   smash_gg_id: string = ""
   name: string = ""
@@ -45,17 +33,17 @@ export class Player implements PlayerI {
 
 export type Players = Record<string, Player>
 
-export class PlayerOverride implements PlayerOverrideI {
+export class PlayerOverride {
   should_override: boolean = false
   override: Player = new Player()
 }
 
-export class PlayerScore implements PlayerScoreI {
+export class PlayerScore {
   player_id: string = ""
   score: number = 0
 }
 
-export class Scoreboard implements ScoreboardI {
+export class Scoreboard {
   scores: PlayerScore[] = new Array<PlayerScore>(num_players).fill(
     new PlayerScore()
   )
@@ -64,7 +52,7 @@ export class Scoreboard implements ScoreboardI {
   )
 }
 
-export class Settings implements SettingsI {
+export class Settings {
   dark_mode: boolean = true
   live_dashboard_update: boolean = false
   smash_gg_api_key: string = ""
