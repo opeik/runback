@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "GPL-3.0",
   "author": "Sandro Stikić (opeik)",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "dependencies": {
     "@babel/core": "^7.4.3",
     "@polymer/app-layout": "^3.0.0",
