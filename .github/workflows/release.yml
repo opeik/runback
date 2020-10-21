@@ -38,7 +38,10 @@ jobs:
       - name: Build runback
         run: yarn build
 
-      - name: Create and publish binary
+      - name: Prepare electron build
+        run: bash ./electron-builder/prepare-build.sh
+
+      - name: Create electron binary
         uses: samuelmeuli/action-electron-builder@v1.6.0
         with:
           github_token: ${{ secrets.ELECTRON_BUILDER_PAT }}
