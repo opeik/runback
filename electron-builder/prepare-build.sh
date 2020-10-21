@@ -6,7 +6,7 @@ cp -f electron-builder/electron-package.json build/nodecg/package.json
 
 if [ "$RUNNER_OS" == "Windows" ]; then
     mkdir -p build/nodecg/bundles/runback
-    cp -rf ../runback/{dashboard,graphics,extension,schemas,node_modules,package.json} build/nodecg/bundles/runback/
+    cp -rf ../runback/{dashboard,graphics,extension,node_modules,package.json} build/nodecg/bundles/runback/
 else
     ln -sf ../../../../runback build/nodecg/bundles/
 fi
