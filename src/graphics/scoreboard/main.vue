@@ -749,12 +749,14 @@ img {
   left: var(--name-panel-offset);
   padding-left: var(--flag-width);
   margin-left: calc(var(--flag-width) * -1);
+  text-align: left;
 }
 
 #p2-name-wrapper {
   right: var(--name-panel-offset);
   padding-right: var(--flag-width);
   margin-right: calc(var(--flag-width) * -1);
+  text-align: right;
 }
 
 #p1-flag-wrapper {
