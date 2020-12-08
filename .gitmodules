@@ -5,3 +5,4 @@ url = https://github.com/google/region-flags
 path = lib/nodecg
 url = https://github.com/nodecg/nodecg
 ignore = dirty
+branch = legacy-1.3.x
