@@ -2,13 +2,17 @@
 
 Broadcast graphics app for fighting games.
 
-### Building
+### Setup
 
 ```
-git clone https://github.com/opeik/runback
-git submodule update --init --recursive
+git clone https://github.com/nodecg/nodecg
+cd nodecg && npm install --production
+cd bundles && git clone https://github.com/opeik/runback
+cd runback && git submodule update --init --recursive
 yarn install
-yarn build
-yarn dist
-yarn start
 ```
+
+- For live development:
+  - `yarn watch`
+- For production:
+  - `yarn build`
