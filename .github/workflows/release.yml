@@ -1,12 +1,6 @@
 name: Release
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -17,50 +11,8 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
-      - name: Check out runback-electron
-        uses: actions/checkout@v2
-        with:
-          repository: opeik/runback-electron
-          submodules: true
-
-      - name: Check out nodecg
-        uses: actions/checkout@v2
-        with:
-          repository: nodecg/nodecg
-          path: lib/nodecg
-          ref: legacy-1.x
-          submodules: true
-
       - name: Check out runback
         uses: actions/checkout@v2
         with:
           repository: opeik/runback
-          path: lib/nodecg/bundles/runback
           submodules: true
-
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: "{,lib/nodecg,lib/nodecg/bundles/runback}/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yark.lock') }}
-
-      - name: Install runback-electron dependencies
-        run: yarn install --production
-
-      - name: Install nodecg dependencies
-        run: npm install --production
-        working-directory: lib/nodecg
-
-      - name: Install runback dependencies
-        run: yarn install
-        working-directory: lib/nodecg/bundles/runback
-
-      - name: Build runback
-        run: yarn build
-        working-directory: lib/nodecg/bundles/runback
-
-      - name: Build electron app
-        run: yarn dist
-        env:
-          USE_HARD_LINKS: false
-          GH_TOKEN: ${{ secrets.ELECTRON_BUILDER_PAT }}
