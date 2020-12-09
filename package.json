@@ -24,7 +24,7 @@
     "typeschemas": "node script/typeschemas.js",
     "watch": "run-p watch:*",
     "watch:browser": "webpack -w",
-    "watch:extension": "tsc -b tsconfig.extension.json -w",
+    "watch:extension": "tsc -b tsconfig.extension.json -w"
   },
   "devDependencies": {
     "@mdi/font": "^5.4.55",
