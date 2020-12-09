@@ -28,6 +28,7 @@ jobs:
         with:
           repository: nodecg/nodecg
           path: lib/nodecg
+          ref: legacy-1.x
           submodules: true
 
       - name: Check out runback
