@@ -17,32 +17,49 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
-      - name: Check out runback
-        uses: actions/checkout@v1
+      - name: Check out runback-electron
+        uses: actions/checkout@v2
         with:
+          repository: opeik/runback-electron
           submodules: true
 
-      - name: Cache packages
+      - name: Check out nodecg
+        uses: actions/checkout@v2
+        with:
+          repository: nodecg/nodecg
+          path: lib/nodecg
+          submodules: true
+
+      - name: Check out runback
+        uses: actions/checkout@v2
+        with:
+          repository: opeik/runback
+          path: lib/nodecg/bundles/runback
+          submodules: true
+
+      - name: Cache node modules
         uses: actions/cache@v2
         with:
-          path: "{,lib/nodecg}/node_modules"
+          path: "{,lib/nodecg,lib/nodecg/bundles/runback}/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yark.lock') }}
+
+      - name: Install runback-electron dependencies
+        run: yarn install --production
+
+      - name: Install nodecg dependencies
+        run: npm install --production
+        working-directory: lib/nodecg
 
       - name: Install runback dependencies
         run: yarn install
-
-      - name: Install nodecg dependencies
-        run: yarn install
-        working-directory: lib/nodecg
+        working-directory: lib/nodecg/bundles/runback
 
       - name: Build runback
         run: yarn build
+        working-directory: lib/nodecg/bundles/runback
 
-      - name: Prepare electron build
-        run: bash ./electron-builder/prepare-build.sh
-
-      - name: Build electron
-        run: yarn release
+      - name: Build electron app
+        run: yarn dist
         env:
           USE_HARD_LINKS: false
           GH_TOKEN: ${{ secrets.ELECTRON_BUILDER_PAT }}
