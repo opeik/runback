@@ -14,7 +14,6 @@ module.exports = {
     'plugin:import/typescript',
   ],
   settings: {
-    'import/core-modules': ['nodecg/types/server'],
     'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
     'import/resolver': {
       node: {
@@ -35,7 +34,7 @@ module.exports = {
     }],
     'import/no-extraneous-dependencies': ['error', {
       devDependencies: true, // Some places have dev deps imported where eslint complains.
-      packageDir: ['.', '../..'], // Check for deps in NodeCG folder as well.
+      packageDir: ['.', '../..'],
     }],
     'import/no-unresolved': [2, { caseSensitive: false }],
     'max-len': ['error', { 'code': 100 }],

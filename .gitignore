@@ -117,7 +117,7 @@ dist
 
 # Built files
 /dashboard/
-/extension/
+/server/
 /graphics/
 /build/
 /release/

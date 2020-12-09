@@ -4,7 +4,6 @@ import Vue from "vue"
 import vuetify from "../_misc/vuetify"
 import router from "../_misc/vue-router"
 import App from "./main.vue"
-import waitForReplicants from "src/dashboard/runback/../../browser_shared/store"
 import "./runback.css"
 
 import Panel from "src/dashboard/runback/components/panel.vue"
@@ -31,12 +30,9 @@ Vue.component("event-panel", EventPanel)
 Vue.component("logo", Logo)
 Vue.component("snackbar", Snackbar)
 
-waitForReplicants().then((store) => {
-  new Vue({
-    vuetify,
-    router,
-    store,
-    el: "#App",
-    render: (h) => h(App),
-  })
+new Vue({
+  vuetify,
+  router,
+  el: "#App",
+  render: (h) => h(App),
 })
