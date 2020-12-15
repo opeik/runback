@@ -45,7 +45,7 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yark.lock') }}
 
       - name: Install runback-electron dependencies
-        run: yarn install --production
+        run: yarn install
 
       - name: Install nodecg dependencies
         run: npm install --production
