@@ -188,7 +188,8 @@ export default class App extends Vue {
         console.log("Text out")
         Vue.set(this.ani.out.players, player_num, false)
         Vue.set(this.ani.in.players, player_num, true)
-        this.display.players[player_num] = this.player_from_num(player_num)
+        this.display.players[player_num] =
+          this.player_from_num(player_num) || new Player()
         break
     }
   }
