@@ -78,9 +78,10 @@
           </v-card-text>
 
           <v-card-actions>
+            <v-btn color="primary" text @click="close"> Close </v-btn>
             <v-spacer></v-spacer>
             <v-btn color="primary" text @click="clear" :disabled="!is_selected">
-              Clear
+              Reset
             </v-btn>
             <v-btn color="primary" text @click="close"> Cancel </v-btn>
             <v-btn
@@ -107,7 +108,12 @@
 <script lang="ts">
 import { Vue, Component, Prop, Ref, Watch } from "vue-property-decorator"
 import { Mutation, State, Action } from "vuex-class"
-import { Player, Players, Commentator, Commentators } from "src/dashboard/runback/_types/"
+import {
+  Player,
+  Players,
+  Commentator,
+  Commentators,
+} from "src/dashboard/runback/_types/"
 import type { ActionMethod } from "vuex"
 import countryList from "country-list"
 
@@ -215,7 +221,6 @@ export default class CommentaryPanel extends Vue {
       commentator_num: this.selected_player_num,
       override: this.edited_item,
     })
-    this.close()
   }
 
   reset_validation(): void {
