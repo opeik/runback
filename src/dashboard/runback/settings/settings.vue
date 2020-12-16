@@ -6,7 +6,7 @@
           <v-subheader>Display</v-subheader>
           <v-list-item>
             <v-list-item-action>
-              <v-switch v-model="dark_mode" color="primary"></v-switch>
+              <v-switch v-model="dark_mode" color="primary" />
             </v-list-item-action>
 
             <v-list-item-content>
@@ -35,7 +35,7 @@
                   label="Smash.gg API key"
                   counter
                   @click:append="show_smash_gg_api_key = !show_smash_gg_api_key"
-                ></v-text-field>
+                />
               </v-col>
             </v-row>
           </v-list-item>

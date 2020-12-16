@@ -76,7 +76,7 @@ import type { ActionMethod } from "vuex"
 
 @Component
 export default class extends Vue {
-  readonly version: string = require("src//../package.json").version
+  readonly version: string = require("src/../../../../../package.json").version
   readonly github: string = "https://github.com/opeik/runback"
   readonly twitter: string = "https://twitter.com/iamopeik"
 

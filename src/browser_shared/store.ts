@@ -20,7 +20,6 @@ import UUID from "pure-uuid"
 Vue.use(Vuex)
 
 const rules = new Rules()
-const version: string = require("src/../package.json").version
 
 const reps: {
   bracket: ReplicantBrowser<Bracket>

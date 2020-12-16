@@ -199,7 +199,7 @@
 <script lang="ts">
 import { Vue, Component, Watch, Ref } from "vue-property-decorator"
 import { State } from "vuex-class"
-import Fitty from "./components/fitty.vue"
+import Fitty from "../components/fitty.vue"
 import {
   Bracket,
   Player,

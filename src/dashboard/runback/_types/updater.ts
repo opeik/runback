@@ -1,5 +1,6 @@
 import { SemVer } from "semver"
-const current_version_string: string = require("src/../package.json").version
+const current_version_string: string = require("src/../../../../../package.json")
+  .version
 
 export class Updater {
   static async check_up_to_date(): Promise<{

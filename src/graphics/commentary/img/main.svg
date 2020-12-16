@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="Layer_1"
+   data-name="Layer 1"
+   viewBox="0 0 603.68042 68.049652"
+   version="1.1"
+   sodipodi:docname="main.svg"
+   width="603.68042"
+   height="68.049652"
+   inkscape:version="1.0.1 (c497b03c, 2020-09-10)">
+  <metadata
+     id="metadata851">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>player1-new</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2239"
+     inkscape:window-height="1027"
+     id="namedview849"
+     showgrid="false"
+     inkscape:zoom="2.4599226"
+     inkscape:cx="268.94066"
+     inkscape:cy="-2.718319"
+     inkscape:window-x="827"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer3"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <defs
+     id="defs842">
+    <style
+       id="style833">.cls-1{fill:url(#radial-gradient);}</style>
+    <radialGradient
+       id="radial-gradient"
+       cx="287.78"
+       cy="15.16"
+       r="242.50999"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         stop-color="#283b3f"
+         id="stop835" />
+      <stop
+         offset="0.62"
+         stop-color="#172529"
+         id="stop837" />
+      <stop
+         offset="0.98"
+         stop-color="#0c1519"
+         id="stop839" />
+    </radialGradient>
+    <radialGradient
+       id="radial-gradient-8"
+       cx="160.1337"
+       cy="12.720899"
+       r="242.50999"
+       gradientUnits="userSpaceOnUse"
+       xlink:href="#radial-gradient"
+       fx="160.1337"
+       fy="12.720899">
+      <stop
+         offset="0"
+         stop-color="#283b3f"
+         id="stop835-7" />
+      <stop
+         offset="0.62"
+         stop-color="#172529"
+         id="stop837-8" />
+      <stop
+         offset="0.98"
+         stop-color="#0c1519"
+         id="stop839-0" />
+    </radialGradient>
+    <radialGradient
+       id="radial-gradient-8-6"
+       cx="156.47505"
+       cy="-60.85865"
+       r="242.50999"
+       gradientUnits="userSpaceOnUse"
+       fx="156.47505"
+       fy="-60.85865"
+       xlink:href="#radial-gradient-9">
+      <stop
+         offset="0"
+         stop-color="#283b3f"
+         id="stop835-7-7" />
+      <stop
+         offset="0.62"
+         stop-color="#172529"
+         id="stop837-8-9" />
+      <stop
+         offset="0.98"
+         stop-color="#0c1519"
+         id="stop839-0-5" />
+    </radialGradient>
+    <radialGradient
+       id="radial-gradient-9"
+       cx="287.78"
+       cy="15.16"
+       r="242.50999"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         stop-color="#283b3f"
+         id="stop835-1" />
+      <stop
+         offset="0.62"
+         stop-color="#172529"
+         id="stop837-0" />
+      <stop
+         offset="0.98"
+         stop-color="#0c1519"
+         id="stop839-8" />
+    </radialGradient>
+    <radialGradient
+       id="radial-gradient-8-8"
+       cx="160.1337"
+       cy="12.720899"
+       r="242.50999"
+       gradientUnits="userSpaceOnUse"
+       xlink:href="#radial-gradient-0"
+       fx="160.1337"
+       fy="12.720899">
+      <stop
+         offset="0"
+         stop-color="#283b3f"
+         id="stop835-7-4" />
+      <stop
+         offset="0.62"
+         stop-color="#172529"
+         id="stop837-8-6" />
+      <stop
+         offset="0.98"
+         stop-color="#0c1519"
+         id="stop839-0-3" />
+    </radialGradient>
+    <radialGradient
+       id="radial-gradient-0"
+       cx="287.78"
+       cy="15.16"
+       r="242.50999"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         stop-color="#283b3f"
+         id="stop835-16" />
+      <stop
+         offset="0.62"
+         stop-color="#172529"
+         id="stop837-5" />
+      <stop
+         offset="0.98"
+         stop-color="#0c1519"
+         id="stop839-9" />
+    </radialGradient>
+    <radialGradient
+       id="radial-gradient-8-6-9"
+       cx="156.47505"
+       cy="-60.85865"
+       r="242.50999"
+       gradientUnits="userSpaceOnUse"
+       fx="156.47505"
+       fy="-60.85865"
+       xlink:href="#radial-gradient-9-5">
+      <stop
+         offset="0"
+         stop-color="#283b3f"
+         id="stop835-7-7-3" />
+      <stop
+         offset="0.62"
+         stop-color="#172529"
+         id="stop837-8-9-3" />
+      <stop
+         offset="0.98"
+         stop-color="#0c1519"
+         id="stop839-0-5-6" />
+    </radialGradient>
+    <radialGradient
+       id="radial-gradient-9-5"
+       cx="287.78"
+       cy="15.16"
+       r="242.50999"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         stop-color="#283b3f"
+         id="stop835-1-0" />
+      <stop
+         offset="0.62"
+         stop-color="#172529"
+         id="stop837-0-5" />
+      <stop
+         offset="0.98"
+         stop-color="#0c1519"
+         id="stop839-8-2" />
+    </radialGradient>
+  </defs>
+  <title
+     id="title844">player1-new</title>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Layer 2"
+     transform="translate(0,-142.42051)">
+    <polygon
+       class="cls-1"
+       points="0,0 17.51,28.99 289.44,28.99 289.44,0 "
+       id="polygon846-4-9"
+       style="fill:url(#radial-gradient-8-6);fill-opacity:1"
+       transform="matrix(1,0,0,1.3797861,15,142.42051)" />
+    <polygon
+       class="cls-1"
+       points="289.44,28.99 289.44,0 0,0 17.51,28.99 "
+       id="polygon846-4-9-4"
+       style="fill:url(#radial-gradient-8-6-9);fill-opacity:1"
+       transform="matrix(-1,0,0,1.3797861,593.48,142.42051)" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Layer 1"
+     transform="translate(0,-142.42051)">
+    <polygon
+       class="cls-1"
+       points="17.51,28.99 289.44,28.99 289.44,0 0,0 "
+       id="polygon846-4"
+       style="fill:url(#radial-gradient-8);fill-opacity:1"
+       transform="matrix(1.0341368,0,0,1.3797861,0,170.47016)" />
+    <polygon
+       class="cls-1"
+       points="0,0 17.51,28.99 289.44,28.99 289.44,0 "
+       id="polygon846-4-5"
+       style="fill:url(#radial-gradient-8-8);fill-opacity:1"
+       transform="matrix(-1.0522369,0,0,1.3797861,603.68045,170.47016)" />
+  </g>
+</svg>

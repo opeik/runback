@@ -40,7 +40,10 @@ export default class extends Vue {
   readonly width = 1920
   readonly height = 1080
   readonly drag_offset = 30
-  graphics = [{ name: "Scoreboard", file: "scoreboard.html" }]
+  graphics = [
+    { name: "Scoreboard", file: "scoreboard.html" },
+    { name: "Commentary", file: "commentary.html" },
+  ]
   dragged: any = {}
   drag_img = new Image()
 

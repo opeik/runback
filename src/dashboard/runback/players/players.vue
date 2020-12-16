@@ -83,12 +83,14 @@
                       <v-text-field
                         v-model="edited_item.name"
                         label="Name"
+                        :rules="name_rules"
                       ></v-text-field>
 
                       <v-autocomplete
                         label="Country"
                         v-model="edited_item.country"
                         :items="countries"
+                        :rules="country_rules"
                         item-text="name"
                         item-value="code"
                       />
@@ -200,6 +202,7 @@ export default class extends Vue {
 
   gamertag_rules = [(v: string) => !!v || "Gamertag is required"]
   country_rules = [(v: string) => !!v || "Country is required"]
+  name_rules = [(v: string) => !!v || "Name is required"]
 
   get players_array(): Player[] {
     return Object.values(this.players)
