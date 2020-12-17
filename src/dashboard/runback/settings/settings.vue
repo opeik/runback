@@ -21,7 +21,7 @@
         <v-divider />
 
         <v-list subheader>
-          <v-subheader>Smash.gg</v-subheader>
+          <v-subheader>APIs</v-subheader>
           <v-list-item>
             <v-row>
               <v-col>
@@ -49,7 +49,7 @@
 import { Vue, Component, Watch, PropSync, Prop } from "vue-property-decorator"
 import { State, Mutation } from "vuex-class"
 import { State2Way } from "vuex-class-state2way"
-import { Settings } from "src/dashboard/runback/_types/"
+import { Settings, Api, ApiProvider } from "src/dashboard/runback/_types/"
 import type { ActionMethod } from "vuex"
 
 @Component
@@ -58,11 +58,11 @@ export default class extends Vue {
   @Mutation("set_dark_mode") set_dark_mode!: ActionMethod
   @Mutation("set_live_dashboard_update")
   set_live_dashboard_update!: ActionMethod
-  @Mutation("set_smash_gg_api_key") set_smash_gg_api_key!: ActionMethod
+  @Mutation("set_api_key") set_api_key!: ActionMethod
 
   show_smash_gg_api_key: boolean = false
-  smash_gg_api_key_rules: any = {
-    min: (v: string) => v.length == 32 || "Must be 32 characters",
+  readonly smash_gg_api_key_rules: any = {
+    min: (v: string) => v.length === 32 || "Must be 32 characters",
   }
 
   get dark_mode(): boolean {
@@ -82,11 +82,12 @@ export default class extends Vue {
   }
 
   get smash_gg_api_key(): string {
-    return this.settings.smash_gg_api_key
+    return this.settings.api_keys[ApiProvider.Smash.text] || ""
   }
 
   set smash_gg_api_key(v: string) {
-    this.set_dark_mode(v)
+    console.log(v)
+    this.set_api_key({ api: ApiProvider.Smash, api_key: v })
   }
 }
 </script>

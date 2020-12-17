@@ -180,12 +180,10 @@ export default class App extends Vue {
     // Why? I have no idea. I'm never getting those two hours of my life back.
     switch (e.animationName) {
       case "ani-text-in":
-        console.log("Text in")
         Vue.set(this.ani.in.players, player_num, false)
         break
 
       case "ani-text-out":
-        console.log("Text out")
         Vue.set(this.ani.out.players, player_num, false)
         Vue.set(this.ani.in.players, player_num, true)
         this.display.players[player_num] =

@@ -14,6 +14,8 @@ import {
   Settings,
   Rules,
   Updater,
+  Event,
+  ApiProvider,
 } from "src/dashboard/runback/_types"
 import UUID from "pure-uuid"
 
@@ -27,6 +29,7 @@ const reps: {
   players: ReplicantBrowser<Players>
   scoreboard: ReplicantBrowser<Scoreboard>
   settings: ReplicantBrowser<Settings>
+  event: ReplicantBrowser<Event>
   [k: string]: ReplicantBrowser<unknown>
 } = {
   bracket: nodecg.Replicant("Bracket", {
@@ -44,6 +47,9 @@ const reps: {
   settings: nodecg.Replicant("Settings", {
     defaultValue: new Settings(),
   }),
+  event: nodecg.Replicant("Event", {
+    defaultValue: new Event(),
+  }),
 }
 
 @Module
@@ -54,8 +60,23 @@ class Runback extends VuexModule {
   }
 
   @Mutation
-  set_smash_gg_api_key(smash_gg_api_key: string): void {
-    reps.settings.value!.smash_gg_api_key = smash_gg_api_key
+  set_api_key(args: { api: ApiProvider; api_key: string }): void {
+    reps.settings.value!.api_keys[args.api.text] = args.api_key
+  }
+
+  @Mutation
+  set_tourney_url(tourney_url: string): void {
+    reps.event.value!.tourney_url = tourney_url
+  }
+
+  @Mutation
+  set_tourney_id(tourney_id: string): void {
+    reps.event.value!.tourney_id = tourney_id
+  }
+
+  @Mutation
+  set_event_id(event_id: string): void {
+    reps.event.value!.event_id = event_id
   }
 
   @Mutation

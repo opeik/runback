@@ -1,3 +1,5 @@
+import { Api, ApiProvider } from "./"
+
 const num_players: number = 2
 const num_commentators: number = 2
 
@@ -23,12 +25,12 @@ export class Commentators {
 
 export class Player {
   id: string = ""
-  smash_gg_id: string = ""
   name: string = ""
   team: string = ""
   gamertag: string = ""
   country: string = ""
   twitter: string = ""
+  api_ids: Record<string, string> = {}
 }
 
 export type Players = Record<string, Player>
@@ -55,5 +57,16 @@ export class Scoreboard {
 export class Settings {
   dark_mode: boolean = true
   live_dashboard_update: boolean = false
-  smash_gg_api_key: string = ""
+  api_keys: Record<string, string> = {}
+
+  constructor() {
+    this.api_keys[ApiProvider.Smash.text] = ""
+  }
+}
+
+export class Event {
+  tourney_api: Api = ApiProvider.Unset
+  tourney_url: string = ""
+  tourney_id: string = ""
+  event_id: string = ""
 }
