@@ -71,7 +71,7 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator"
-import { Updater, Settings } from "src/dashboard/runback/_types/"
+import { Updater, SettingsReplicant } from "src/dashboard/runback/_types/"
 import type { ActionMethod } from "vuex"
 import { State } from "vuex-class"
 

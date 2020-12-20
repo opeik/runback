@@ -7,15 +7,22 @@
       </v-btn>
       <v-dialog v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            class="mx-2"
-            v-bind="attrs"
-            v-on="on"
-            :disabled="!are_both_commentators_selected"
-          >
-            <v-icon left>mdi-pencil</v-icon>
-            Override
-          </v-btn>
+          <v-tooltip bottom :disabled="are_both_commentators_selected">
+            <template v-slot:activator="{ on }">
+              <div v-on="on" class="d-inline-block">
+                <v-btn
+                  class="mx-2"
+                  v-bind="attrs"
+                  v-on="on"
+                  :disabled="!are_both_commentators_selected"
+                >
+                  <v-icon left>mdi-pencil</v-icon>
+                  Override
+                </v-btn>
+              </div>
+            </template>
+            <span>Both commentators must be set</span>
+          </v-tooltip>
         </template>
         <v-card>
           <v-card-title>
@@ -110,9 +117,9 @@ import { Vue, Component, Prop, Ref, Watch } from "vue-property-decorator"
 import { Mutation, State, Action } from "vuex-class"
 import {
   Player,
-  Players,
+  PlayersReplicant,
   Commentator,
-  Commentators,
+  CommentatorsReplicant,
 } from "src/dashboard/runback/_types/"
 import type { ActionMethod } from "vuex"
 import countryList from "country-list"
@@ -120,9 +127,10 @@ import countryList from "country-list"
 @Component
 export default class CommentaryPanel extends Vue {
   @Ref("form") readonly form!: any
-  @State((state) => state.Runback.commentators) commentators!: Commentators
+  @State((state) => state.Runback.commentators)
+  commentators!: CommentatorsReplicant
   @Action("swap_commentators") swap_commentators!: ActionMethod
-  @State((state) => state.Runback.players) players!: Players
+  @State((state) => state.Runback.players) players!: PlayersReplicant
   @Mutation("set_commentators_should_override")
   set_commentators_should_override!: ActionMethod
   @Mutation("set_commentators_override")

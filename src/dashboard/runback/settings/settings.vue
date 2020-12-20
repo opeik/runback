@@ -27,7 +27,7 @@
             <v-list-item-content>
               <v-list-item-title>Flip commentator sides</v-list-item-title>
               <v-list-item-subtitle
-                >Accounts for mirrored commentator camera feed
+                >Accounts for horizontally mirrored video feed
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -38,21 +38,50 @@
         <v-list subheader>
           <v-subheader>APIs</v-subheader>
           <v-list-item>
-            <v-row>
-              <v-col cols="6">
-                <v-text-field
-                  v-model="smash_gg_api_key"
-                  :append-icon="
-                    show_smash_gg_api_key ? 'mdi-eye' : 'mdi-eye-off'
-                  "
-                  :type="show_smash_gg_api_key ? 'text' : 'password'"
-                  :rules="[smash_gg_api_key_rules.min]"
-                  label="Smash.gg API key"
-                  counter
-                  @click:append="show_smash_gg_api_key = !show_smash_gg_api_key"
-                />
-              </v-col>
-            </v-row>
+            <v-dialog v-model="dialog" max-width="500px">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn class="mx-2" v-bind="attrs" v-on="on" @click="edit_form">
+                  Set API keys
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="headline"> API keys </span>
+                </v-card-title>
+
+                <v-card-text>
+                  <v-form ref="form" v-model="form_valid">
+                    <v-text-field
+                      v-model="edited.api_keys.smash"
+                      :append-icon="
+                        show_smash_gg_api_key ? 'mdi-eye' : 'mdi-eye-off'
+                      "
+                      :type="show_smash_gg_api_key ? 'text' : 'password'"
+                      :rules="[smash_gg_api_key_rules.min]"
+                      label="Smash.gg"
+                      counter
+                      @click:append="
+                        show_smash_gg_api_key = !show_smash_gg_api_key
+                      "
+                    />
+                  </v-form>
+                </v-card-text>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" text @click="close"> Cancel </v-btn>
+
+                  <v-btn
+                    color="primary"
+                    text
+                    @click="save"
+                    :disabled="!form_valid"
+                  >
+                    Save
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-list-item>
         </v-list>
 
@@ -81,11 +110,18 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch, PropSync, Prop } from "vue-property-decorator"
+import {
+  Vue,
+  Component,
+  Watch,
+  PropSync,
+  Prop,
+  Ref,
+} from "vue-property-decorator"
 import { State, Mutation } from "vuex-class"
 import { State2Way } from "vuex-class-state2way"
 import {
-  Settings,
+  SettingsReplicant,
   Api,
   ApiProvider,
   Appearance,
@@ -95,7 +131,8 @@ import countryList from "country-list"
 
 @Component
 export default class extends Vue {
-  @State((state) => state.Runback.settings) settings!: Settings
+  @Ref("form") readonly form!: any
+  @State((state) => state.Runback.settings) settings!: SettingsReplicant
   @Mutation("set_dark_mode") set_dark_mode!: ActionMethod
   @Mutation("set_flip_commentator_sides")
   set_flip_commentator_sides!: ActionMethod
@@ -107,11 +144,41 @@ export default class extends Vue {
 
   show_smash_gg_api_key: boolean = false
 
+  dialog = false
+  form_valid = false
+  edited = {
+    api_keys: {
+      smash: "",
+    },
+  }
+
   readonly countries = countryList.getData()
   readonly smash_gg_api_key_rules: any = {
     min: (v: string) => v.length === 32 || "Must be 32 characters",
   }
   readonly apperance_list = Object.values(Appearance)
+
+  close(): void {
+    this.reset_validation()
+    this.dialog = false
+    this.$nextTick(() => {
+      this.edited.api_keys.smash = ""
+    })
+  }
+
+  save(): void {
+    this.smash_gg_api_key = this.edited.api_keys.smash
+    this.close()
+  }
+
+  edit_form(): void {
+    this.edited.api_keys.smash = this.smash_gg_api_key
+    this.dialog = true
+  }
+
+  reset_validation(): void {
+    this.form.resetValidation()
+  }
 
   get dark_mode(): boolean {
     return this.settings.dark_mode

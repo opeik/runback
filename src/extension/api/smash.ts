@@ -1,7 +1,8 @@
-import { Event, Tournament } from "../api-interface"
+import { Event, Tournament } from "../runback/_types"
+import countryList from "country-list"
 import got from "got"
 
-interface EventResponse {
+interface EventEntrantsResponse {
   event: {
     id: string
     name: string
@@ -11,9 +12,7 @@ interface EventResponse {
         totalPages: number
       }
       nodes: Array<{
-        id: string
         participants: Array<{
-          id: string
           gamerTag: string
           prefix: string
           user: {
@@ -22,6 +21,10 @@ interface EventResponse {
             location: {
               country: string
             }
+            authorizations: Array<{
+              type: string
+              externalUsername: string
+            }>
           }
         }>
       }>
@@ -29,7 +32,7 @@ interface EventResponse {
   }
 }
 
-interface TournamentResponse {
+interface TournamentEventsResponse {
   tournament: {
     id: string
     name: string
@@ -65,15 +68,17 @@ async function send_query(
   return post.body as Response
 }
 
-export async function fetch_tourney_data(
+export async function fetch_tourney_entrants(
   api_key: string,
-  tourney_id: string
+  tourney: Tournament,
+  progress_callback: Function
 ): Promise<Tournament> {
-  const tourney = await fetch_tourney_events(api_key, tourney_id)
   let events = []
 
   for (let event of tourney.events) {
-    events.push(await fetch_event_entrants(api_key, event.id))
+    events.push(
+      await fetch_event_entrants(api_key, event.id, progress_callback)
+    )
   }
 
   return {
@@ -83,9 +88,10 @@ export async function fetch_tourney_data(
   }
 }
 
-async function fetch_tourney_events(
+export async function fetch_tourney_events(
   api_key: string,
-  tourney_id: string
+  tourney_id: string,
+  progress_callback: Function
 ): Promise<Tournament> {
   const query = `
     query tourneyData($slug: String) {
@@ -104,13 +110,20 @@ async function fetch_tourney_events(
     slug: tourney_id,
   }
 
+  progress_callback(0)
+
   const response = await send_query(query, variables, api_key)
-  return parse_tourney_response(response.data as TournamentResponse)
+  const data = response.data as TournamentEventsResponse
+
+  progress_callback(1)
+
+  return parse_tourney_events_response(data)
 }
 
 async function fetch_event_entrants(
   api_key: string,
-  event_id: string
+  event_id: string,
+  progress_callback: Function
 ): Promise<Event> {
   const query = `
   query eventEntrants($eventId: ID!, $page: Int!, $perPage: Int!) {
@@ -126,9 +139,7 @@ async function fetch_event_entrants(
           totalPages
         }
         nodes {
-          id
           participants {
-            id
             gamerTag
             prefix
             user {
@@ -137,6 +148,10 @@ async function fetch_event_entrants(
               location {
                 country
               },
+              authorizations {
+                type,
+                externalUsername
+              }
             }
           }
         }
@@ -145,18 +160,50 @@ async function fetch_event_entrants(
   }
   `
 
+  const entrants_per_page = 100
   const variables = {
     eventId: event_id,
     page: 1,
-    perPage: 0,
+    perPage: 100,
   }
 
-  const response = await send_query(query, variables, api_key)
+  progress_callback(0)
 
-  return parse_event_response(response.data as EventResponse)
+  // Fetch the initial, and potentially only page.
+  const response = await send_query(query, variables, api_key)
+  const data = response.data as EventEntrantsResponse
+  const num_entrants = data.event.entrants.pageInfo.total
+  const num_pages = data.event.entrants.pageInfo.totalPages
+
+  let combined_data = data
+
+  // If there are more pages, fetch them too.
+  for (let page_num = 2; page_num <= num_pages; ++page_num) {
+    progress_callback((page_num - 1) / num_pages)
+
+    const variables = {
+      eventId: event_id,
+      page: page_num,
+      perPage: entrants_per_page,
+    }
+
+    const response = await send_query(query, variables, api_key)
+    const data = response.data as EventEntrantsResponse
+
+    // Combine the responses.
+    for (const entrant of data.event.entrants.nodes) {
+      combined_data.event.entrants.nodes.push(entrant)
+    }
+  }
+
+  progress_callback(1)
+
+  return parse_event_entrants_response(combined_data)
 }
 
-function parse_tourney_response(response: TournamentResponse): Tournament {
+function parse_tourney_events_response(
+  response: TournamentEventsResponse
+): Tournament {
   const events = response.tournament.events.map((e) => {
     let x = e as Event
     x.entrants = []
@@ -170,16 +217,39 @@ function parse_tourney_response(response: TournamentResponse): Tournament {
   }
 }
 
-function parse_event_response(response: EventResponse): Event {
+function parse_event_entrants_response(response: EventEntrantsResponse): Event {
   const entrants = response.event.entrants.nodes.map((n) => {
     const p = n.participants[0]
+
+    let twitter = ""
+
+    if (p?.user?.authorizations) {
+      const twitter_auth = p.user.authorizations.find(
+        (e) => e.type === "TWITTER" && e.externalUsername !== undefined
+      )
+
+      if (twitter_auth !== undefined) {
+        twitter = twitter_auth.externalUsername
+      }
+    }
+
+    let country = ""
+
+    if (p.user?.location?.country) {
+      const country_code = countryList.getCode(p.user?.location?.country) || ""
+
+      if (country !== undefined) {
+        country = country_code
+      }
+    }
 
     return {
       id: p.user?.id || "",
       name: p.user?.name || "",
       gamertag: p.gamerTag,
       team: p.prefix || "",
-      country: p.user?.location?.country || "",
+      country: country,
+      twitter: twitter || "",
     }
   })
 

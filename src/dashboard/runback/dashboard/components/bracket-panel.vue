@@ -38,13 +38,18 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator"
-import { Bracket, Rules, Stage, Side } from "src/dashboard/runback/_types/"
+import {
+  BracketReplicant,
+  Rules,
+  Stage,
+  Side,
+} from "src/dashboard/runback/_types/"
 import { Mutation, State, Action } from "vuex-class"
 import type { ActionMethod } from "vuex"
 
 @Component
 export default class BracketPanel extends Vue {
-  @State((state) => state.Runback.bracket) bracket!: Bracket
+  @State((state) => state.Runback.bracket) bracket!: BracketReplicant
   @Mutation("set_bracket_stage") set_bracket_stage!: ActionMethod
   @Mutation("set_bracket_side") set_bracket_side!: ActionMethod
   @Mutation("set_custom_progress") set_custom_progress!: ActionMethod

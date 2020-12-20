@@ -84,16 +84,17 @@ import { State } from "vuex-class"
 import Fitty from "../components/fitty.vue"
 import {
   Player,
-  Players,
+  PlayersReplicant,
   Commentator,
-  Commentators,
+  CommentatorsReplicant,
 } from "src/dashboard/runback/_types"
 import CJK from "cjk-regex"
 
 @Component
 export default class App extends Vue {
-  @State((state) => state.Runback.players) players!: Players
-  @State((state) => state.Runback.commentators) commentators!: Commentators
+  @State((state) => state.Runback.players) players!: PlayersReplicant
+  @State((state) => state.Runback.commentators)
+  commentators!: CommentatorsReplicant
   @Ref("p1-name-fitty") p1_name_fitty!: Fitty
   @Ref("p2-name-fitty") p2_name_fitty!: Fitty
 

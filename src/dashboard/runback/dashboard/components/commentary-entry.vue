@@ -20,14 +20,20 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator"
 import { Mutation, State } from "vuex-class"
-import { Player, Players, Commentator, Commentators } from "src/dashboard/runback/_types/"
+import {
+  Player,
+  PlayersReplicant,
+  Commentator,
+  CommentatorsReplicant,
+} from "src/dashboard/runback/_types/"
 import type { ActionMethod } from "vuex"
 
 @Component
 export default class CommentaryEntry extends Vue {
   @Prop(Number) readonly commentator_num!: number
-  @State((state) => state.Runback.players) players!: Players
-  @State((state) => state.Runback.commentators) commentators!: Commentators
+  @State((state) => state.Runback.players) players!: PlayersReplicant
+  @State((state) => state.Runback.commentators)
+  commentators!: CommentatorsReplicant
   @Mutation("set_commentator_player_id")
   set_commentator_player_id!: ActionMethod
 

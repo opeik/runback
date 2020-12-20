@@ -162,7 +162,7 @@
 <script lang="ts">
 import { Vue, Component, Watch, Ref } from "vue-property-decorator"
 import { Mutation, State, Action } from "vuex-class"
-import { Player, Players } from "src/dashboard/runback/_types/"
+import { Player, PlayersReplicant } from "src/dashboard/runback/_types/"
 import { saveAs } from "file-saver"
 import type { ActionMethod } from "vuex"
 import { EventBus } from "src/dashboard/runback/event-bus"
@@ -174,7 +174,7 @@ import clone from "clone"
 export default class extends Vue {
   @Ref("form") readonly form!: any
   @Ref("input_upload") readonly input_upload!: HTMLInputElement
-  @State((state) => state.Runback.players) players!: Players
+  @State((state) => state.Runback.players) players!: PlayersReplicant
   @Mutation("set_player") set_player!: ActionMethod
   @Mutation("create_player") create_player!: ActionMethod
   @Mutation("delete_player") delete_player!: ActionMethod
@@ -260,7 +260,7 @@ export default class extends Vue {
 
       try {
         let json = event!.target!.result!.toString()
-        let players: Players[] = JSON.parse(json)
+        let players: PlayersReplicant[] = JSON.parse(json)
         this.import_players_mutation(players)
         Snackbar.create_snackbar("Successfully imported players")
       } catch (e) {

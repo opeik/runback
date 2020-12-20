@@ -36,14 +36,19 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator"
 import { Mutation, State } from "vuex-class"
-import { Player, Players, PlayerScore, Scoreboard } from "src/dashboard/runback/_types/"
+import {
+  Player,
+  PlayersReplicant,
+  PlayerScore,
+  ScoreboardReplicant,
+} from "src/dashboard/runback/_types/"
 import type { ActionMethod } from "vuex"
 
 @Component
 export default class ScoreboardEntry extends Vue {
   @Prop(Number) readonly player_num!: number
-  @State((state) => state.Runback.players) players!: Players
-  @State((state) => state.Runback.scoreboard) scoreboard!: Scoreboard
+  @State((state) => state.Runback.players) players!: PlayersReplicant
+  @State((state) => state.Runback.scoreboard) scoreboard!: ScoreboardReplicant
   @Mutation("set_scoreboard_score") set_scoreboard_score!: ActionMethod
   @Mutation("set_scoreboard_player_id") set_scoreboard_player_id!: ActionMethod
 

@@ -5,18 +5,19 @@ import Vue from "vue"
 import Vuex, { Store } from "vuex"
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators"
 import {
-  Bracket,
-  Commentators,
+  BracketReplicant,
+  CommentatorsReplicant,
   Player,
-  Players,
+  PlayersReplicant,
   PlayerScore,
-  Scoreboard,
-  Settings,
+  ScoreboardReplicant,
+  SettingsReplicant,
   Rules,
   Updater,
-  Tournament,
+  TournamentReplicant,
   ApiProvider,
   Appearance,
+  ApiReplicant,
 } from "src/dashboard/runback/_types"
 import UUID from "pure-uuid"
 
@@ -25,31 +26,35 @@ Vue.use(Vuex)
 const rules = new Rules()
 
 const reps: {
-  bracket: ReplicantBrowser<Bracket>
-  commentators: ReplicantBrowser<Commentators>
-  players: ReplicantBrowser<Players>
-  scoreboard: ReplicantBrowser<Scoreboard>
-  settings: ReplicantBrowser<Settings>
-  tournament: ReplicantBrowser<Tournament>
+  bracket: ReplicantBrowser<BracketReplicant>
+  commentators: ReplicantBrowser<CommentatorsReplicant>
+  players: ReplicantBrowser<PlayersReplicant>
+  scoreboard: ReplicantBrowser<ScoreboardReplicant>
+  settings: ReplicantBrowser<SettingsReplicant>
+  tournament: ReplicantBrowser<TournamentReplicant>
+  api: ReplicantBrowser<ApiReplicant>
   [k: string]: ReplicantBrowser<unknown>
 } = {
   bracket: nodecg.Replicant("Bracket", {
-    defaultValue: new Bracket(),
+    defaultValue: new BracketReplicant(),
   }),
   commentators: nodecg.Replicant("Commentators", {
-    defaultValue: new Commentators(),
+    defaultValue: new CommentatorsReplicant(),
   }),
   players: nodecg.Replicant("Players", {
-    defaultValue: {} as Players,
+    defaultValue: {} as PlayersReplicant,
   }),
   scoreboard: nodecg.Replicant("Scoreboard", {
-    defaultValue: new Scoreboard(),
+    defaultValue: new ScoreboardReplicant(),
   }),
   settings: nodecg.Replicant("Settings", {
-    defaultValue: new Settings(),
+    defaultValue: new SettingsReplicant(),
   }),
   tournament: nodecg.Replicant("Tournament", {
-    defaultValue: new Tournament(),
+    defaultValue: new TournamentReplicant(),
+  }),
+  api: nodecg.Replicant("Api", {
+    defaultValue: new ApiReplicant(),
   }),
 }
 
@@ -137,7 +142,11 @@ class Runback extends VuexModule {
       }
     })
 
-    delete reps.players.value![player_id]
+    // Vue doesn't like values being removed.
+    try {
+      Vue.delete(reps.players.value!, player_id)
+      delete reps.players.value![player_id]
+    } catch (error) {}
   }
 
   @Mutation

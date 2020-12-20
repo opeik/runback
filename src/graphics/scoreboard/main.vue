@@ -201,10 +201,10 @@ import { Vue, Component, Watch, Ref } from "vue-property-decorator"
 import { State } from "vuex-class"
 import Fitty from "../components/fitty.vue"
 import {
-  Bracket,
+  BracketReplicant,
   Player,
-  Players,
-  Scoreboard,
+  PlayersReplicant,
+  ScoreboardReplicant,
   Rules,
   Stage,
   Side,
@@ -213,9 +213,9 @@ import CJK from "cjk-regex"
 
 @Component
 export default class App extends Vue {
-  @State((state) => state.Runback.players) players!: Players
-  @State((state) => state.Runback.scoreboard) scoreboard!: Scoreboard
-  @State((state) => state.Runback.bracket) bracket!: Bracket
+  @State((state) => state.Runback.players) players!: PlayersReplicant
+  @State((state) => state.Runback.scoreboard) scoreboard!: ScoreboardReplicant
+  @State((state) => state.Runback.bracket) bracket!: BracketReplicant
 
   @Ref("p1-name-fitty") p1_name_fitty!: Fitty
   @Ref("p2-name-fitty") p2_name_fitty!: Fitty

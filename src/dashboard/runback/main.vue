@@ -40,17 +40,12 @@ export default class extends Vue {
         return true
       case Appearance.Auto.value:
         return this.os_dark_mode
+      default:
+        return false
     }
   }
 
-  async mounted(): Promise<void> {
-    this.$vuetify.theme.dark = this.should_use_dark_mode(this.appearance)
-
-    let r = await Updater.check_up_to_date(this.version)
-    if (r.found_new_version) {
-      Snackbar.create_snackbar("Runback is out of date", {}, "Update", "/about")
-    }
-
+  created(): void {
     if (
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -69,6 +64,15 @@ export default class extends Vue {
           this.os_dark_mode = false
         }
       })
+
+    this.$vuetify.theme.dark = this.should_use_dark_mode(this.appearance)
+  }
+
+  async mounted(): Promise<void> {
+    let r = await Updater.check_up_to_date(this.version)
+    if (r.found_new_version) {
+      Snackbar.create_snackbar("Runback is out of date", {}, "Update", "/about")
+    }
   }
 }
 </script>
