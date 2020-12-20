@@ -12,8 +12,8 @@
                   v-model="appearance"
                   :items="apperance_list"
                   item-text="text"
-                  item-value="value"
                   label="Appearance"
+                  return-object
                 />
               </v-col>
             </v-row>
@@ -158,7 +158,6 @@ export default class extends Vue {
   }
 
   set smash_gg_api_key(v: string) {
-    console.log(v)
     this.set_api_key({ api: ApiProvider.Smash, api_key: v })
   }
 }
