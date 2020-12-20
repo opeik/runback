@@ -17,7 +17,7 @@ export class Api {
     const api_provider = this.get_api_provider_from_url(tourney_url)
 
     if (api_provider !== undefined) {
-      const tourney_id = this.get_tourney_id_from_url(tourney_url, api_provider)
+      const tourney_id = this.get_tourney_id_from_url(api_provider, tourney_url)
 
       if (tourney_id !== undefined) {
         return true
@@ -43,20 +43,22 @@ export class Api {
   }
 
   static get_tourney_id_from_url(
-    tourney_url: string,
-    api_provider: ApiProvider
+    api_provider: ApiProvider,
+    tourney_url: string
   ): string | undefined {
-    const url_components = new URL(tourney_url).pathname.split("/")
+    try {
+      const url_components = new URL(tourney_url).pathname.split("/")
 
-    // smash.gg URL format: https://smash.gg/tournament/${tourney_url}
-    switch (api_provider.value) {
-      case ApiProvider.Smash.value:
-        if (url_components[1] !== "tournament") {
-          return undefined
-        } else {
-          return url_components[2] || undefined
-        }
-    }
+      // smash.gg URL format: https://smash.gg/tournament/${tourney_url}
+      switch (api_provider.value) {
+        case ApiProvider.Smash.value:
+          if (url_components[1] !== "tournament") {
+            return undefined
+          } else {
+            return url_components[2] || undefined
+          }
+      }
+    } catch (error) {}
 
     return undefined
   }

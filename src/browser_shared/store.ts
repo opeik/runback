@@ -14,8 +14,9 @@ import {
   Settings,
   Rules,
   Updater,
-  Event,
+  Tournament,
   ApiProvider,
+  Appearance,
 } from "src/dashboard/runback/_types"
 import UUID from "pure-uuid"
 
@@ -29,7 +30,7 @@ const reps: {
   players: ReplicantBrowser<Players>
   scoreboard: ReplicantBrowser<Scoreboard>
   settings: ReplicantBrowser<Settings>
-  event: ReplicantBrowser<Event>
+  tournament: ReplicantBrowser<Tournament>
   [k: string]: ReplicantBrowser<unknown>
 } = {
   bracket: nodecg.Replicant("Bracket", {
@@ -47,8 +48,8 @@ const reps: {
   settings: nodecg.Replicant("Settings", {
     defaultValue: new Settings(),
   }),
-  event: nodecg.Replicant("Event", {
-    defaultValue: new Event(),
+  tournament: nodecg.Replicant("Tournament", {
+    defaultValue: new Tournament(),
   }),
 }
 
@@ -60,23 +61,43 @@ class Runback extends VuexModule {
   }
 
   @Mutation
+  set_flip_commentator_sides(flip_commentator_sides: boolean): void {
+    reps.settings.value!.flip_commentator_sides = flip_commentator_sides
+  }
+
+  @Mutation
+  set_default_country(default_country: string): void {
+    reps.settings.value!.default_country = default_country
+  }
+
+  @Mutation
+  set_appearance(appearance: Appearance): void {
+    reps.settings.value!.appearance = appearance
+  }
+
+  @Mutation
   set_api_key(args: { api: ApiProvider; api_key: string }): void {
     reps.settings.value!.api_keys[args.api.text] = args.api_key
   }
 
   @Mutation
   set_tourney_url(tourney_url: string): void {
-    reps.event.value!.tourney_url = tourney_url
+    reps.tournament.value!.tourney_url = tourney_url
   }
 
   @Mutation
   set_tourney_id(tourney_id: string): void {
-    reps.event.value!.tourney_id = tourney_id
+    reps.tournament.value!.tourney_id = tourney_id
+  }
+
+  @Mutation
+  set_tourney_api(tourney_api: ApiProvider): void {
+    reps.tournament.value!.tourney_api = tourney_api
   }
 
   @Mutation
   set_event_id(event_id: string): void {
-    reps.event.value!.event_id = event_id
+    reps.tournament.value!.event_id = event_id
   }
 
   @Mutation

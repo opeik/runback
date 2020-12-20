@@ -22,6 +22,7 @@ import Snackbar from "src/dashboard/runback/components/snackbar.vue"
 @Component
 export default class extends Vue {
   @State((state) => state.Runback.settings.dark_mode) dark_mode!: boolean
+  @State((state) => state.Runback.settings.version) version!: string
 
   @Watch("dark_mode")
   on_dark_mode_change(v: boolean): void {
@@ -31,7 +32,7 @@ export default class extends Vue {
   async mounted(): Promise<void> {
     this.$vuetify.theme.dark = this.dark_mode
 
-    let r = await Updater.check_up_to_date()
+    let r = await Updater.check_up_to_date(this.version)
     if (r.found_new_version) {
       Snackbar.create_snackbar("Runback is out of date", {}, "Update", "/about")
     }

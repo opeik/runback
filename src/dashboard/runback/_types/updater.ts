@@ -1,9 +1,9 @@
 import { SemVer } from "semver"
-const current_version_string: string = require("src/../../../../../package.json")
-  .version
 
 export class Updater {
-  static async check_up_to_date(): Promise<{
+  static async check_up_to_date(
+    current_version: string
+  ): Promise<{
     found_new_version: boolean
     version?: string
   }> {
@@ -17,10 +17,10 @@ export class Updater {
 
     json.forEach((e: any) => {
       let tag_name = e.name
-      let current_version = new SemVer(current_version_string)
+      let current_version_parsed = new SemVer(current_version)
       let new_version = new SemVer(tag_name)
 
-      if (new_version > current_version) {
+      if (new_version > current_version_parsed) {
         found_new_version = true
         version = new_version.toString()
       }

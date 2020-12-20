@@ -54,10 +54,29 @@ export class Scoreboard {
   )
 }
 
+export class Appearance {
+  static readonly Light = new Appearance(0, "Light")
+  static readonly Dark = new Appearance(1, "Dark")
+  static readonly Auto = new Appearance(2, "Automatic")
+
+  private constructor(
+    public readonly value: number,
+    public readonly text: string
+  ) {}
+
+  static from_value(value: number): Appearance {
+    return Object.values(this)[value]
+  }
+}
+
 export class Settings {
   dark_mode: boolean = true
   live_dashboard_update: boolean = false
   api_keys: Record<string, string> = {}
+  version: string = ""
+  default_country: string = "AU"
+  flip_commentator_sides: boolean = false
+  appearance: Appearance = Appearance.Auto
 
   constructor() {
     this.api_keys[ApiProvider.Smash.text] = ""
@@ -65,8 +84,14 @@ export class Settings {
 }
 
 export class Event {
-  tourney_api: Api = ApiProvider.Unset
+  name: string = ""
+  id: string = ""
+}
+
+export class Tournament {
+  tourney_api: ApiProvider = ApiProvider.Unset
   tourney_url: string = ""
   tourney_id: string = ""
   event_id: string = ""
+  events: Record<string, Event> = {}
 }

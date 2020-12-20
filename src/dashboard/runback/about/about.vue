@@ -71,12 +71,13 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator"
-import { Updater } from "src/dashboard/runback/_types/"
+import { Updater, Settings } from "src/dashboard/runback/_types/"
 import type { ActionMethod } from "vuex"
+import { State } from "vuex-class"
 
 @Component
 export default class extends Vue {
-  readonly version: string = require("src/../../../../../package.json").version
+  @State((state) => state.Runback.settings.version) version!: string
   readonly github: string = "https://github.com/opeik/runback"
   readonly twitter: string = "https://twitter.com/iamopeik"
 
@@ -113,7 +114,7 @@ export default class extends Vue {
   async check_updates(): Promise<void> {
     this.checking_for_updates = true
 
-    let r = await Updater.check_up_to_date()
+    let r = await Updater.check_up_to_date(this.version)
     if (r.found_new_version) {
       this.is_out_of_date = true
       this.new_version = r.version!
