@@ -19,18 +19,7 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator"
-import { NodeCGBrowser } from "nodecg/types/browser"
 
 @Component
-export default class extends Vue {
-  created(): void {
-    nodecg.sendMessage("transliterate", "ふど").then((result: string) => {
-      console.log("ふど", result)
-    })
-
-    nodecg.sendMessage("transliterate", "опеик").then((result: string) => {
-      console.log("опеик", result)
-    })
-  }
-}
+export default class extends Vue {}
 </script>

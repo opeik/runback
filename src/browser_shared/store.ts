@@ -66,6 +66,11 @@ class Runback extends VuexModule {
   }
 
   @Mutation
+  set_auto_transliteration(auto_transliteration: boolean): void {
+    reps.settings.value!.auto_transliteration = auto_transliteration
+  }
+
+  @Mutation
   set_flip_commentator_sides(flip_commentator_sides: boolean): void {
     reps.settings.value!.flip_commentator_sides = flip_commentator_sides
   }

@@ -18,6 +18,11 @@ export default class Fitty extends Vue {
     this._fitty.fit()
   }
 
+  set_max_size(max_size: number) {
+    this.options.maxSize = max_size
+    this._fitty = fitty(this.$el! as HTMLElement, this.options!)
+  }
+
   destroyed() {
     this._fitty.unsubscribe()
   }

@@ -31,6 +31,19 @@
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
+
+          <v-list-item>
+            <v-list-item-action>
+              <v-switch v-model="auto_transliteration" color="primary" />
+            </v-list-item-action>
+
+            <v-list-item-content>
+              <v-list-item-title>Auto gamertag latinization</v-list-item-title>
+              <v-list-item-subtitle
+                >Display latin versions of non-latin gamertags
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
 
         <v-divider />
@@ -141,6 +154,7 @@ export default class extends Vue {
   @Mutation("set_live_dashboard_update")
   set_live_dashboard_update!: ActionMethod
   @Mutation("set_api_key") set_api_key!: ActionMethod
+  @Mutation("set_auto_transliteration") set_transliteration!: ActionMethod
 
   show_smash_gg_api_key: boolean = false
 
@@ -186,6 +200,14 @@ export default class extends Vue {
 
   set dark_mode(v: boolean) {
     this.set_dark_mode(v)
+  }
+
+  get auto_transliteration(): boolean {
+    return this.settings.auto_transliteration
+  }
+
+  set auto_transliteration(v: boolean) {
+    this.set_transliteration(v)
   }
 
   get flip_commentator_sides(): boolean {

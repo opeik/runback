@@ -208,18 +208,23 @@ import {
   Rules,
   Stage,
   Side,
+  SettingsReplicant,
 } from "src/dashboard/runback/_types"
 import CJK from "cjk-regex"
+import { NodeCGBrowser } from "nodecg/types/browser"
+import XRegExp from "xregexp"
 
 @Component
 export default class App extends Vue {
   @State((state) => state.Runback.players) players!: PlayersReplicant
   @State((state) => state.Runback.scoreboard) scoreboard!: ScoreboardReplicant
   @State((state) => state.Runback.bracket) bracket!: BracketReplicant
+  @State((state) => state.Runback.settings) settings!: SettingsReplicant
 
   @Ref("p1-name-fitty") p1_name_fitty!: Fitty
   @Ref("p2-name-fitty") p2_name_fitty!: Fitty
 
+  readonly latin_regex = XRegExp("[^\\p{Latin}\\p{Common}\\p{Inherited}]")
   readonly num_players = 2
   readonly cjk_font_size_ratio = 0.8
   readonly cjk_regex = CJK().toRegExp()
@@ -265,13 +270,30 @@ export default class App extends Vue {
     this.display.stage = Stage.from_value(this.bracket.stage)
     this.display.side = Side.from_value(this.bracket.side)
     this.display.players.forEach((e, i) => {
-      this.display.players[i] = this.player_from_num(i) || new Player()
+      this.display.players[i] =
+        Object.assign({}, this.player_from_num(i)) || new Player()
       this.display.scores[i] = this.player_score_from_num(i)
       this.display.is_winner[i] = this.rules.is_winner(
         i,
         Side.from_value(this.bracket.side)
       )
+
+      if (this.settings.auto_transliteration) {
+        for (let i = 0; i < this.num_players; ++i) {
+          this.transliterate_gamertag(i)
+        }
+      }
     })
+  }
+
+  transliterate_gamertag(player_num: number): void {
+    const gamertag = this.display.players[player_num].gamertag
+
+    if (this.latin_regex.test(gamertag)) {
+      nodecg.sendMessage("transliterate", gamertag).then((result: any) => {
+        this.display.players[player_num].gamertag = `${gamertag} (${result})`
+      })
+    }
   }
 
   mounted(): void {
@@ -330,13 +352,22 @@ export default class App extends Vue {
     }
 
     let has_cjk =
-      this.cjk_regex.test(player.name) || this.cjk_regex.test(player.team)
+      this.cjk_regex.test(player.gamertag) || this.cjk_regex.test(player.team)
 
-    return has_cjk ? base * this.cjk_font_size_ratio : base
+    console.log(player_num, player, has_cjk)
+
+    const result = has_cjk ? base * this.cjk_font_size_ratio : base
+
+    return result
   }
 
   refit_text(): void {
-    this.fitties.forEach((e) => e.fit())
+    for (let i = 0; i < this.num_players; ++i) {
+      let fitty = this.fitties[i]
+
+      fitty.set_max_size(this.name_font_size(i))
+      fitty.fit()
+    }
   }
 
   is_winners_text(is_winner: boolean): string {
@@ -549,8 +580,15 @@ export default class App extends Vue {
         this.ani.out.players = false
         this.ani.in.players = true
         this.display.players.forEach((e, i) => {
-          this.display.players[i] = this.player_from_num(i) || new Player()
+          this.display.players[i] =
+            Object.assign({}, this.player_from_num(i)) || new Player()
         })
+
+        if (this.settings.auto_transliteration) {
+          for (let i = 0; i < this.num_players; ++i) {
+            this.transliterate_gamertag(i)
+          }
+        }
         this.refit_text()
         break
     }

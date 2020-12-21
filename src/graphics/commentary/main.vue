@@ -190,7 +190,7 @@ export default class App extends Vue {
     }
 
     let has_cjk =
-      this.cjk_regex.test(player.name) || this.cjk_regex.test(player.team)
+      this.cjk_regex.test(player.gamertag) || this.cjk_regex.test(player.team)
 
     return has_cjk ? base * this.cjk_font_size_ratio : base
   }
