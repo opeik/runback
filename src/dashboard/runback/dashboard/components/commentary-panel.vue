@@ -6,14 +6,14 @@
         Swap
       </v-btn>
       <v-dialog v-model="dialog" max-width="500px">
-        <template v-slot:activator="{ on, attrs }">
-          <v-tooltip bottom :disabled="are_both_commentators_selected">
-            <template v-slot:activator="{ on }">
-              <div v-on="on" class="d-inline-block">
+        <template #activator="{ on: on_dialog, attrs }">
+          <v-tooltip :disabled="are_both_commentators_selected" bottom>
+            <template #activator="{ on: on_tooltip }">
+              <div v-on="{ ...on_tooltip }">
                 <v-btn
                   class="mx-2"
                   v-bind="attrs"
-                  v-on="on"
+                  v-on="{ ...on_dialog }"
                   :disabled="!are_both_commentators_selected"
                 >
                   <v-icon left>mdi-pencil</v-icon>
@@ -21,7 +21,7 @@
                 </v-btn>
               </div>
             </template>
-            <span>Both commentators must be set</span>
+            <span>Both commentators must be selected</span>
           </v-tooltip>
         </template>
         <v-card>
