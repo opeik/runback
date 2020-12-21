@@ -49,7 +49,7 @@ export default class extends Vue {
     "Counter-hitting fafnir",
     "Riding the lightning",
     "Knowing the smell of the game",
-    "Dropping the Instant kill combo",
+    "Dropping the instant kill combo",
     "What are you standing up for?",
     "Grabbing your burst",
     // BlazBlue
