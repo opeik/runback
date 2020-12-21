@@ -12,12 +12,12 @@
           ref="p1-name-fitty"
           :options="{
             minSize: 1,
-            maxSize: name_font_size(0),
+            maxSize: name_font_size(left_side_index()),
             multiLine: false,
           }"
         >
           <span class="gamertag-text">
-            {{ display.players[0].gamertag }}
+            {{ display.players[left_side_index()].gamertag }}
           </span>
         </fitty>
       </div>
@@ -35,7 +35,9 @@
             multiLine: false,
           }"
         >
-          <span class="twitter-text"> @{{ display.players[0].twitter }} </span>
+          <span class="twitter-text">
+            {{ player_twitter(left_side_index()) }}
+          </span>
         </fitty>
       </div>
 
@@ -52,7 +54,9 @@
             multiLine: false,
           }"
         >
-          <span class="twitter-text"> @{{ display.players[1].twitter }} </span>
+          <span class="twitter-text">
+            {{ player_twitter(right_side_index()) }}
+          </span>
         </fitty>
       </div>
 
@@ -65,12 +69,12 @@
           ref="p2-name-fitty"
           :options="{
             minSize: 1,
-            maxSize: name_font_size(1),
+            maxSize: name_font_size(right_side_index()),
             multiLine: false,
           }"
         >
           <span class="gamertag-text">
-            {{ display.players[1].gamertag }}
+            {{ display.players[right_side_index()].gamertag }}
           </span>
         </fitty>
       </div>
@@ -87,11 +91,13 @@ import {
   PlayersReplicant,
   Commentator,
   CommentatorsReplicant,
+  SettingsReplicant,
 } from "src/dashboard/runback/_types"
 import CJK from "cjk-regex"
 
 @Component
 export default class App extends Vue {
+  @State((state) => state.Runback.settings) settings!: SettingsReplicant
   @State((state) => state.Runback.players) players!: PlayersReplicant
   @State((state) => state.Runback.commentators)
   commentators!: CommentatorsReplicant
@@ -118,6 +124,32 @@ export default class App extends Vue {
     out: {
       players: new Array<boolean>(this.num_players).fill(false),
     },
+  }
+
+  player_twitter(player_num: number): string {
+    const twitter = this.display.players[player_num].twitter
+
+    if (twitter.length > 0) {
+      return `@${twitter}`
+    } else {
+      return ""
+    }
+  }
+
+  left_side_index(): number {
+    if (this.settings.flip_commentator_sides) {
+      return 1
+    } else {
+      return 0
+    }
+  }
+
+  right_side_index(): number {
+    if (this.settings.flip_commentator_sides) {
+      return 0
+    } else {
+      return 1
+    }
   }
 
   created(): void {
