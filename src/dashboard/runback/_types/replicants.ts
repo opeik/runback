@@ -47,6 +47,7 @@ export class SettingsReplicant {
   default_country: string = "AU"
   flip_commentator_sides: boolean = false
   appearance: Appearance = Appearance.Auto
+  auto_transliteration = true
 
   constructor() {
     this.api_keys[ApiProvider.Smash.text] = ""

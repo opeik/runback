@@ -21,6 +21,10 @@ interface EventEntrantsResponse {
             location: {
               country: string
             }
+            player: {
+              gamerTag: string
+              prefix: string
+            }
             authorizations: Array<{
               type: string
               externalUsername: string
@@ -143,11 +147,15 @@ async function fetch_event_entrants(
             gamerTag
             prefix
             user {
-              id,
-              name,
+              id
+              name
               location {
                 country
-              },
+              }
+              player {
+                gamerTag
+                prefix
+              }
               authorizations {
                 type,
                 externalUsername
@@ -221,33 +229,42 @@ function parse_event_entrants_response(response: EventEntrantsResponse): Event {
   const entrants = response.event.entrants.nodes.map((n) => {
     const p = n.participants[0]
 
+    let gamertag = p.gamerTag
+    let team = p.prefix
     let twitter = ""
-
-    if (p?.user?.authorizations) {
-      const twitter_auth = p.user.authorizations.find(
-        (e) => e.type === "TWITTER" && e.externalUsername !== undefined
-      )
-
-      if (twitter_auth !== undefined) {
-        twitter = twitter_auth.externalUsername
-      }
-    }
-
     let country = ""
 
-    if (p.user?.location?.country) {
-      const country_code = countryList.getCode(p.user?.location?.country) || ""
+    if (p.user) {
+      if (p?.user?.authorizations) {
+        const twitter_auth = p.user.authorizations.find(
+          (e) => e.type === "TWITTER" && e.externalUsername !== undefined
+        )
 
-      if (country !== undefined) {
-        country = country_code
+        if (twitter_auth) {
+          twitter = twitter_auth.externalUsername
+        }
+      }
+
+      if (p?.user?.location?.country) {
+        const country_code =
+          countryList.getCode(p?.user?.location?.country) || ""
+
+        if (country) {
+          country = country_code
+        }
+      }
+
+      if (p?.user?.player) {
+        gamertag = p.user.player.gamerTag
+        team = p.user.player.prefix
       }
     }
 
     return {
       id: p.user?.id || "",
       name: p.user?.name || "",
-      gamertag: p.gamerTag,
-      team: p.prefix || "",
+      gamertag: gamertag,
+      team: team || "",
       country: country,
       twitter: twitter || "",
     }

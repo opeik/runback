@@ -15,6 +15,7 @@ import {
   ApiProvider,
   ApiReplicant,
 } from "./runback/_types"
+import * as Transliterate from "./transliterate"
 
 let players: ReplicantServer<PlayersReplicant>
 let settings: ReplicantServer<SettingsReplicant>
@@ -24,6 +25,10 @@ let api: ReplicantServer<ApiReplicant>
 interface FetchTourneyEventsArgs {
   tourney_api: ApiProvider
   tourney_id: string
+}
+
+interface TransliterateArgs {
+  s: string
 }
 
 export = (nodecg: NodeCG): void => {
@@ -65,6 +70,12 @@ export = (nodecg: NodeCG): void => {
       nodecg_fetch_tourney_entrants(value, ack, nodecg)
     }
   )
+
+  nodecg.listenFor("transliterate", (value: string, ack: any) => {
+    ;(async () => {
+      ack(null, await Transliterate.transliterate(value))
+    })()
+  })
 }
 
 function nodecg_fetch_tourney_events(
@@ -87,7 +98,7 @@ function nodecg_fetch_tourney_events(
 
       api.value!.fetching.events = false
       tournament.value!.tourney = tourney
-      ack(null, null)
+      ack(null, tourney.events.length)
     } catch (error) {
       api.value!.fetching.events = false
       console.error(error.response.body)
@@ -124,7 +135,7 @@ function nodecg_fetch_tourney_entrants(
       }
 
       api.value!.fetching.entrants = false
-      ack(null, null)
+      ack(null, unique_players.length)
     } catch (error) {
       api.value!.fetching.entrants = false
       console.error(error.response.body)
@@ -183,9 +194,7 @@ function create_player(
   )
 
   if (existing_player !== undefined) {
-    const existing_id = existing_player.id
-    player = existing_player
-    player.id = existing_id
+    player.id = existing_player.id
   } else {
     while (player.id in players.value! || player.id.length === 0) {
       player.id = new Uuid(4).toString()

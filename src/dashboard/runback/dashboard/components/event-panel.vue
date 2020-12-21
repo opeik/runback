@@ -169,11 +169,13 @@ export default class EventPanel extends Vue {
     nodecg
       .sendMessage("fetch_tourney_entrants", null)
       .then((result: any) => {
-        Snackbar.create_snackbar("Successfully fetched tournament entrants")
+        Snackbar.create_snackbar(
+          `Successfully fetched ${result} tournament entrants`
+        )
       })
       .catch((error: any) => {
         Snackbar.create_snackbar(
-          `Error occurred while fetching entrants: ${JSON.stringify(error)}`,
+          `Failed to fetch entrants: ${JSON.stringify(error)}`,
           {
             background: "error",
           }
@@ -196,13 +198,13 @@ export default class EventPanel extends Vue {
         tourney_id: id,
       })
       .then((result: any) => {
-        Snackbar.create_snackbar("Successfully fetched tournament events")
+        Snackbar.create_snackbar(
+          `Successfully fetched ${result} tournament events`
+        )
       })
       .catch((error: any) => {
         Snackbar.create_snackbar(
-          `Error occurred while fetching tournament events: ${JSON.stringify(
-            error
-          )}`,
+          `Failed to fetch tournament events: ${JSON.stringify(error)}`,
           {
             background: "error",
           }
