@@ -245,7 +245,7 @@ function parse_event_entrants_response(response: EventEntrantsResponse): Event {
         }
       }
 
-      if (p.user.location?.country) {
+      if (p?.user?.location?.country) {
         const country_code =
           countryList.getCode(p?.user?.location?.country) || ""
 
