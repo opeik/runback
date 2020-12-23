@@ -65,8 +65,8 @@ jobs:
         run: sudo npm install -g json
 
       - name: Set package version
-        run: json "version" -f lib/nodecg/bundles/runback/package.json | \
-          xargs -I '{}' json -I -f package.json -e 'this.version="{}"'
+        run: VERSION=$(json "version" -f lib/nodecg/bundles/runback/package.json) && \
+        json -I -f package.json -e "this.version=\"$VERSION\""
         shell: bash
 
       - name: Build runback
