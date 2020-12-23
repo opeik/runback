@@ -55,6 +55,12 @@ jobs:
         run: yarn install
         working-directory: lib/nodecg/bundles/runback
 
+      - name: Install json
+        run: yarn global add json
+
+      - name: Set package version
+        run: json "version" -f lib/nodecg/bundles/runback/package.json | xargs -I '{}' json -I -f package.json -e 'this.version="{}"'
+
       - name: Build runback
         run: yarn build
         working-directory: lib/nodecg/bundles/runback
