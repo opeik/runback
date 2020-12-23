@@ -59,13 +59,15 @@ export default class extends Vue {
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", (event) => {
         if (event.matches) {
+          console.log("dark")
           this.os_dark_mode = true
         } else {
+          console.log("light")
           this.os_dark_mode = false
         }
-      })
 
-    this.$vuetify.theme.dark = this.should_use_dark_mode(this.appearance)
+        this.$vuetify.theme.dark = this.should_use_dark_mode(this.appearance)
+      })
   }
 
   async mounted(): Promise<void> {
