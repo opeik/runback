@@ -11,12 +11,12 @@
             <v-list-item-action>
               <v-row>
                 <v-btn
-                  class="mx-4"
+                  class="mx-4 obs-drag-image"
                   @click="copy_url(format_url(graphic.name, graphic.file))"
                   >Copy URL</v-btn
                 >
                 <v-btn
-                  class="mr-4"
+                  class="mr-4 obs-drag-image"
                   draggable
                   :href="format_url(graphic.name, graphic.file)"
                   color="primary"
@@ -44,7 +44,6 @@ export default class extends Vue {
     { name: "Scoreboard", file: "scoreboard.html" },
     { name: "Commentary", file: "commentary.html" },
   ]
-  dragged: any = {}
   drag_img = new Image()
 
   created(): void {
@@ -52,18 +51,24 @@ export default class extends Vue {
   }
 
   mounted(): void {
-    document.addEventListener("dragstart", (e: any) => {
-      this.dragged = e!.target!
-      e.dataTransfer.setDragImage(
-        this.drag_img,
-        this.drag_offset,
-        this.drag_offset
-      )
-      e.dataTransfer.setData("text/uri-list", this.dragged.href)
-    })
+    const buttons = document.getElementsByClassName("obs-drag-image")
+    for (let i = 0; i < buttons.length; ++i) {
+      const button: any = buttons[i]
 
-    document.addEventListener("dragend", (e) => this.dragged.blur())
-    document.addEventListener("click", (e) => e.preventDefault())
+      button.addEventListener("dragstart", (e: any) => {
+        let event = e as DragEvent
+
+        event.dataTransfer!.setDragImage(
+          this.drag_img,
+          this.drag_offset,
+          this.drag_offset
+        )
+        event.dataTransfer!.setData("text/uri-list", button.href)
+      })
+
+      button.addEventListener("dragend", (e: any) => e.target.blur())
+      button.addEventListener("click", (e: any) => e.preventDefault())
+    }
   }
 
   copy_url(url: string) {
