@@ -62,7 +62,7 @@ jobs:
         working-directory: lib/nodecg/bundles/runback
 
       - name: Install json
-        run: sudo npm install -g json
+        run: npm install -g json
 
       - name: Set package version
         run: json "version" -f lib/nodecg/bundles/runback/package.json | \
