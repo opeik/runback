@@ -14,6 +14,13 @@
           <template v-slot:item.country="{ item }">
             {{ country_name(item.country) }}
           </template>
+          <template v-slot:item.gamertag_latin="{ item }">
+            {{
+              item.gamertag_latin.length > 0
+                ? item.gamertag_latin
+                : item.gamertag_latin_generated
+            }}
+          </template>
 
           <template v-slot:top>
             <v-toolbar flat>
@@ -80,10 +87,17 @@
                         label="Gamertag"
                         :rules="gamertag_rules"
                       ></v-text-field>
+
+                      <v-text-field
+                        v-model="edited_item.gamertag_latin"
+                        :placeholder="edited_item.gamertag_latin_generated"
+                        label="Gamertag (Latin)"
+                        :disabled="!non_latin_regex.test(edited_item.gamertag)"
+                      ></v-text-field>
+
                       <v-text-field
                         v-model="edited_item.name"
                         label="Name"
-                        :rules="name_rules"
                       ></v-text-field>
 
                       <v-autocomplete
@@ -162,25 +176,32 @@
 <script lang="ts">
 import { Vue, Component, Watch, Ref } from "vue-property-decorator"
 import { Mutation, State, Action } from "vuex-class"
-import { Player, PlayersReplicant } from "src/dashboard/runback/_types/"
+import {
+  Player,
+  PlayersReplicant,
+  SettingsReplicant,
+} from "src/dashboard/runback/_types/"
 import { saveAs } from "file-saver"
 import type { ActionMethod } from "vuex"
 import { EventBus } from "src/dashboard/runback/event-bus"
 import Snackbar from "src/dashboard/runback/components/snackbar.vue"
 import countryList from "country-list"
 import clone from "clone"
+import XRegExp from "xregexp"
 
 @Component
 export default class extends Vue {
   @Ref("form") readonly form!: any
   @Ref("input_upload") readonly input_upload!: HTMLInputElement
   @State((state) => state.Runback.players) players!: PlayersReplicant
+  @State((state) => state.Runback.settings) settings!: SettingsReplicant
   @Mutation("set_player") set_player!: ActionMethod
   @Mutation("create_player") create_player!: ActionMethod
   @Mutation("delete_player") delete_player!: ActionMethod
   @Action("import_players") import_players_mutation!: ActionMethod
 
   readonly countries = countryList.getData()
+  readonly non_latin_regex = XRegExp("[^\\p{Latin}\\p{Common}\\p{Inherited}]")
 
   dialog: boolean = false
   dialog_delete: boolean = false
@@ -188,21 +209,25 @@ export default class extends Vue {
   search: string = ""
   headers = [
     { text: "Gamertag", value: "gamertag" },
+    { text: "Latin", value: "gamertag_latin" },
     { text: "Name", value: "name" },
     { text: "Country", value: "country" },
     { text: "Team", value: "team" },
-    { text: "Twitter", value: "twitter" },
     { text: "Actions", value: "actions", sortable: false },
   ]
 
   edited_id: string = ""
   edited_item: Player = new Player()
   selected_items: Player[] = []
-  readonly default_item: Player = new Player()
+  default_item: Player = new Player()
+
+  mounted(): void {
+    this.default_item.country = this.settings.default_country
+    this.edited_item = this.default_item
+  }
 
   gamertag_rules = [(v: string) => !!v || "Gamertag is required"]
   country_rules = [(v: string) => !!v || "Country is required"]
-  name_rules = [(v: string) => !!v || "Name is required"]
 
   get players_array(): Player[] {
     return Object.values(this.players)
@@ -331,10 +356,29 @@ export default class extends Vue {
   }
 
   save(): void {
-    if (this.is_new_player) {
-      this.create_player(this.edited_item)
+    const edited_item = this.edited_item
+    const is_new_player = this.is_new_player
+
+    if (this.non_latin_regex.test(edited_item.gamertag)) {
+      nodecg
+        .sendMessage("transliterate", edited_item.gamertag)
+        .then((result: any) => {
+          edited_item.gamertag_latin_generated = result
+
+          if (is_new_player) {
+            this.create_player(edited_item)
+          } else {
+            this.set_player(edited_item)
+          }
+        })
     } else {
-      this.set_player(this.edited_item)
+      edited_item.gamertag_latin_generated = ""
+
+      if (is_new_player) {
+        this.create_player(edited_item)
+      } else {
+        this.set_player(edited_item)
+      }
     }
 
     this.close()

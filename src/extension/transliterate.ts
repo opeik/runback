@@ -13,13 +13,17 @@ export async function transliterate(s: string): Promise<string> {
   const has_japanese_chars =
     Kuroshiro.Util.hasHiragana(s) || Kuroshiro.Util.hasKatakana(s)
 
+  let latin = ""
+
   if (has_japanese_chars) {
-    return await kuroshiro.convert(s, {
+    latin = await kuroshiro.convert(s, {
       to: "romaji",
       mode: "normal",
       romajiSystem: "hepburn",
     })
   } else {
-    return Transliteration.transliterate(s, { trim: true })
+    latin = Transliteration.transliterate(s, { trim: true })
   }
+
+  return latin.charAt(0).toUpperCase() + latin.slice(1)
 }

@@ -16,7 +16,9 @@ import {
   ApiReplicant,
 } from "./runback/_types"
 import * as Transliterate from "./transliterate"
+import XRegExp from "xregexp"
 
+const non_latin_regex = XRegExp("[^\\p{Latin}\\p{Common}\\p{Inherited}]")
 let players: ReplicantServer<PlayersReplicant>
 let settings: ReplicantServer<SettingsReplicant>
 let tournament: ReplicantServer<TournamentReplicant>
@@ -101,8 +103,8 @@ function nodecg_fetch_tourney_events(
       ack(null, tourney.events.length)
     } catch (error) {
       api.value!.fetching.events = false
-      console.error(error.response.body)
-      ack(error.response.body)
+      console.error(error?.response?.body || error)
+      ack(error?.response?.body || error)
     }
   })()
 }
@@ -131,15 +133,15 @@ function nodecg_fetch_tourney_entrants(
       )
 
       for (const player of unique_players) {
-        create_player(player, tourney_api, nodecg)
+        await create_player(player, tourney_api, nodecg)
       }
 
       api.value!.fetching.entrants = false
       ack(null, unique_players.length)
     } catch (error) {
       api.value!.fetching.entrants = false
-      console.error(error.response.body)
-      ack(error.response.body)
+      console.error(error?.response?.body || error)
+      ack(error?.response?.body || error)
     }
   })()
 }
@@ -152,16 +154,12 @@ function get_all_unique_tourney_players(
 
   for (const event of Object.values(tourney.events)) {
     for (const entrant of event.entrants) {
-      let player = {
-        id: "",
-        name: entrant.name,
-        team: entrant.team,
-        gamertag: entrant.gamertag,
-        country: entrant.country,
-        twitter: entrant.twitter,
-        api_ids: {},
-      } as Player
-
+      let player = new Player()
+      player.name = entrant.name
+      player.team = entrant.team
+      player.gamertag = entrant.gamertag
+      player.country = entrant.country
+      player.twitter = entrant.twitter
       player.api_ids[api_provider.text] = entrant.id
 
       players.push(player)
@@ -177,11 +175,11 @@ function get_all_unique_tourney_players(
   return unique_players
 }
 
-function create_player(
+async function create_player(
   player: Player,
   api_provider: ApiProvider,
   nodecg: NodeCG
-): void {
+): Promise<void> {
   const player_list = Object.values(players.value)
 
   if (player.country.length === 0) {
@@ -199,6 +197,21 @@ function create_player(
     while (player.id in players.value! || player.id.length === 0) {
       player.id = new Uuid(4).toString()
     }
+  }
+
+  if (non_latin_regex.test(player.gamertag)) {
+    if (
+      existing_player === undefined ||
+      (existing_player !== undefined &&
+        (player.gamertag !== existing_player.gamertag ||
+          existing_player.gamertag_latin_generated.length === 0))
+    ) {
+      const gamertag_latin = await Transliterate.transliterate(player.gamertag)
+
+      player.gamertag_latin_generated = gamertag_latin
+    }
+  } else {
+    player.gamertag_latin_generated = ""
   }
 
   players.value![player.id] = player

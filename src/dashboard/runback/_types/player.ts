@@ -3,6 +3,8 @@ export class Player {
   name: string = ""
   team: string = ""
   gamertag: string = ""
+  gamertag_latin: string = ""
+  gamertag_latin_generated: string = ""
   country: string = ""
   twitter: string = ""
   api_ids: Record<string, string> = {}

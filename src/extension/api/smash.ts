@@ -1,4 +1,4 @@
-import { Event, Tournament } from "../runback/_types"
+import { Event, Tournament, Player } from "../runback/_types"
 import countryList from "country-list"
 import got from "got"
 

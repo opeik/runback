@@ -38,9 +38,9 @@
             </v-list-item-action>
 
             <v-list-item-content>
-              <v-list-item-title>Auto gamertag latinization</v-list-item-title>
+              <v-list-item-title>Auto gamertag Latinization</v-list-item-title>
               <v-list-item-subtitle
-                >Display latin versions of non-latin gamertags
+                >Display Latin versions of non-Latin gamertags
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>

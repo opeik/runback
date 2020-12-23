@@ -9,6 +9,7 @@
             v-on="on"
             @click="edit_form"
             :disabled="is_fetching_entrants()"
+            :loading="is_fetching_events()"
           >
             Set tournament
           </v-btn>

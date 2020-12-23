@@ -126,6 +126,10 @@
             <span class="gamertag-text">
               {{ display.players[0].gamertag }}
             </span>
+
+            <span class="gamertag-text">
+              {{ player_gamertag_latin(0) }}
+            </span>
           </fitty>
         </div>
 
@@ -174,6 +178,10 @@
 
             <span class="gamertag-text">
               {{ display.players[1].gamertag }}
+            </span>
+
+            <span class="gamertag-text">
+              ({{ player_gamertag_latin(1) }})
             </span>
           </fitty>
         </div>
@@ -224,7 +232,7 @@ export default class App extends Vue {
   @Ref("p1-name-fitty") p1_name_fitty!: Fitty
   @Ref("p2-name-fitty") p2_name_fitty!: Fitty
 
-  readonly latin_regex = XRegExp("[^\\p{Latin}\\p{Common}\\p{Inherited}]")
+  readonly non_latin_regex = XRegExp("[^\\p{Latin}\\p{Common}\\p{Inherited}]")
   readonly num_players = 2
   readonly cjk_font_size_ratio = 0.8
   readonly cjk_regex = CJK().toRegExp()
@@ -277,22 +285,16 @@ export default class App extends Vue {
         i,
         Side.from_value(this.bracket.side)
       )
-
-      if (this.settings.auto_transliteration) {
-        for (let i = 0; i < this.num_players; ++i) {
-          this.transliterate_gamertag(i)
-        }
-      }
     })
   }
 
-  transliterate_gamertag(player_num: number): void {
-    const gamertag = this.display.players[player_num].gamertag
+  player_gamertag_latin(player_num: number): string {
+    const player = this.display.players[player_num]
 
-    if (this.latin_regex.test(gamertag)) {
-      nodecg.sendMessage("transliterate", gamertag).then((result: any) => {
-        this.display.players[player_num].gamertag = `${gamertag} (${result})`
-      })
+    if (player.gamertag_latin.length > 0) {
+      return player.gamertag_latin
+    } else {
+      return player.gamertag_latin_generated
     }
   }
 
@@ -324,10 +326,10 @@ export default class App extends Vue {
   }
 
   flag_path(player_num: number): string {
-    let country = this.display.players[player_num].country
+    let country = this.display.players[player_num].country || ""
 
     if (country === "") {
-      country = "RS"
+      country = "AU"
     } else {
       country = country.toUpperCase()
     }
@@ -584,11 +586,6 @@ export default class App extends Vue {
             Object.assign({}, this.player_from_num(i)) || new Player()
         })
 
-        if (this.settings.auto_transliteration) {
-          for (let i = 0; i < this.num_players; ++i) {
-            this.transliterate_gamertag(i)
-          }
-        }
         this.refit_text()
         break
     }
