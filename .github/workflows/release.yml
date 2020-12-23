@@ -58,14 +58,8 @@ jobs:
         run: yarn install
         working-directory: lib/nodecg/bundles/runback
 
-      - name: Install json
-        run: sudo npm install -g json
-
-      - name: Set package version
-        run:
-          VERSION=$(json "version" -f lib/nodecg/bundles/runback/package.json) && \
-          json -I -f package.json -e "this.version=\"$VERSION\""
-        shell: bash
+      - name: Update package version
+        run: yarn update-version
 
       - name: Build runback
         run: yarn build
