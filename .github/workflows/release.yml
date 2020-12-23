@@ -33,9 +33,6 @@ jobs:
           submodules: true
           token: ${{ secrets.PAT }}
 
-      - name: fug
-        run: ls -al lib/nodecg/bundles
-
       - name: Check out runback
         uses: actions/checkout@v2
         with:
