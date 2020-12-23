@@ -25,5 +25,5 @@ export async function transliterate(s: string): Promise<string> {
     latin = Transliteration.transliterate(s, { trim: true })
   }
 
-  return latin.charAt(0).toUpperCase() + latin.slice(1)
+  return latin
 }
