@@ -56,7 +56,7 @@
 
 ![Runback Screen Shot 1][product-screenshot1]
 
-Runback is a broadcast graphics system designed for fighting games tournaments; it features:
+Runback is a broadcast graphics system designed for fighting games tournaments, featuring:
 
 - Scoreboard and commentator overlays
 - Player management, importing, and exporting
