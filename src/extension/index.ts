@@ -38,7 +38,7 @@ export = (nodecg: NodeCG): void => {
 
   const current_version = require(path.join(
     process.cwd(),
-    "../../package.json"
+    "bundles/runback/package.json"
   )).version
 
   players = nodecg.Replicant("Players", {
