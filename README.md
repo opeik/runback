@@ -132,11 +132,6 @@ To get a local copy up and running follow these simple steps.
 - Download runback from the [releases page](https://github.com/opeik/runback/releases/latest)
 - Once installed, open runback; the dashboard will open
 
-### Setup smash.gg integration
-
-- Create a [smash.gg API key](https://developer.smash.gg/docs/authentication)
-- Enter the key in Settings→Set API Keys
-
 ### Importing overlays
 
 - Open the Graphics tab
@@ -148,7 +143,12 @@ To get a local copy up and running follow these simple steps.
   - Refresh browser when scene becomes available to **ON**
 - [Screenshot](https://i.imgur.com/AsOmUPY.png) for reference
 
-### Import players from a smash.gg
+### Setup smash.gg integration
+
+- Create a [smash.gg API key](https://developer.smash.gg/docs/authentication)
+- Enter the key in Settings→Set API Keys
+
+### Import players from smash.gg
 
 - Open the Dashboard tab
 - Click "Set Tournament" and enter the tournament URL
