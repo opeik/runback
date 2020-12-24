@@ -130,14 +130,14 @@ To get a local copy up and running follow these simple steps.
 ### Installing
 
 - Download runback from the [releases page](https://github.com/opeik/runback/releases/latest)
-- Once installed, open runback; the dashboard will open
+- Once installed, open runback; the Dashboard will open
 
 ### Importing overlays
 
 - Open the Graphics tab
 - Click and drag from the "Drag into OBS" button into OBS for the overlay you wish to import
   - If you're on macOS, click and drag isn't supported in OBS; use the settings below
-- Edit the newly created Browser Source, set
+- Edit the newly created Browser Source, set:
   - FPS to **60**
   - Shutdown source when not visible to **ON**
   - Refresh browser when scene becomes available to **ON**
