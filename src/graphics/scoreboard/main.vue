@@ -181,7 +181,7 @@
             </span>
 
             <span class="gamertag-text">
-              ({{ player_gamertag_latin(1) }})
+              {{ player_gamertag_latin(1) }}
             </span>
           </fitty>
         </div>
@@ -290,12 +290,15 @@ export default class App extends Vue {
 
   player_gamertag_latin(player_num: number): string {
     const player = this.display.players[player_num]
+    let latin = ""
 
     if (player.gamertag_latin.length > 0) {
-      return player.gamertag_latin
+      latin = player.gamertag_latin
     } else {
-      return player.gamertag_latin_generated
+      latin = player.gamertag_latin_generated
     }
+
+    return latin.length > 0 ? `(${latin})` : ""
   }
 
   mounted(): void {
