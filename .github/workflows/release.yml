@@ -65,6 +65,10 @@ jobs:
         run: yarn build
         working-directory: lib/nodecg/bundles/runback
 
+      - name: Remove runback dev packages
+        run: yarn install --force --production
+        working-directory: lib/nodecg/bundles/runback
+
       - name: Build electron app
         run: yarn dist
         env:

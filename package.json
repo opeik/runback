@@ -73,7 +73,14 @@
     "vuex-module-decorators": "^1.0.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-livereload-plugin": "^2.3.0"
+    "webpack-livereload-plugin": "^2.3.0",
+    "@types/country-list": "^2.1.0",
+    "@types/file-saver": "^2.0.1",
+    "@types/got": "^9.6.11",
+    "@types/semver": "^7.3.4",
+    "@types/uuid": "^8.3.0",
+    "@types/vfile-message": "^2.0.0",
+    "@types/xregexp": "^4.3.0"
   },
   "nodecg": {
     "compatibleRange": "^1.7.2",
@@ -99,13 +106,6 @@
     ]
   },
   "dependencies": {
-    "@types/country-list": "^2.1.0",
-    "@types/file-saver": "^2.0.1",
-    "@types/got": "^9.6.11",
-    "@types/semver": "^7.3.4",
-    "@types/uuid": "^8.3.0",
-    "@types/vfile-message": "^2.0.0",
-    "@types/xregexp": "^4.3.0",
     "buffer": "^5.6.0",
     "cjk-regex": "^2.0.0",
     "country-list": "^2.2.0",
