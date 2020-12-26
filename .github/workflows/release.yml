@@ -22,7 +22,6 @@ jobs:
         with:
           repository: opeik/runback-electron
           submodules: true
-          token: ${{ secrets.PAT }}
 
       - name: Check out nodecg
         uses: actions/checkout@v2
@@ -31,7 +30,6 @@ jobs:
           path: lib/nodecg
           ref: legacy-1.x
           submodules: true
-          token: ${{ secrets.PAT }}
 
       - name: Check out runback
         uses: actions/checkout@v2
@@ -39,7 +37,6 @@ jobs:
           repository: opeik/runback
           path: lib/nodecg/bundles/runback
           submodules: true
-          token: ${{ secrets.PAT }}
 
       - name: Cache node modules
         uses: actions/cache@v2
