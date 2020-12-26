@@ -16,9 +16,6 @@
   <p align="center">
     Broadcast graphics for fighting games
     <br />
-    <a href="https://github.com/opeik/runback"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
     <a href="https://github.com/opeik/runback/releases/latest">Download</a>
     ·
     <a href="https://github.com/opeik/runback/issues">Report Bug</a>
