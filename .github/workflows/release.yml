@@ -63,7 +63,14 @@ jobs:
         working-directory: lib/nodecg/bundles/runback
 
       - name: Build electron app
+        run: yarn dist:dir
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          USE_HARD_LINKS: false
+
+      - name: Publish electron app
         run: yarn dist
+        if: ${{ github.event_name != 'pull_request' }}
         env:
           USE_HARD_LINKS: false
           GH_TOKEN: ${{ secrets.PAT }}
