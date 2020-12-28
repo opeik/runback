@@ -56,10 +56,13 @@
 Runback is a broadcast graphics system designed for fighting games tournaments, featuring:
 
 - Scoreboard and commentator overlays
-- Player management, importing, and exporting
+- Player management
+- Player import and export
 - Player detail overrides for on-the-fly editing
-- smash.gg</span> integration
-  - Fetch and import tournament entrant data
+- Auto gamertag Latinization for non-Latin scripts
+- smash.gg integration
+  - Import tournament entrant data
+- Light and dark mode
 - Windows, macOS, Linux support
 
 ### Built With
@@ -82,6 +85,7 @@ To get a local copy up and running follow these simple steps.
 - git
 - npm
 - yarn
+- node
 
 ### Building
 
@@ -127,7 +131,7 @@ To get a local copy up and running follow these simple steps.
 ### Installing
 
 - Download runback from the [releases page](https://github.com/opeik/runback/releases/latest)
-- Once installed, open runback; the Dashboard will open
+- Once installed, open runback; the Dashboard tab will open
 
 ### Importing overlays
 
